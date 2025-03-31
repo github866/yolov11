@@ -60,6 +60,9 @@ def process_frames():
     output_dir = Path('output_visualizations')
     output_dir.mkdir(exist_ok=True)
     
+    # Dictionary to store track histories
+    track_history = {}
+    
     # Process each frame in Camera-Loc01 directory
     frames_dir = Path('Camera-Loc01')
     for frame_path in sorted(frames_dir.glob('*.png')):
@@ -90,51 +93,116 @@ def process_frames():
         # Draw room boundaries with proper scaling
         image = draw_rooms(image, room_data, display_scale, json_scale)
         
-        # Run YOLO detection
-        results = model(frame_path, classes=[0])  # class 0 is person
+        # Run YOLO detection with tracking enabled
+        results = model.track(frame_path, classes=[0], persist=True)  # Enable tracking for people (class 0)
         
         # Process each detection
         for result in results:
             boxes = result.boxes
-            for box in boxes:
-                # Get bounding box coordinates
-                x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
-                conf = float(box.conf[0])
+            
+            # Check if we have tracking IDs available
+            if boxes.id is not None:
+                track_ids = boxes.id.int().cpu().tolist()
                 
-                # Scale the coordinates for display
-                if display_scale < 1:
-                    x1, y1, x2, y2 = [int(x * display_scale) for x in [x1, y1, x2, y2]]
-                
-                # Calculate center point of detection
-                center_x = int((x1 + x2) / 2)
-                center_y = int((y1 + y2) / 2)
-                
-                # Draw bounding box and center point
-                cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 2)
-                cv2.circle(image, (center_x, center_y), 5, (0, 0, 255), -1)
-                
-                # Check which room the person is in (using original coordinates)
-                original_center_x = int(center_x / display_scale)
-                original_center_y = int(center_y / display_scale)
-                room_id = None
-                for quad in room_data['quads']:
-                    if point_in_quad((original_center_x, original_center_y), quad['points'], json_scale):
-                        room_id = quad['id']
-                        # Draw room label
-                        cv2.putText(image, f"Room {room_id}", (center_x, center_y - 10),
-                                  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-                        break
-                
-                # Add to results
-                results_data.append({
-                    'frame_number': frame_num,
-                    'timestamp': time_str,
-                    'person_id': len([r for r in results_data if r['frame_number'] == frame_num]),
-                    'room_id': room_id,
-                    'confidence': conf,
-                    'x': original_center_x,
-                    'y': original_center_y
-                })
+                for i, box in enumerate(boxes):
+                    # Get bounding box coordinates and tracking ID
+                    x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
+                    conf = float(box.conf[0])
+                    track_id = track_ids[i]
+                    
+                    # Scale the coordinates for display
+                    if display_scale < 1:
+                        x1, y1, x2, y2 = [int(x * display_scale) for x in [x1, y1, x2, y2]]
+                    
+                    # Calculate center point of detection
+                    center_x = int((x1 + x2) / 2)
+                    center_y = int((y1 + y2) / 2)
+                    
+                    # Draw bounding box, center point, and person ID
+                    cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 2)
+                    cv2.circle(image, (center_x, center_y), 5, (0, 0, 255), -1)
+                    
+                    # Add person ID to the top of the bounding box
+                    cv2.putText(image, f"ID: {track_id}", (int(x1), int(y1) - 10),
+                              cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+                    
+                    # Store track history for visualization (optional)
+                    if track_id not in track_history:
+                        track_history[track_id] = []
+                    track_history[track_id].append((center_x, center_y))
+                    # Limit history length
+                    if len(track_history[track_id]) > 30:
+                        track_history[track_id].pop(0)
+                    
+                    # Draw tracking lines
+                    if len(track_history[track_id]) > 1:
+                        points = np.array(track_history[track_id], dtype=np.int32).reshape((-1, 1, 2))
+                        cv2.polylines(image, [points], False, (0, 255, 255), 2)
+                    
+                    # Check which room the person is in (using original coordinates)
+                    original_center_x = int(center_x / display_scale)
+                    original_center_y = int(center_y / display_scale)
+                    room_id = None
+                    for quad in room_data['quads']:
+                        if point_in_quad((original_center_x, original_center_y), quad['points'], json_scale):
+                            room_id = quad['id']
+                            # Draw room label
+                            cv2.putText(image, f"Room {room_id}", (center_x, center_y - 10),
+                                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                            break
+                    
+                    # Add to results
+                    results_data.append({
+                        'frame_number': frame_num,
+                        'timestamp': time_str,
+                        'person_id': track_id,  # Use tracking ID instead of frame-based ID
+                        'room_id': room_id,
+                        'confidence': conf,
+                        'x': original_center_x,
+                        'y': original_center_y
+                    })
+            else:
+                # Fallback to regular detection if tracking fails
+                for box in boxes:
+                    # Get bounding box coordinates
+                    x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
+                    conf = float(box.conf[0])
+                    
+                    # Scale the coordinates for display
+                    if display_scale < 1:
+                        x1, y1, x2, y2 = [int(x * display_scale) for x in [x1, y1, x2, y2]]
+                    
+                    # Calculate center point of detection
+                    center_x = int((x1 + x2) / 2)
+                    center_y = int((y1 + y2) / 2)
+                    
+                    # Draw bounding box and center point
+                    cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 2)
+                    cv2.circle(image, (center_x, center_y), 5, (0, 0, 255), -1)
+                    
+                    # Check which room the person is in (using original coordinates)
+                    original_center_x = int(center_x / display_scale)
+                    original_center_y = int(center_y / display_scale)
+                    room_id = None
+                    for quad in room_data['quads']:
+                        if point_in_quad((original_center_x, original_center_y), quad['points'], json_scale):
+                            room_id = quad['id']
+                            # Draw room label
+                            cv2.putText(image, f"Room {room_id}", (center_x, center_y - 10),
+                                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                            break
+                    
+                    # Add to results with a temporary ID
+                    temp_id = len([r for r in results_data if r['frame_number'] == frame_num])
+                    results_data.append({
+                        'frame_number': frame_num,
+                        'timestamp': time_str,
+                        'person_id': f"temp_{temp_id}",  # Temporary ID if tracking fails
+                        'room_id': room_id,
+                        'confidence': conf,
+                        'x': original_center_x,
+                        'y': original_center_y
+                    })
         
         # Save visualization
         output_path = output_dir / f"frame_{frame_num}.png"
