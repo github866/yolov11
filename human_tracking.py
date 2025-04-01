@@ -5,6 +5,7 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 from pathlib import Path
+import colorsys
 
 def point_in_quad(point, quad_points, json_scale):
     """Check if a point is inside a quadrilateral"""
@@ -62,6 +63,22 @@ class PersonTracker:
         self.id_mapping = {}
         # Counter for new permanent IDs we assign
         self.next_perm_id = 1
+        # Previous frame's detection data for stability checks (person_position -> assigned_id)
+        self.prev_frame_detections = {}
+        # Store multiple previous frames for better continuity (frame_number -> {position -> id})
+        self.previous_frames_data = {}
+        # Maximum number of previous frames to store
+        self.max_previous_frames = 5
+        # ID stability counter to track how many frames an ID has been stable
+        self.id_stability_count = {}
+        # Minimum stability count before allowing ID changes (prevents rapid switching)
+        self.min_stability_frames = 3
+        # Minimum distance between detections to be considered different people (prevents duplicate IDs)
+        self.min_detection_distance = 50
+        # Store bounding box dimensions for better matching
+        self.id_bbox_history = {}
+        # Tolerance for bounding box size changes (higher value allows more flexibility)
+        self.bbox_size_tolerance = 0.4  # 40% size difference allowed
     
     def update(self, frame_number, detections):
         """
@@ -77,35 +94,247 @@ class PersonTracker:
         self.current_frame = frame_number
         updated_detections = []
         
+        # Store box dimensions for each detection
+        for det in detections:
+            if 'x1' in det and 'y1' in det and 'x2' in det and 'y2' in det:
+                det['width'] = det['x2'] - det['x1']
+                det['height'] = det['y2'] - det['y1']
+                det['box_area'] = det['width'] * det['height']
+        
+        # Dictionary to map current positions to detections for this frame
+        current_positions = {}
+        for det in detections:
+            current_positions[(det['x'], det['y'])] = det
+        
+        # Dictionary to hold the assignments we'll make in this frame
+        new_position_to_id = {}
+        
+        # Dictionary to track which IDs are already used in this frame
+        # This prevents duplicate IDs in the same frame
+        used_ids_in_frame = set()
+        
         # Track IDs seen in this frame
         seen_ids = set()
         
-        # First, try to match all current detections with inactive tracks based on location
+        # First, we'll filter the detections to remove any that are too close to each other
+        # This helps prevent duplicate IDs by ensuring each detection is unique
+        filtered_detections = []
         for det in detections:
+            # Check if this detection is too close to any we've already processed
+            is_duplicate = False
+            for existing_det in filtered_detections:
+                dist = np.sqrt((det['x'] - existing_det['x'])**2 + (det['y'] - existing_det['y'])**2)
+                if dist < self.min_detection_distance:
+                    # This is likely a duplicate detection, skip it
+                    is_duplicate = True
+                    break
+            if not is_duplicate:
+                filtered_detections.append(det)
+        
+        # Sort detections to process lower position IDs first (favor stability)
+        detections_sorted = sorted(filtered_detections, key=lambda d: (d['y'], d['x']))
+        
+        # Step 1: First try to match with active tracks from the previous frame
+        for det in detections_sorted:
             original_id = det['person_id']
             current_pos = (det['x'], det['y'])
             
-            # Always try to match with inactive tracks first, regardless of ID type
+            # Skip if already assigned
+            if current_pos in new_position_to_id:
+                continue
+                
+            # Check if this position had a stable ID in previous frame
+            best_prev_id = None
+            best_prev_dist = float('inf')
+            
+            for prev_pos, prev_id in self.prev_frame_detections.items():
+                # Skip if this ID is already used in the current frame
+                if prev_id in used_ids_in_frame:
+                    continue
+                    
+                # Calculate distance between current detection and previous frame detection
+                dist = np.sqrt((prev_pos[0] - current_pos[0])**2 + (prev_pos[1] - current_pos[1])**2)
+                
+                # If very close to previous position and within threshold
+                if dist < self.location_threshold/2 and dist < best_prev_dist:
+                    best_prev_id = prev_id
+                    best_prev_dist = dist
+            
+            # If we found a match with previous frame, prioritize that ID
+            if best_prev_id is not None:
+                # Increment stability counter for this ID
+                if best_prev_id in self.id_stability_count:
+                    self.id_stability_count[best_prev_id] += 1
+                else:
+                    self.id_stability_count[best_prev_id] = 1
+                
+                # Update or create the bounding box history for this ID
+                if 'box_area' in det:
+                    if best_prev_id not in self.id_bbox_history:
+                        self.id_bbox_history[best_prev_id] = {'areas': [det['box_area']], 'avg_area': det['box_area']}
+                    else:
+                        # Update the running average of box sizes
+                        areas = self.id_bbox_history[best_prev_id]['areas']
+                        areas.append(det['box_area'])
+                        if len(areas) > 10:  # Keep last 10 frames
+                            areas.pop(0)
+                        self.id_bbox_history[best_prev_id]['avg_area'] = sum(areas) / len(areas)
+                
+                # Use this ID for this detection
+                new_position_to_id[current_pos] = best_prev_id
+                
+                # Mark this ID as used for this frame
+                used_ids_in_frame.add(best_prev_id)
+                
+                # Skip the rest of processing for this detection
+                continue
+        
+        # Step 2: For remaining detections, check against multiple previous frames
+        for det in detections_sorted:
+            original_id = det['person_id']
+            current_pos = (det['x'], det['y'])
+            
+            # Skip if already assigned in Step 1
+            if current_pos in new_position_to_id:
+                continue
+            
+            # Check multiple previous frames for potential matches
             best_match_id = None
             best_match_dist = float('inf')
+            best_match_frame_age = float('inf')
+            
+            # Start from most recent frames (excluding current frame)
+            for prev_frame in sorted(self.previous_frames_data.keys(), reverse=True):
+                if prev_frame >= frame_number:
+                    continue
+                
+                frame_age = frame_number - prev_frame
+                if frame_age > self.max_frames_missing:
+                    continue
+                
+                for prev_pos, prev_id in self.previous_frames_data[prev_frame].items():
+                    # Skip if this ID is already used in this frame
+                    if prev_id in used_ids_in_frame:
+                        continue
+                    
+                    # Calculate distance
+                    dist = np.sqrt((prev_pos[0] - current_pos[0])**2 + (prev_pos[1] - current_pos[1])**2)
+                    
+                    # Adjust threshold based on frame age (allow more distance for older frames)
+                    age_factor = 1.0 + (frame_age / self.max_frames_missing)
+                    adjusted_threshold = self.location_threshold * age_factor
+                    
+                    # Check if this is a better match
+                    if (dist < adjusted_threshold and 
+                        (frame_age < best_match_frame_age or 
+                         (frame_age == best_match_frame_age and dist < best_match_dist))):
+                        
+                        # Additional check with bounding box size if available
+                        if 'box_area' in det and prev_id in self.id_bbox_history:
+                            avg_area = self.id_bbox_history[prev_id]['avg_area']
+                            area_diff_ratio = abs(det['box_area'] - avg_area) / max(avg_area, 1)
+                            
+                            # If box size is too different, reject this match
+                            if area_diff_ratio > self.bbox_size_tolerance:
+                                continue
+                        
+                        best_match_id = prev_id
+                        best_match_dist = dist
+                        best_match_frame_age = frame_age
+            
+            if best_match_id is not None:
+                # We found a good match from previous frames
+                if best_match_id in self.inactive_tracks:
+                    # Reactivate from inactive
+                    self.tracks[best_match_id] = {
+                        'last_seen_frame': self.current_frame,
+                        'last_position': current_pos,
+                        'active': True,
+                        'original_id': original_id
+                    }
+                    del self.inactive_tracks[best_match_id]
+                else:
+                    # Update the existing track
+                    self.tracks[best_match_id] = {
+                        'last_seen_frame': self.current_frame,
+                        'last_position': current_pos,
+                        'active': True,
+                        'original_id': original_id
+                    }
+                
+                # Update bounding box history
+                if 'box_area' in det:
+                    if best_match_id not in self.id_bbox_history:
+                        self.id_bbox_history[best_match_id] = {'areas': [det['box_area']], 'avg_area': det['box_area']}
+                    else:
+                        areas = self.id_bbox_history[best_match_id]['areas']
+                        areas.append(det['box_area'])
+                        if len(areas) > 10:
+                            areas.pop(0)
+                        self.id_bbox_history[best_match_id]['avg_area'] = sum(areas) / len(areas)
+                
+                # Store the assignment
+                new_position_to_id[current_pos] = best_match_id
+                
+                # Mark this ID as used for this frame
+                used_ids_in_frame.add(best_match_id)
+                
+                # Update ID mapping if this was a YOLO ID
+                if isinstance(original_id, (int, np.integer)):
+                    self.id_mapping[original_id] = best_match_id
+                
+                continue
+        
+        # Step 3: Try to match remaining detections with inactive tracks based on location
+        for det in detections_sorted:
+            original_id = det['person_id']
+            current_pos = (det['x'], det['y'])
+            
+            # Skip if already assigned in previous steps
+            if current_pos in new_position_to_id:
+                continue
+            
+            # Always try to match with inactive tracks first, regardless of ID type
+            inactive_matches = []
             
             for inactive_id, inactive_info in self.inactive_tracks.items():
+                # Skip if this ID is already used in this frame
+                if inactive_id in used_ids_in_frame:
+                    continue
+                    
                 # Calculate distance between current detection and inactive track
                 last_pos = inactive_info['last_position']
                 
                 dist = np.sqrt((last_pos[0] - current_pos[0])**2 + (last_pos[1] - current_pos[1])**2)
                 
-                # Check if this is a good match (close enough and better than previous matches)
-                if dist < self.location_threshold and dist < best_match_dist:
-                    frames_gone = self.current_frame - inactive_info['last_seen_frame']
-                    if frames_gone <= self.max_frames_missing:
-                        best_match_id = inactive_id
-                        best_match_dist = dist
+                # Check frames gone to adjust threshold
+                frames_gone = self.current_frame - inactive_info['last_seen_frame']
+                
+                # Allow more distance for longer missing tracks
+                adjusted_threshold = self.location_threshold * (1.0 + frames_gone / self.max_frames_missing)
+                
+                # Check if this is a good match (close enough)
+                if dist < adjusted_threshold and frames_gone <= self.max_frames_missing:
+                    # Additional check with bounding box size if available
+                    if 'box_area' in det and inactive_id in self.id_bbox_history:
+                        avg_area = self.id_bbox_history[inactive_id]['avg_area']
+                        area_diff_ratio = abs(det['box_area'] - avg_area) / max(avg_area, 1)
+                        
+                        # Continue if box size is too different
+                        if area_diff_ratio > self.bbox_size_tolerance:
+                            continue
+                    
+                    # Add to potential matches
+                    inactive_matches.append((inactive_id, dist, frames_gone))
             
-            # Check if we found a good spatial match with an inactive track
-            if best_match_id is not None:
-                # Reuse the inactive ID
+            # Sort matches by ID (prioritize lower IDs), then by distance
+            inactive_matches.sort(key=lambda x: (x[0], x[1]))
+            
+            # If we found matches, use the one with lowest ID
+            if inactive_matches:
+                best_match_id, _, _ = inactive_matches[0]
                 assigned_id = best_match_id
+                
                 # Update ID mapping
                 if isinstance(original_id, (int, np.integer)):
                     self.id_mapping[original_id] = assigned_id
@@ -119,11 +348,38 @@ class PersonTracker:
                 }
                 # Remove from inactive tracks
                 del self.inactive_tracks[best_match_id]
+                
+                # Update bounding box history
+                if 'box_area' in det:
+                    if assigned_id not in self.id_bbox_history:
+                        self.id_bbox_history[assigned_id] = {'areas': [det['box_area']], 'avg_area': det['box_area']}
+                    else:
+                        areas = self.id_bbox_history[assigned_id]['areas']
+                        areas.append(det['box_area'])
+                        if len(areas) > 10:
+                            areas.pop(0)
+                        self.id_bbox_history[assigned_id]['avg_area'] = sum(areas) / len(areas)
+                
+                # Store the assignment
+                new_position_to_id[current_pos] = assigned_id
+                
+                # Mark this ID as used for this frame
+                used_ids_in_frame.add(assigned_id)
             else:
                 # No spatial match found, check if we've seen this ID before
                 if isinstance(original_id, (int, np.integer)) and original_id in self.id_mapping:
                     # We've seen this ID before, use our consistent mapping
-                    assigned_id = self.id_mapping[original_id]
+                    mapped_id = self.id_mapping[original_id]
+                    
+                    # Check if this mapped ID is already used in this frame
+                    if mapped_id in used_ids_in_frame:
+                        # If already used, we need to assign a new ID
+                        assigned_id = self.next_perm_id
+                        self.next_perm_id += 1
+                        # Update the mapping for this original ID
+                        self.id_mapping[original_id] = assigned_id
+                    else:
+                        assigned_id = mapped_id
                     
                     # Check if this ID is currently inactive
                     if assigned_id in self.inactive_tracks:
@@ -143,6 +399,23 @@ class PersonTracker:
                             'active': True,
                             'original_id': original_id
                         }
+                    
+                    # Update bounding box history
+                    if 'box_area' in det:
+                        if assigned_id not in self.id_bbox_history:
+                            self.id_bbox_history[assigned_id] = {'areas': [det['box_area']], 'avg_area': det['box_area']}
+                        else:
+                            areas = self.id_bbox_history[assigned_id]['areas']
+                            areas.append(det['box_area'])
+                            if len(areas) > 10:
+                                areas.pop(0)
+                            self.id_bbox_history[assigned_id]['avg_area'] = sum(areas) / len(areas)
+                    
+                    # Store the assignment
+                    new_position_to_id[current_pos] = assigned_id
+                    
+                    # Mark this ID as used for this frame
+                    used_ids_in_frame.add(assigned_id)
                 elif isinstance(original_id, str) and original_id.startswith('temp_'):
                     # This is a temporary ID - assign a new permanent ID
                     assigned_id = self.next_perm_id
@@ -155,6 +428,16 @@ class PersonTracker:
                         'active': True,
                         'original_id': original_id
                     }
+                    
+                    # Initialize bounding box history
+                    if 'box_area' in det:
+                        self.id_bbox_history[assigned_id] = {'areas': [det['box_area']], 'avg_area': det['box_area']}
+                    
+                    # Store the assignment
+                    new_position_to_id[current_pos] = assigned_id
+                    
+                    # Mark this ID as used for this frame
+                    used_ids_in_frame.add(assigned_id)
                 else:
                     # This is a new YOLO ID we haven't seen before
                     # Create a new permanent ID for it
@@ -172,31 +455,124 @@ class PersonTracker:
                         'active': True,
                         'original_id': original_id
                     }
+                    
+                    # Initialize bounding box history
+                    if 'box_area' in det:
+                        self.id_bbox_history[assigned_id] = {'areas': [det['box_area']], 'avg_area': det['box_area']}
+                    
+                    # Store the assignment
+                    new_position_to_id[current_pos] = assigned_id
+                    
+                    # Mark this ID as used for this frame
+                    used_ids_in_frame.add(assigned_id)
+        
+        # Step 4: Now compile the updated detections using our assignment decisions
+        for det in filtered_detections:
+            current_pos = (det['x'], det['y'])
+            
+            # Get the assigned ID from our decisions
+            if current_pos in new_position_to_id:
+                assigned_id = new_position_to_id[current_pos]
+            else:
+                # This should rarely happen
+                print(f"Warning: No ID assigned for detection at {current_pos}")
+                assigned_id = self.next_perm_id
+                self.next_perm_id += 1
+                
+                # Make sure we don't have duplicate IDs in this frame
+                while assigned_id in used_ids_in_frame:
+                    assigned_id = self.next_perm_id
+                    self.next_perm_id += 1
+                
+                self.tracks[assigned_id] = {
+                    'last_seen_frame': self.current_frame,
+                    'last_position': current_pos,
+                    'active': True,
+                    'original_id': det['person_id']
+                }
+                
+                # Initialize bounding box history
+                if 'box_area' in det:
+                    self.id_bbox_history[assigned_id] = {'areas': [det['box_area']], 'avg_area': det['box_area']}
+                
+                # Mark this ID as used for this frame
+                used_ids_in_frame.add(assigned_id)
             
             # Add the assigned ID to the detection
             det['person_id'] = assigned_id
             seen_ids.add(assigned_id)
             updated_detections.append(det)
         
-        # Move tracks not seen in this frame to inactive
+        # Step 5: Move tracks not seen in this frame to inactive
         for track_id in list(self.tracks.keys()):
             if track_id not in seen_ids:
                 # Move to inactive
                 self.inactive_tracks[track_id] = self.tracks[track_id]
                 self.inactive_tracks[track_id]['active'] = False
                 del self.tracks[track_id]
+                
+                # Reset stability counter
+                if track_id in self.id_stability_count:
+                    self.id_stability_count[track_id] = 0
         
-        # Clean up old inactive tracks (those missing for too long)
+        # Step 6: Clean up old inactive tracks (those missing for too long)
         for track_id in list(self.inactive_tracks.keys()):
             track_info = self.inactive_tracks[track_id]
             if self.current_frame - track_info['last_seen_frame'] > self.max_frames_missing:
-                # Also clean up ID mapping if necessary
+                # Clean up ID mapping if necessary
                 for orig_id, mapped_id in list(self.id_mapping.items()):
                     if mapped_id == track_id:
                         del self.id_mapping[orig_id]
                 del self.inactive_tracks[track_id]
+                
+                # Remove from stability counter and bbox history
+                if track_id in self.id_stability_count:
+                    del self.id_stability_count[track_id]
+                if track_id in self.id_bbox_history:
+                    del self.id_bbox_history[track_id]
         
-        return updated_detections
+        # Update previous frames data
+        self.previous_frames_data[frame_number] = new_position_to_id
+        
+        # Keep only a limited history of previous frames
+        if len(self.previous_frames_data) > self.max_previous_frames:
+            oldest_frame = min(self.previous_frames_data.keys())
+            del self.previous_frames_data[oldest_frame]
+            
+        # Update previous frame detections for next frame
+        self.prev_frame_detections = new_position_to_id
+        
+        # Final verification: ensure no duplicate IDs exist in the output
+        final_output = []
+        used_ids = set()
+        
+        for det in updated_detections:
+            if det['person_id'] not in used_ids:
+                used_ids.add(det['person_id'])
+                final_output.append(det)
+            else:
+                # If we encounter a duplicate ID, assign a new one
+                print(f"Warning: Duplicate ID {det['person_id']} found. Assigning new ID.")
+                new_id = self.next_perm_id
+                self.next_perm_id += 1
+                det['person_id'] = new_id
+                
+                # Update tracking info
+                self.tracks[new_id] = {
+                    'last_seen_frame': self.current_frame,
+                    'last_position': (det['x'], det['y']),
+                    'active': True,
+                    'original_id': det['person_id']
+                }
+                
+                # Initialize bounding box history
+                if 'box_area' in det:
+                    self.id_bbox_history[new_id] = {'areas': [det['box_area']], 'avg_area': det['box_area']}
+                
+                used_ids.add(new_id)
+                final_output.append(det)
+        
+        return final_output
     
     def get_next_id(self):
         """Get the next available ID"""
@@ -224,10 +600,13 @@ def process_frames():
     # Dictionary to store track histories (for visualization)
     track_history = {}
     
-    # Initialize our custom person tracker with more aggressive settings
-    # Increased max_frames_missing to 45 frames (1.5 seconds at 30fps)
-    # Increased location_threshold to 150 pixels for more flexible matching
-    person_tracker = PersonTracker(max_frames_missing=45, location_threshold=150)
+    # Initialize our custom person tracker with enhanced settings for ID stability
+    # Increased max_frames_missing to 90 frames (3 seconds at 30fps)
+    # Increased location_threshold to 250 pixels for more flexible matching and stable IDs
+    # Set min_detection_distance to 50 pixels to prevent duplicate detections
+    person_tracker = PersonTracker(max_frames_missing=90, location_threshold=250)
+    person_tracker.min_detection_distance = 50
+    person_tracker.bbox_size_tolerance = 0.5  # Allow 50% size difference for better matching
     
     # Frame counters for tracking
     frame_count = 0
@@ -238,6 +617,12 @@ def process_frames():
     total_frames = len(all_frames)
     
     print(f"Processing {total_frames} frames...")
+    
+    # Optional: ID color mapping to visualize consistently
+    id_colors = {}
+    
+    # Debug frames (for investigating specific issues)
+    debug_frames = {2398, 2399, 2400, 2401}  # The frames mentioned in the issue
     
     for frame_path in all_frames:
         # Read image for visualization
@@ -267,6 +652,9 @@ def process_frames():
         frame_num = frame_info[1]
         time_str = '_'.join(frame_info[3:])
         
+        # Check if this is a frame we want to debug
+        is_debug_frame = int(frame_num) in debug_frames
+        
         # Draw room boundaries with proper scaling
         image = draw_rooms(image, room_data, display_scale, json_scale)
         
@@ -290,6 +678,10 @@ def process_frames():
                     conf = float(box.conf[0])
                     track_id = track_ids[i]
                     
+                    # Skip low confidence detections to avoid ID switching
+                    if conf < 0.25:  # Slightly lower confidence threshold
+                        continue
+                        
                     # Scale the coordinates for display
                     if display_scale < 1:
                         x1, y1, x2, y2 = [int(x * display_scale) for x in [x1, y1, x2, y2]]
@@ -332,6 +724,10 @@ def process_frames():
                     x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
                     conf = float(box.conf[0])
                     
+                    # Skip low confidence detections
+                    if conf < 0.25:  # Slightly lower confidence threshold
+                        continue
+                    
                     # Scale the coordinates for display
                     if display_scale < 1:
                         x1, y1, x2, y2 = [int(x * display_scale) for x in [x1, y1, x2, y2]]
@@ -369,11 +765,35 @@ def process_frames():
                         'y2': int(y2)
                     })
         
+        # Debug information for problematic frames
+        if is_debug_frame:
+            print(f"\nDEBUG - Frame {frame_num}: Detections before tracking: {len(frame_detections)}")
+            for i, det in enumerate(frame_detections):
+                print(f"  Detection {i+1}: ID={det['person_id']}, Pos=({det['x']}, {det['y']}), Box=({det['x1']},{det['y1']},{det['x2']},{det['y2']})")
+        
         # Update our custom tracker with the current frame's detections
         updated_detections = person_tracker.update(int(frame_num), frame_detections)
         
-        # Add updated detections to results and visualize
+        # Debug information after tracking
+        if is_debug_frame:
+            print(f"DEBUG - Frame {frame_num}: Detections after tracking: {len(updated_detections)}")
+            for i, det in enumerate(updated_detections):
+                print(f"  Detection {i+1}: ID={det['person_id']}, Pos=({det['x']}, {det['y']})")
+        
+        # Final check for duplicate IDs in the same frame
+        ids_seen_in_frame = set()
+        unique_detections = []
+        
         for det in updated_detections:
+            if det['person_id'] not in ids_seen_in_frame:
+                ids_seen_in_frame.add(det['person_id'])
+                unique_detections.append(det)
+            else:
+                if is_debug_frame:
+                    print(f"  WARNING: Removed duplicate ID {det['person_id']} at position ({det['x']}, {det['y']})")
+        
+        # Add updated detections to results and visualize
+        for det in unique_detections:
             # Add to overall results
             results_data.append({
                 'frame_number': det['frame_number'],
@@ -389,6 +809,13 @@ def process_frames():
             track_id = det['person_id']
             if track_id not in track_history:
                 track_history[track_id] = []
+                
+                # Assign a consistent color for this ID
+                if track_id not in id_colors:
+                    # Generate a unique color based on ID (ensures same ID always has same color)
+                    hue = (track_id * 0.618033988749895) % 1.0
+                    r, g, b = [int(c * 255) for c in colorsys.hsv_to_rgb(hue, 0.7, 0.95)]
+                    id_colors[track_id] = (b, g, r)  # OpenCV uses BGR
             
             # Add to track history
             track_history[track_id].append((det['display_x'], det['display_y']))
@@ -397,18 +824,21 @@ def process_frames():
             if len(track_history[track_id]) > 30:
                 track_history[track_id].pop(0)
             
+            # Get color for this ID
+            id_color = id_colors.get(track_id, (0, 255, 255))  # Default to yellow if not found
+            
             # Draw bounding box, center point, and person ID
-            cv2.rectangle(image, (det['x1'], det['y1']), (det['x2'], det['y2']), (0, 0, 255), 2)
-            cv2.circle(image, (det['display_x'], det['display_y']), 5, (0, 0, 255), -1)
+            cv2.rectangle(image, (det['x1'], det['y1']), (det['x2'], det['y2']), id_color, 2)
+            cv2.circle(image, (det['display_x'], det['display_y']), 5, id_color, -1)
             
             # Add person ID to the top of the bounding box
             cv2.putText(image, f"ID: {track_id}", (det['x1'], det['y1'] - 10),
-                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, id_color, 2)
             
             # Draw tracking lines
             if len(track_history[track_id]) > 1:
                 points = np.array(track_history[track_id], dtype=np.int32).reshape((-1, 1, 2))
-                cv2.polylines(image, [points], False, (0, 255, 255), 2)
+                cv2.polylines(image, [points], False, id_color, 2)
             
             # Draw room label if known
             if det['room_id'] is not None:
@@ -442,6 +872,14 @@ def process_frames():
         for _, row in max_occupancy.iterrows():
             if pd.notna(row['room_id']):
                 print(f"Room {row['room_id']}: {row['count']} people")
+    
+    # Analyze specific ID transitions (for debugging)
+    print("\nAnalyzing ID stability for problematic frames:")
+    for frame_idx in range(2397, 2402):
+        frame_data = df[df['frame_number'] == str(frame_idx)]
+        if not frame_data.empty:
+            ids = frame_data['person_id'].tolist()
+            print(f"Frame {frame_idx}: IDs present = {ids}")
     
     df.to_excel('human_tracking_results.xlsx', index=False)
     print(f"\nResults saved to human_tracking_results.xlsx")
