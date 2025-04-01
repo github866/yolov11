@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 from pathlib import Path
 import colorsys
+import argparse
 
 def point_in_quad(point, quad_points, json_scale):
     """Check if a point is inside a quadrilateral"""
@@ -31,15 +32,15 @@ def point_in_quad(point, quad_points, json_scale):
 
 def draw_rooms(image, room_data, display_scale, json_scale):
     """Draw room boundaries on the image"""
-    for quad in room_data['quads']:
+    for i, quad in enumerate(room_data['quads']):
         # The points in room_data are already scaled by json_scale
         # We need to scale them up to match the image size
         scaled_points = [[int(x / json_scale * display_scale), int(y / json_scale * display_scale)] for x, y in quad['points']]
         points = np.array(scaled_points, dtype=np.int32)
         cv2.polylines(image, [points], True, (0, 255, 0), 2)
-        # Add room ID
+        # Add room number (using shape number)
         center = np.mean(points, axis=0).astype(int)
-        cv2.putText(image, f"Room {quad['id']}", (center[0], center[1]), 
+        cv2.putText(image, f"Room {i+1}", (center[0], center[1]), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
     return image
 
@@ -579,7 +580,7 @@ class PersonTracker:
         # This is only used as a fallback
         return 10000 + self.next_temp_id
 
-def process_frames():
+def process_frames(input_folder, output_excel, output_images):
     # Load YOLO model
     model = YOLO('yolo11n.pt')
     
@@ -594,7 +595,7 @@ def process_frames():
     results_data = []
     
     # Create output directory for visualizations
-    output_dir = Path('output_visualizations')
+    output_dir = Path(output_images)
     output_dir.mkdir(exist_ok=True)
     
     # Dictionary to store track histories (for visualization)
@@ -611,8 +612,8 @@ def process_frames():
     # Frame counters for tracking
     frame_count = 0
     
-    # Process each frame in Camera-Loc01 directory
-    frames_dir = Path('Camera-Loc01')
+    # Process each frame in input directory
+    frames_dir = Path(input_folder)
     all_frames = sorted(frames_dir.glob('*.png'))
     total_frames = len(all_frames)
     
@@ -620,9 +621,6 @@ def process_frames():
     
     # Optional: ID color mapping to visualize consistently
     id_colors = {}
-    
-    # Debug frames (for investigating specific issues)
-    debug_frames = {2398, 2399, 2400, 2401}  # The frames mentioned in the issue
     
     for frame_path in all_frames:
         # Read image for visualization
@@ -651,9 +649,6 @@ def process_frames():
         frame_info = frame_path.stem.split('_')
         frame_num = frame_info[1]
         time_str = '_'.join(frame_info[3:])
-        
-        # Check if this is a frame we want to debug
-        is_debug_frame = int(frame_num) in debug_frames
         
         # Draw room boundaries with proper scaling
         image = draw_rooms(image, room_data, display_scale, json_scale)
@@ -696,9 +691,9 @@ def process_frames():
                     
                     # Determine room
                     room_id = None
-                    for quad in room_data['quads']:
+                    for i, quad in enumerate(room_data['quads']):
                         if point_in_quad((original_center_x, original_center_y), quad['points'], json_scale):
-                            room_id = quad['id']
+                            room_id = i + 1  # Use shape number (1-based index)
                             break
                     
                     # Add to frame detections
@@ -742,9 +737,9 @@ def process_frames():
                     
                     # Determine room
                     room_id = None
-                    for quad in room_data['quads']:
+                    for i, quad in enumerate(room_data['quads']):
                         if point_in_quad((original_center_x, original_center_y), quad['points'], json_scale):
-                            room_id = quad['id']
+                            room_id = i + 1  # Use shape number (1-based index)
                             break
                     
                     # Add to frame detections with a temporary ID
@@ -765,20 +760,8 @@ def process_frames():
                         'y2': int(y2)
                     })
         
-        # Debug information for problematic frames
-        if is_debug_frame:
-            print(f"\nDEBUG - Frame {frame_num}: Detections before tracking: {len(frame_detections)}")
-            for i, det in enumerate(frame_detections):
-                print(f"  Detection {i+1}: ID={det['person_id']}, Pos=({det['x']}, {det['y']}), Box=({det['x1']},{det['y1']},{det['x2']},{det['y2']})")
-        
         # Update our custom tracker with the current frame's detections
         updated_detections = person_tracker.update(int(frame_num), frame_detections)
-        
-        # Debug information after tracking
-        if is_debug_frame:
-            print(f"DEBUG - Frame {frame_num}: Detections after tracking: {len(updated_detections)}")
-            for i, det in enumerate(updated_detections):
-                print(f"  Detection {i+1}: ID={det['person_id']}, Pos=({det['x']}, {det['y']})")
         
         # Final check for duplicate IDs in the same frame
         ids_seen_in_frame = set()
@@ -788,9 +771,6 @@ def process_frames():
             if det['person_id'] not in ids_seen_in_frame:
                 ids_seen_in_frame.add(det['person_id'])
                 unique_detections.append(det)
-            else:
-                if is_debug_frame:
-                    print(f"  WARNING: Removed duplicate ID {det['person_id']} at position ({det['x']}, {det['y']})")
         
         # Add updated detections to results and visualize
         for det in unique_detections:
@@ -873,17 +853,19 @@ def process_frames():
             if pd.notna(row['room_id']):
                 print(f"Room {row['room_id']}: {row['count']} people")
     
-    # Analyze specific ID transitions (for debugging)
-    print("\nAnalyzing ID stability for problematic frames:")
-    for frame_idx in range(2397, 2402):
-        frame_data = df[df['frame_number'] == str(frame_idx)]
-        if not frame_data.empty:
-            ids = frame_data['person_id'].tolist()
-            print(f"Frame {frame_idx}: IDs present = {ids}")
-    
-    df.to_excel('human_tracking_results.xlsx', index=False)
-    print(f"\nResults saved to human_tracking_results.xlsx")
+    df.to_excel(output_excel, index=False)
+    print(f"\nResults saved to {output_excel}")
     print(f"Visualizations saved to {output_dir}")
 
 if __name__ == "__main__":
-    process_frames()
+    parser = argparse.ArgumentParser(description='Process video frames for human tracking')
+    parser.add_argument('--input_folder', type=str, required=True,
+                      help='Input folder containing frame images')
+    parser.add_argument('--output_excel', type=str, required=True,
+                      help='Output Excel file path for tracking results')
+    parser.add_argument('--output_images', type=str, required=True,
+                      help='Output folder path for visualization images')
+    
+    args = parser.parse_args()
+    
+    process_frames(args.input_folder, args.output_excel, args.output_images)
