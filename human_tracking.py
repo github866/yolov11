@@ -580,12 +580,12 @@ class PersonTracker:
         # This is only used as a fallback
         return 10000 + self.next_temp_id
 
-def process_frames(input_folder, output_excel, output_images):
+def process_frames(input_folder, output_excel, output_images, json_file):
     # Load YOLO model
     model = YOLO('yolo11n.pt')
     
     # Load room definitions
-    with open('loc01.json', 'r') as f:
+    with open(json_file, 'r') as f:
         room_data = json.load(f)
     
     # Get image scale from JSON
@@ -602,21 +602,26 @@ def process_frames(input_folder, output_excel, output_images):
     track_history = {}
     
     # Initialize our custom person tracker with enhanced settings for ID stability
-    # Increased max_frames_missing to 90 frames (3 seconds at 30fps)
-    # Increased location_threshold to 250 pixels for more flexible matching and stable IDs
-    # Set min_detection_distance to 50 pixels to prevent duplicate detections
     person_tracker = PersonTracker(max_frames_missing=90, location_threshold=250)
     person_tracker.min_detection_distance = 50
-    person_tracker.bbox_size_tolerance = 0.5  # Allow 50% size difference for better matching
+    person_tracker.bbox_size_tolerance = 0.5
     
     # Frame counters for tracking
     frame_count = 0
     
     # Process each frame in input directory
     frames_dir = Path(input_folder)
+    if not frames_dir.exists():
+        print(f"Error: Input folder '{input_folder}' does not exist")
+        return
+        
     all_frames = sorted(frames_dir.glob('*.png'))
     total_frames = len(all_frames)
     
+    if total_frames == 0:
+        print(f"Error: No PNG files found in '{input_folder}'")
+        return
+        
     print(f"Processing {total_frames} frames...")
     
     # Optional: ID color mapping to visualize consistently
@@ -837,6 +842,10 @@ def process_frames(input_folder, output_excel, output_images):
     # Create DataFrame and save to Excel
     df = pd.DataFrame(results_data)
     
+    if df.empty:
+        print("Warning: No detections were made. No data to save.")
+        return
+        
     # Count unique IDs
     unique_ids = df['person_id'].nunique()
     print(f"\nTracking Statistics:")
@@ -865,7 +874,9 @@ if __name__ == "__main__":
                       help='Output Excel file path for tracking results')
     parser.add_argument('--output_images', type=str, required=True,
                       help='Output folder path for visualization images')
+    parser.add_argument('--json_file', type=str, required=True,
+                      help='JSON file containing room definitions')
     
     args = parser.parse_args()
     
-    process_frames(args.input_folder, args.output_excel, args.output_images)
+    process_frames(args.input_folder, args.output_excel, args.output_images, args.json_file)
