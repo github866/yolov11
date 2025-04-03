@@ -696,9 +696,12 @@ def process_frames(input_folder, output_excel, output_images, json_file):
                     
                     # Determine room
                     room_id = None
-                    for i, quad in enumerate(room_data['quads']):
+                    for quad in room_data['quads']:
                         if point_in_quad((original_center_x, original_center_y), quad['points'], json_scale):
-                            room_id = i + 1  # Use shape number (1-based index)
+                            # Extract room number from shape name (e.g., "Shape 9" -> 9)
+                            shape_name = quad['name']
+                            room_number = int(shape_name.split()[-1])
+                            room_id = room_number
                             break
                     
                     # Add to frame detections
@@ -742,9 +745,12 @@ def process_frames(input_folder, output_excel, output_images, json_file):
                     
                     # Determine room
                     room_id = None
-                    for i, quad in enumerate(room_data['quads']):
+                    for quad in room_data['quads']:
                         if point_in_quad((original_center_x, original_center_y), quad['points'], json_scale):
-                            room_id = i + 1  # Use shape number (1-based index)
+                            # Extract room number from shape name (e.g., "Shape 9" -> 9)
+                            shape_name = quad['name']
+                            room_number = int(shape_name.split()[-1])
+                            room_id = room_number
                             break
                     
                     # Add to frame detections with a temporary ID
