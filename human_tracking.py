@@ -145,6 +145,9 @@ class DINOPersonTracker(PersonTracker):
         
         # Feature similarity threshold
         self.feature_similarity_threshold = feature_similarity_threshold
+        
+        # Minimum similarity threshold to consider changing bounding box
+        self.min_similarity_for_update = 0.85  # Higher threshold for updating bounding boxes
     
     def compute_feature_similarity(self, feature1, feature2):
         """Compute cosine similarity between two feature vectors"""
@@ -264,32 +267,36 @@ class DINOPersonTracker(PersonTracker):
                         best_match_id = track_id
             
             if best_match_id is not None:
-                # We found a match - update the track
-                if best_match_id in self.tracks:
-                    # Update active track
-                    self.tracks[best_match_id]['last_seen_frame'] = frame_number
-                    self.tracks[best_match_id]['last_position'] = current_pos
+                # We found a match - update the track only if similarity is high enough
+                if best_match_score >= self.min_similarity_for_update:
+                    if best_match_id in self.tracks:
+                        # Update active track
+                        self.tracks[best_match_id]['last_seen_frame'] = frame_number
+                        self.tracks[best_match_id]['last_position'] = current_pos
+                    else:
+                        # Reactivate inactive track
+                        track_info = self.inactive_tracks[best_match_id]
+                        self.tracks[best_match_id] = {
+                            'last_seen_frame': frame_number,
+                            'last_position': current_pos,
+                            'active': True,
+                            'original_id': det['person_id']
+                        }
+                        del self.inactive_tracks[best_match_id]
+                    
+                    # Always update the feature vector with the latest features
+                    self.person_features[best_match_id] = current_feature
+                    self.last_seen_frame[best_match_id] = frame_number
+                    
+                    # Update detection with matched ID
+                    det['person_id'] = best_match_id
+                    updated_detections.append(det)
+                    
+                    matched_positions.add(current_pos)
+                    matched_ids.add(best_match_id)
                 else:
-                    # Reactivate inactive track
-                    track_info = self.inactive_tracks[best_match_id]
-                    self.tracks[best_match_id] = {
-                        'last_seen_frame': frame_number,
-                        'last_position': current_pos,
-                        'active': True,
-                        'original_id': det['person_id']
-                    }
-                    del self.inactive_tracks[best_match_id]
-                
-                # Always update the feature vector with the latest features
-                self.person_features[best_match_id] = current_feature
-                self.last_seen_frame[best_match_id] = frame_number
-                
-                # Update detection with matched ID
-                det['person_id'] = best_match_id
-                updated_detections.append(det)
-                
-                matched_positions.add(current_pos)
-                matched_ids.add(best_match_id)
+                    # Similarity is too low - keep the original detection
+                    updated_detections.append(det)
                 continue
             
             # No match found - create new track if possible
@@ -331,7 +338,7 @@ class DINOPersonTracker(PersonTracker):
                             closest_similarity = similarity
                             closest_id = track_id
                 
-                if closest_id is not None:
+                if closest_id is not None and closest_similarity >= self.min_similarity_for_update:
                     # Remove old track
                     if closest_id in self.tracks:
                         del self.tracks[closest_id]
@@ -356,6 +363,9 @@ class DINOPersonTracker(PersonTracker):
                     
                     matched_positions.add(current_pos)
                     matched_ids.add(closest_id)
+                else:
+                    # Similarity is too low - keep the original detection
+                    updated_detections.append(det)
         
         # Move unmatched tracks to inactive
         for track_id in list(self.tracks.keys()):
