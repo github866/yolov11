@@ -92,8 +92,9 @@ class PersonTracker:
             if hasattr(self, 'person_features') and track_id in self.person_features:
                 del self.person_features[track_id]
     
-    def get_next_id(self):
-        """Get the next available ID, ensuring we don't exceed max_people"""
+    def get_next_id(self, current_feature=None):
+        """Get the next available ID, ensuring we don't exceed max_people.
+        If current_feature is provided, use it to find the most similar track to replace."""
         # First enforce max_people limit
         self.enforce_max_people()
         
@@ -102,7 +103,35 @@ class PersonTracker:
             if id not in self.tracks and id not in self.inactive_tracks:
                 return id
         
-        # If all IDs 1-max_people are in use, find the oldest track to replace
+        # If all IDs are in use and we have a feature vector, find the most similar track
+        if current_feature is not None:
+            best_match_id = None
+            best_match_score = -1
+            
+            # Check both active and inactive tracks
+            for track_id in list(self.tracks.keys()) + list(self.inactive_tracks.keys()):
+                if track_id > self.max_people:
+                    continue
+                
+                if track_id in self.person_features:
+                    similarity = self.compute_feature_similarity(current_feature, self.person_features[track_id])
+                    if similarity > best_match_score:
+                        best_match_score = similarity
+                        best_match_id = track_id
+            
+            if best_match_id is not None:
+                # Remove the matched track and its data
+                if best_match_id in self.tracks:
+                    del self.tracks[best_match_id]
+                if best_match_id in self.inactive_tracks:
+                    del self.inactive_tracks[best_match_id]
+                if best_match_id in self.last_seen_frame:
+                    del self.last_seen_frame[best_match_id]
+                if best_match_id in self.person_features:
+                    del self.person_features[best_match_id]
+                return best_match_id
+        
+        # If no feature vector or no match found, find the oldest track to replace
         oldest_id = None
         oldest_frame = float('inf')
         
@@ -330,25 +359,40 @@ class DINOPersonTracker(PersonTracker):
                     del self.person_features[best_match_id]
                 return best_match_id
         
-        # If no feature vector or no match found, find the highest ID to replace
-        highest_id = None
+        # If no feature vector or no match found, find the oldest track to replace
+        oldest_id = None
+        oldest_frame = float('inf')
+        
+        # Check both active and inactive tracks
         for track_id in list(self.tracks.keys()) + list(self.inactive_tracks.keys()):
             if track_id > self.max_people:
+                # Remove any IDs that somehow exceeded max_people
+                if track_id in self.tracks:
+                    del self.tracks[track_id]
+                if track_id in self.inactive_tracks:
+                    del self.inactive_tracks[track_id]
+                if track_id in self.last_seen_frame:
+                    del self.last_seen_frame[track_id]
+                if hasattr(self, 'person_features') and track_id in self.person_features:
+                    del self.person_features[track_id]
                 continue
-            if highest_id is None or track_id > highest_id:
-                highest_id = track_id
+                
+            last_frame = self.last_seen_frame.get(track_id, 0)
+            if last_frame < oldest_frame:
+                oldest_frame = last_frame
+                oldest_id = track_id
         
-        if highest_id is not None:
-            # Remove the highest ID track and its data
-            if highest_id in self.tracks:
-                del self.tracks[highest_id]
-            if highest_id in self.inactive_tracks:
-                del self.inactive_tracks[highest_id]
-            if highest_id in self.last_seen_frame:
-                del self.last_seen_frame[highest_id]
-            if highest_id in self.person_features:
-                del self.person_features[highest_id]
-            return highest_id
+        if oldest_id is not None:
+            # Remove the oldest ID track and its data
+            if oldest_id in self.tracks:
+                del self.tracks[oldest_id]
+            if oldest_id in self.inactive_tracks:
+                del self.inactive_tracks[oldest_id]
+            if oldest_id in self.last_seen_frame:
+                del self.last_seen_frame[oldest_id]
+            if oldest_id in self.person_features:
+                del self.person_features[oldest_id]
+            return oldest_id
         
         # If all else fails, return 1
         return 1
@@ -567,6 +611,8 @@ def save_detections_to_yaml(detections, output_yaml, image_dir, confidence_thres
         image_dir (str): Path to directory containing images
         confidence_threshold (float): Confidence threshold for pseudo-labels (higher for training)
     """
+    import yaml
+    
     # Filter very high confidence detections for pseudo-labeling
     high_confidence_detections = [
         det for det in detections 
@@ -606,8 +652,26 @@ def save_detections_to_yaml(detections, output_yaml, image_dir, confidence_thres
             if 'feature_vector' in det:
                 feature_vector = det['feature_vector'].tolist() if hasattr(det['feature_vector'], 'tolist') else det['feature_vector']
             
-            # Convert bbox to YOLO format (normalized x_center, y_center, width, height)
-            x1, y1, x2, y2 = float(det['bbox']['x1']), float(det['bbox']['y1']), float(det['bbox']['x2']), float(det['bbox']['y2'])
+            # Handle both bbox formats
+            if 'bbox' in det:
+                # If bbox is a dictionary with x1,y1,x2,y2 keys
+                if isinstance(det['bbox'], dict):
+                    x1 = float(det['bbox']['x1'])
+                    y1 = float(det['bbox']['y1'])
+                    x2 = float(det['bbox']['x2'])
+                    y2 = float(det['bbox']['y2'])
+                # If bbox is a list [x1,y1,x2,y2]
+                else:
+                    x1 = float(det['bbox'][0])
+                    y1 = float(det['bbox'][1])
+                    x2 = float(det['bbox'][2])
+                    y2 = float(det['bbox'][3])
+            else:
+                # If coordinates are directly in the detection dict
+                x1 = float(det['x1'])
+                y1 = float(det['y1'])
+                x2 = float(det['x2'])
+                y2 = float(det['y2'])
             
             # Get image dimensions
             img_path = os.path.join(image_dir, frame_path)
