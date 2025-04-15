@@ -13,6 +13,7 @@ from torch.nn import functional as F
 import timm
 import random
 import yaml
+import glob
 
 def point_in_quad(point, quad_points, json_scale):
     """Check if a point is inside a quadrilateral"""
@@ -612,6 +613,34 @@ def save_detections_to_yaml(detections, output_yaml, image_dir, confidence_thres
         confidence_threshold (float): Confidence threshold for pseudo-labels (higher for training)
     """
     import yaml
+    import glob
+    
+    print(f"\nPreparing YAML data with confidence threshold {confidence_threshold}...")
+    print(f"Total detections before filtering: {len(detections)}")
+    
+    # Debug: Print some sample detections
+    print("\nSample detection data:")
+    if detections:
+        print(f"First detection: {detections[0]}")
+    
+    # Get a mapping of frame numbers to actual filenames
+    frame_to_filename = {}
+    for filepath in glob.glob(os.path.join(image_dir, "frame_*.png")):
+        filename = os.path.basename(filepath)
+        # Extract frame number from filename (e.g., "frame_05393_time_00_02_59.767.png")
+        try:
+            frame_num = filename.split('_')[1]  # Get the frame number part
+            frame_to_filename[frame_num] = filename
+        except IndexError:
+            print(f"Warning: Unexpected filename format: {filename}")
+            continue
+    
+    print(f"\nFound {len(frame_to_filename)} frame files in directory")
+    if frame_to_filename:
+        print("Sample frame mappings:")
+        sample_items = list(frame_to_filename.items())[:5]
+        for frame_num, filename in sample_items:
+            print(f"Frame {frame_num} -> {filename}")
     
     # Filter very high confidence detections for pseudo-labeling
     high_confidence_detections = [
@@ -619,12 +648,18 @@ def save_detections_to_yaml(detections, output_yaml, image_dir, confidence_thres
         if det['confidence'] > confidence_threshold
     ]
     
+    print(f"\nHigh confidence detections after filtering: {len(high_confidence_detections)}")
+    if high_confidence_detections:
+        print("Sample high confidence detection:")
+        print(high_confidence_detections[0])
+    
     # Get unique frame numbers with high confidence detections
-    frame_numbers = sorted(list(set(int(det['frame_number']) for det in high_confidence_detections)))
+    frame_numbers = sorted(list(set(det['frame_number'] for det in high_confidence_detections)))
+    print(f"Number of frames with high confidence detections: {len(frame_numbers)}")
     
     # Prepare YAML structure
     yaml_data = {
-        'path': image_dir,  # Path to images
+        'path': str(Path(image_dir).resolve()),  # Absolute path to images
         'train': [],  # List of training images
         'val': [],    # List of validation images (can be populated later)
         'names': {0: 'person'},  # Class names
@@ -632,78 +667,134 @@ def save_detections_to_yaml(detections, output_yaml, image_dir, confidence_thres
         'frames': {}  # Frame-specific data including detections and features
     }
     
+    processed_frames = 0
+    total_detections = 0
+    
     # Process each frame with high confidence detections
     for frame_num in frame_numbers:
-        frame_detections = [det for det in high_confidence_detections if int(det['frame_number']) == frame_num]
+        frame_detections = [det for det in high_confidence_detections if det['frame_number'] == frame_num]
         
-        # Add frame path to training set
-        frame_path = f"frame_{frame_num}.png"
-        yaml_data['train'].append(frame_path)
+        # Get actual filename for this frame
+        if frame_num not in frame_to_filename:
+            print(f"Warning: No matching file found for frame {frame_num}")
+            continue
+            
+        frame_path = frame_to_filename[frame_num]
+        
+        # Add frame path to training set if not already added
+        if frame_path not in yaml_data['train']:
+            yaml_data['train'].append(frame_path)
+        
+        # Get image dimensions
+        img_path = os.path.join(image_dir, frame_path)
+        if not os.path.exists(img_path):
+            print(f"Warning: Image file not found: {img_path}")
+            continue
+            
+        img = cv2.imread(img_path)
+        if img is None:
+            print(f"Warning: Could not read image: {img_path}")
+            continue
+            
+        height, width = img.shape[:2]
         
         # Prepare frame data
         frame_data = {
             'detections': []
         }
         
+        frame_detection_count = 0
+        
         # Add each detection
         for det in frame_detections:
-            # Get feature vector if available
-            feature_vector = None
-            if 'feature_vector' in det:
-                feature_vector = det['feature_vector'].tolist() if hasattr(det['feature_vector'], 'tolist') else det['feature_vector']
-            
-            # Handle both bbox formats
-            if 'bbox' in det:
-                # If bbox is a dictionary with x1,y1,x2,y2 keys
-                if isinstance(det['bbox'], dict):
-                    x1 = float(det['bbox']['x1'])
-                    y1 = float(det['bbox']['y1'])
-                    x2 = float(det['bbox']['x2'])
-                    y2 = float(det['bbox']['y2'])
-                # If bbox is a list [x1,y1,x2,y2]
-                else:
-                    x1 = float(det['bbox'][0])
-                    y1 = float(det['bbox'][1])
-                    x2 = float(det['bbox'][2])
-                    y2 = float(det['bbox'][3])
-            else:
-                # If coordinates are directly in the detection dict
+            try:
+                # Get coordinates (already in original scale)
                 x1 = float(det['x1'])
                 y1 = float(det['y1'])
                 x2 = float(det['x2'])
                 y2 = float(det['y2'])
-            
-            # Get image dimensions
-            img_path = os.path.join(image_dir, frame_path)
-            if os.path.exists(img_path):
-                img = cv2.imread(img_path)
-                if img is not None:
-                    height, width = img.shape[:2]
-                    # Normalize coordinates
-                    x_center = ((x1 + x2) / 2) / width
-                    y_center = ((y1 + y2) / 2) / height
-                    bbox_width = (x2 - x1) / width
-                    bbox_height = (y2 - y1) / height
-                    
-                    detection_data = {
-                        'class': 0,  # person class
-                        'bbox': [x_center, y_center, bbox_width, bbox_height],
-                        'confidence': float(det['confidence']),
-                        'person_id': int(det['person_id']) if isinstance(det['person_id'], (int, float)) else det['person_id'],
-                        'room_id': det['room_id'],
-                        'feature_vector': feature_vector
-                    }
-                    frame_data['detections'].append(detection_data)
+                
+                # Normalize coordinates
+                x_center = ((x1 + x2) / 2) / width
+                y_center = ((y1 + y2) / 2) / height
+                bbox_width = (x2 - x1) / width
+                bbox_height = (y2 - y1) / height
+                
+                # Ensure coordinates are valid
+                if not all(0 <= coord <= 1 for coord in [x_center, y_center, bbox_width, bbox_height]):
+                    print(f"Warning: Invalid normalized coordinates for detection in frame {frame_num}")
+                    continue
+                
+                # Get feature vector if available
+                feature_vector = None
+                if 'feature_vector' in det:
+                    feature_vector = det['feature_vector'].tolist() if hasattr(det['feature_vector'], 'tolist') else det['feature_vector']
+                
+                detection_data = {
+                    'class': 0,  # person class
+                    'bbox': [x_center, y_center, bbox_width, bbox_height],
+                    'confidence': float(det['confidence']),
+                    'person_id': int(det['person_id']) if isinstance(det['person_id'], (int, float)) else det['person_id'],
+                    'room_id': det['room_id']
+                }
+                
+                if feature_vector is not None:
+                    detection_data['feature_vector'] = feature_vector
+                
+                frame_data['detections'].append(detection_data)
+                frame_detection_count += 1
+                total_detections += 1
+            except Exception as e:
+                print(f"Warning: Error processing detection in frame {frame_num}: {str(e)}")
+                continue
         
         # Add frame data if it has detections
         if frame_data['detections']:
             yaml_data['frames'][frame_num] = frame_data
+            processed_frames += 1
+            
+            # Print progress every 100 frames
+            if processed_frames % 100 == 0:
+                print(f"Processed {processed_frames} frames, {total_detections} total detections")
     
     # Save to YAML
-    with open(output_yaml, 'w') as f:
-        yaml.dump(yaml_data, f, default_flow_style=False, sort_keys=False)
-    
-    print(f"Saved {len(yaml_data['train'])} frames with {sum(len(frame_data['detections']) for frame_data in yaml_data['frames'].values())} high-confidence detections to {output_yaml}")
+    try:
+        print(f"\nAttempting to save YAML file to: {output_yaml}")
+        print("\nYAML data summary before saving:")
+        print(f"- Number of training images: {len(yaml_data['train'])}")
+        print(f"- Number of frames with detections: {len(yaml_data['frames'])}")
+        print(f"- Total detections: {total_detections}")
+        print(f"- Sample frame paths: {yaml_data['train'][:5]}")
+        if yaml_data['frames']:
+            sample_frame = next(iter(yaml_data['frames']))
+            print(f"- Sample frame data: Frame {sample_frame} has {len(yaml_data['frames'][sample_frame]['detections'])} detections")
+        
+        with open(output_yaml, 'w') as f:
+            yaml.dump(yaml_data, f, default_flow_style=False, sort_keys=False)
+        
+        # Verify the saved file
+        if os.path.exists(output_yaml):
+            file_size = os.path.getsize(output_yaml)
+            print(f"\nYAML file saved successfully:")
+            print(f"- Path: {output_yaml}")
+            print(f"- File size: {file_size} bytes")
+            
+            # Read back and verify content
+            with open(output_yaml, 'r') as f:
+                verify_data = yaml.safe_load(f)
+                print("\nVerification of saved data:")
+                print(f"- Training images: {len(verify_data['train'])}")
+                print(f"- Frames with detections: {len(verify_data['frames'])}")
+                if verify_data['frames']:
+                    total_saved_detections = sum(len(frame_data['detections']) for frame_data in verify_data['frames'].values())
+                    print(f"- Total saved detections: {total_saved_detections}")
+        else:
+            print(f"Error: Failed to create YAML file at {output_yaml}")
+    except Exception as e:
+        print(f"Error saving YAML file: {str(e)}")
+        import traceback
+        print("Full traceback:")
+        print(traceback.format_exc())
 
 def save_detections_to_json(detections, output_json, num_frames=20, confidence_threshold=0.6):
     """Save high confidence detections to JSON file for training.
@@ -771,6 +862,14 @@ def save_detections_to_json(detections, output_json, num_frames=20, confidence_t
     print(f"Saved {len(training_data)} high-confidence detections from {len(selected_frames)} randomly selected frames to {output_json}")
 
 def process_frames(input_folder, output_excel, output_images, json_file, output_json=None, output_yaml=None):
+    print("\nInitializing process_frames with parameters:")
+    print(f"- input_folder: {input_folder}")
+    print(f"- output_excel: {output_excel}")
+    print(f"- output_images: {output_images}")
+    print(f"- json_file: {json_file}")
+    print(f"- output_json: {output_json}")
+    print(f"- output_yaml: {output_yaml}")
+    
     # Load YOLO model
     model = YOLO('yolo11n.pt')
     
@@ -842,11 +941,11 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
     # Optional: ID color mapping to visualize consistently
     id_colors = {}
     
-    # Store all detections for JSON output
+    # Store all detections for JSON/YAML output
     all_detections = []
     
-    # Store last frame for feature extraction
-    last_frame = None
+    # Store frames for feature extraction
+    frame_images = {}
     
     for frame_path in all_frames:
         # Read image for visualization
@@ -856,11 +955,12 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
             continue
         
         # Store frame for feature extraction
-        last_frame = image.copy()
+        frame_num = frame_path.stem.split('_')[1]
+        frame_images[frame_num] = image.copy()
         
         # Update frame count
         frame_count += 1
-            
+        
         # Get original image dimensions
         height, width = image.shape[:2]
         
@@ -913,7 +1013,7 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
                     # Skip only very low confidence detections
                     if conf < 0.1:  # Lower confidence threshold
                         continue
-                        
+                    
                     # Scale the coordinates for display
                     if display_scale < 1:
                         x1, y1, x2, y2 = [int(x * display_scale) for x in [x1, y1, x2, y2]]
@@ -925,6 +1025,12 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
                     # Original coordinates (unscaled)
                     original_center_x = int(center_x / display_scale)
                     original_center_y = int(center_y / display_scale)
+                    
+                    # Original bounding box coordinates (unscaled)
+                    original_x1 = int(x1 / display_scale)
+                    original_y1 = int(y1 / display_scale)
+                    original_x2 = int(x2 / display_scale)
+                    original_y2 = int(y2 / display_scale)
                     
                     # Determine room
                     room_id = None
@@ -947,64 +1053,14 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
                         'y': original_center_y,
                         'display_x': center_x,
                         'display_y': center_y,
-                        'x1': int(x1), 
-                        'y1': int(y1), 
-                        'x2': int(x2), 
-                        'y2': int(y2)
-                    })
-            else:
-                # Fallback to regular detection if tracking fails
-                for i, box in enumerate(boxes):
-                    # Get bounding box coordinates
-                    x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
-                    conf = float(box.conf[0])
-                    
-                    # Skip low confidence detections
-                    if conf < 0.25:  # Slightly lower confidence threshold
-                        continue
-                    
-                    # Scale the coordinates for display
-                    if display_scale < 1:
-                        x1, y1, x2, y2 = [int(x * display_scale) for x in [x1, y1, x2, y2]]
-                    
-                    # Calculate center point of detection
-                    center_x = int((x1 + x2) / 2)
-                    center_y = int((y1 + y2) / 2)
-                    
-                    # Original coordinates (unscaled)
-                    original_center_x = int(center_x / display_scale)
-                    original_center_y = int(center_y / display_scale)
-                    
-                    # Determine room
-                    room_id = None
-                    for quad in room_data['quads']:
-                        if point_in_quad((original_center_x, original_center_y), quad['points'], json_scale):
-                            # Extract room number from shape name (e.g., "Shape 9" -> 9)
-                            shape_name = quad['name']
-                            room_number = int(shape_name.split()[-1])
-                            room_id = room_number
-                            break
-                    
-                    # Add to frame detections with a temporary ID
-                    temp_id = f"temp_{i}"
-                    frame_detections.append({
-                        'frame_number': frame_num,
-                        'timestamp': time_str,
-                        'person_id': temp_id,
-                        'room_id': room_id,
-                        'confidence': conf,
-                        'x': original_center_x,
-                        'y': original_center_y,
-                        'display_x': center_x,
-                        'display_y': center_y,
-                        'x1': int(x1), 
-                        'y1': int(y1), 
-                        'x2': int(x2), 
-                        'y2': int(y2)
+                        'x1': original_x1,
+                        'y1': original_y1,
+                        'x2': original_x2,
+                        'y2': original_y2
                     })
         
         # Update our custom tracker with the current frame's detections
-        updated_detections = person_tracker.update(int(frame_num), frame_detections, image)
+        updated_detections = person_tracker.update(int(frame_num), frame_detections, frame_images[frame_num])
         
         # Final check for duplicate IDs in the same frame
         ids_seen_in_frame = set()
@@ -1035,9 +1091,7 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
                 
                 # Assign a consistent color for this ID
                 if track_id not in id_colors:
-                    # Generate a unique color based on ID
                     try:
-                        # Handle both string and integer IDs
                         if isinstance(track_id, str):
                             if track_id.isdigit():
                                 id_num = int(track_id)
@@ -1050,7 +1104,6 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
                         r, g, b = [int(c * 255) for c in colorsys.hsv_to_rgb(hue, 0.7, 0.95)]
                         id_colors[track_id] = (b, g, r)  # OpenCV uses BGR
                     except (ValueError, TypeError):
-                        # Fallback to a default color if conversion fails
                         id_colors[track_id] = (0, 255, 255)  # Yellow as default
             
             # Add to track history
@@ -1094,27 +1147,59 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
         for det in unique_detections:
             all_detections.append(det)
     
+    print("\nProcessing complete. Saving outputs...")
+    print(f"Total detections collected: {len(all_detections)}")
+    
     # Save high-confidence detections to JSON/YAML if specified
     if output_json or output_yaml:
+        print("\nExtracting feature vectors for detections...")
+        feature_extraction_count = 0
         # Get feature vectors for detections
         for det in all_detections:
-            # Extract crop from last frame
-            if 'x1' in det and 'y1' in det and 'x2' in det and 'y2' in det:
+            frame_num = det['frame_number']
+            if frame_num in frame_images:
+                # Extract crop from frame
                 x1, y1, x2, y2 = int(det['x1']), int(det['y1']), int(det['x2']), int(det['y2'])
-                crop = last_frame[y1:y2, x1:x2]
+                frame = frame_images[frame_num]
+                crop = frame[y1:y2, x1:x2]
                 
                 # Skip if crop is invalid
                 if crop.size == 0:
+                    print(f"Warning: Invalid crop for detection in frame {frame_num}")
                     continue
                 
                 # Extract feature vector using DINO
                 feature_vector = dino_extractor.extract_features(crop)
                 det['feature_vector'] = feature_vector
+                feature_extraction_count += 1
+                
+                if feature_extraction_count % 100 == 0:
+                    print(f"Extracted features for {feature_extraction_count} detections")
+        
+        print(f"Successfully extracted features for {feature_extraction_count} detections")
         
         if output_json:
+            print(f"\nSaving JSON output to {output_json}...")
             save_detections_to_json(all_detections, output_json, num_frames=20)
+        
         if output_yaml:
-            save_detections_to_yaml(all_detections, output_yaml, input_folder)
+            print(f"\nAttempting to save YAML output to {output_yaml}...")
+            print(f"Input folder for YAML: {input_folder}")
+            try:
+                save_detections_to_yaml(all_detections, output_yaml, str(Path(input_folder).resolve()))
+                # Verify the file was created
+                if os.path.exists(output_yaml):
+                    print(f"YAML file successfully created at {output_yaml}")
+                    # Print file size
+                    file_size = os.path.getsize(output_yaml)
+                    print(f"YAML file size: {file_size} bytes")
+                else:
+                    print(f"Error: YAML file was not created at {output_yaml}")
+            except Exception as e:
+                print(f"Error while saving YAML file: {str(e)}")
+            import traceback
+            print("Full traceback:")
+            print(traceback.format_exc())
     
     # Create DataFrame and save to Excel
     df = pd.DataFrame(results_data)
