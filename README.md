@@ -327,7 +327,7 @@ python room_localization.py --boundaries rooms.json --image image.jpg --yolo_res
 For real-time detection with YOLOv11:
 
 ```bash
-nohup python human_tracking.py --input_folder /data/zhaoheng_zhu/origin/Camera-Loc04 --output_excel Loc04.xlsx --output_images output_visualizations_loc04 --json_file loc04.json > track4.log 2>&1 &
+nohup python human_tracking.py --input_folder /data/zhaoheng_zhu/origin/Camera-Loc04 --output_excel Loc04.xlsx --output_images output_visualizations_loc04 --json_file loc04.json     --output_json detections_loc04.json --output_yaml train-loc04.yaml > track4.log 2>&1 &
 ```
 
 For webcam input:
