@@ -818,6 +818,9 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
         max_people=20                     # Increase maximum number of people to track
     )
     
+    # Initialize DINO feature extractor for saving features
+    dino_extractor = DINOFeatureExtractor()
+    
     # Frame counters for tracking
     frame_count = 0
     
@@ -842,12 +845,18 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
     # Store all detections for JSON output
     all_detections = []
     
+    # Store last frame for feature extraction
+    last_frame = None
+    
     for frame_path in all_frames:
         # Read image for visualization
         image = cv2.imread(str(frame_path))
         if image is None:
             print(f"Failed to read image: {frame_path}")
             continue
+        
+        # Store frame for feature extraction
+        last_frame = image.copy()
         
         # Update frame count
         frame_count += 1
@@ -1089,10 +1098,17 @@ def process_frames(input_folder, output_excel, output_images, json_file, output_
     if output_json or output_yaml:
         # Get feature vectors for detections
         for det in all_detections:
-            if 'bbox' in det:
-                bbox = det['bbox']
+            # Extract crop from last frame
+            if 'x1' in det and 'y1' in det and 'x2' in det and 'y2' in det:
+                x1, y1, x2, y2 = int(det['x1']), int(det['y1']), int(det['x2']), int(det['y2'])
+                crop = last_frame[y1:y2, x1:x2]
+                
+                # Skip if crop is invalid
+                if crop.size == 0:
+                    continue
+                
                 # Extract feature vector using DINO
-                feature_vector = dino_extractor.extract_features(frame, bbox)
+                feature_vector = dino_extractor.extract_features(crop)
                 det['feature_vector'] = feature_vector
         
         if output_json:
