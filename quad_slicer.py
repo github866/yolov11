@@ -18,11 +18,11 @@ class QuadSlicer:
         self.image_path = None
         self.original_image = None
         self.display_image = None
-        self.image_scale = 1.0
         self.quads = []  # List of quadrilateral shapes
         self.current_quad_points = []  # Points of the quad being drawn (max 4)
         self.current_quad_id = 0
         self.temp_line_ids = []  # Store IDs of temporary lines
+        self.export_sizes = [(800, 600), (1024, 768), (1280, 720), (1920, 1080)]  # Default export sizes
         
         # Drawing mode
         self.drawing_mode = "draw"  # "draw" or "select"
@@ -79,6 +79,14 @@ class QuadSlicer:
         # Export button
         self.btn_export = tk.Button(toolbar_frame, text="Export as PNG", command=self.export_slices)
         self.btn_export.pack(side=tk.LEFT, padx=2, pady=2)
+        
+        # Size selection
+        tk.Label(toolbar_frame, text="Export Size:").pack(side=tk.LEFT, padx=5, pady=2)
+        self.size_var = tk.StringVar(value="800x600")
+        self.size_menu = tk.OptionMenu(toolbar_frame, self.size_var, 
+                                     *[f"{w}x{h}" for w, h in self.export_sizes],
+                                     command=self.on_size_change)
+        self.size_menu.pack(side=tk.LEFT, padx=2, pady=2)
         
         # Mode selection
         self.draw_mode_var = tk.StringVar(value="draw")
@@ -148,32 +156,16 @@ class QuadSlicer:
             # Convert BGR to RGB
             self.display_image = cv2.cvtColor(self.display_image, cv2.COLOR_BGR2RGB)
             
-            # Resize image if too large
-            h, w = self.display_image.shape[:2]
-            max_size = 800
-            
-            if h > max_size or w > max_size:
-                if h > w:
-                    self.image_scale = max_size / h
-                    new_h = max_size
-                    new_w = int(w * self.image_scale)
-                else:
-                    self.image_scale = max_size / w
-                    new_w = max_size
-                    new_h = int(h * self.image_scale)
-                
-                self.display_image = cv2.resize(self.display_image, (new_w, new_h))
-                self.statusbar.config(text=f"Loaded image: {self.image_path} (scaled to {new_w}x{new_h})")
-            else:
-                self.image_scale = 1.0
-                self.statusbar.config(text=f"Loaded image: {self.image_path} ({w}x{h})")
-            
             # Convert to PhotoImage for canvas
             self.photo_image = ImageTk.PhotoImage(image=Image.fromarray(self.display_image))
             
             # Reset canvas and display image
             self.canvas.config(scrollregion=(0, 0, self.photo_image.width(), self.photo_image.height()))
             self.canvas.create_image(0, 0, image=self.photo_image, anchor=tk.NW, tags="image")
+            
+            # Update status
+            h, w = self.display_image.shape[:2]
+            self.statusbar.config(text=f"Loaded image: {self.image_path} ({w}x{h})")
     
     def start_new_quad(self):
         if not self.image_path:
@@ -366,7 +358,6 @@ class QuadSlicer:
         # Create data structure
         data = {
             "image_path": self.image_path,
-            "image_scale": self.image_scale,
             "quads": []
         }
         
@@ -415,9 +406,6 @@ class QuadSlicer:
             self.image_path = image_path
             self.load_image()
             
-            # Get stored image scale
-            stored_scale = data.get("image_scale", 1.0)
-            
             # Clear existing shapes
             self.quads = []
             self.current_quad_id = 0
@@ -430,26 +418,16 @@ class QuadSlicer:
                 quad_name = quad_data.get("name", f"Shape {quad_id}")
                 points = quad_data.get("points", [])
                 
-                # Adjust points based on current vs stored scale
-                scaled_points = []
-                scale_ratio = self.image_scale / stored_scale
-                
-                for point in points:
-                    x, y = point
-                    scaled_x = x * scale_ratio
-                    scaled_y = y * scale_ratio
-                    scaled_points.append((scaled_x, scaled_y))
-                
                 # Create polygon on canvas
                 polygon_id = self.canvas.create_polygon(
-                    scaled_points, outline="red", fill="", width=2, tags=f"quad_{quad_id}"
+                    points, outline="red", fill="", width=2, tags=f"quad_{quad_id}"
                 )
                 
                 # Add to quads list
                 quad = {
                     "id": quad_id,
                     "polygon_id": polygon_id,
-                    "points": scaled_points,
+                    "points": points,
                     "name": quad_name
                 }
                 
@@ -466,25 +444,19 @@ class QuadSlicer:
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load from JSON: {str(e)}")
     
-    def create_perspective_transform(self, src_points):
+    def on_size_change(self, *args):
+        """Handle size selection change"""
+        size_str = self.size_var.get()
+        width, height = map(int, size_str.split('x'))
+        self.statusbar.config(text=f"Selected export size: {width}x{height}")
+    
+    def create_perspective_transform(self, src_points, target_size):
         """Create a perspective transform from the quadrilateral to a rectangle"""
         # Convert to numpy arrays
         src = np.array(src_points, dtype=np.float32)
         
-        # Get width and height based on the points
-        width = max(
-            np.linalg.norm(src[0] - src[1]),
-            np.linalg.norm(src[2] - src[3])
-        )
-        height = max(
-            np.linalg.norm(src[1] - src[2]),
-            np.linalg.norm(src[3] - src[0])
-        )
-        
-        width = int(width)
-        height = int(height)
-        
         # Define destination points (rectangle)
+        width, height = target_size
         dst = np.array([
             [0, 0],
             [width - 1, 0],
@@ -508,6 +480,10 @@ class QuadSlicer:
         if not export_dir:
             return
         
+        # Get selected size
+        size_str = self.size_var.get()
+        target_width, target_height = map(int, size_str.split('x'))
+        
         # Make sure original image is loaded
         if self.original_image is None:
             self.original_image = cv2.imread(self.image_path)
@@ -520,21 +496,14 @@ class QuadSlicer:
             
             # Create safe filename from quad name
             safe_name = "".join(c if c.isalnum() else "_" for c in quad_name)
-            filename = f"{safe_name}.png"
+            filename = f"{safe_name}_{target_width}x{target_height}.png"
             output_path = os.path.join(export_dir, filename)
             
-            # Scale points back to original image size if needed
-            scaled_points = []
-            for x, y in points:
-                orig_x = int(x / self.image_scale)
-                orig_y = int(y / self.image_scale)
-                scaled_points.append((orig_x, orig_y))
-            
             # Get perspective transform
-            M, width, height = self.create_perspective_transform(scaled_points)
+            M, width, height = self.create_perspective_transform(points, (target_width, target_height))
             
             # Apply perspective transform
-            warped = cv2.warpPerspective(self.original_image, M, (width, height))
+            warped = cv2.warpPerspective(self.original_image, M, (target_width, target_height))
             
             # Save as PNG
             cv2.imwrite(output_path, warped)
