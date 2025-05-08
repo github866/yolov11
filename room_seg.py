@@ -66,41 +66,50 @@ class RoomSegmenter:
             return None, f"Error adding points: {str(e)}"
 
     def create_polygon(self, polygon_text):
-        """Create a polygon from text input (format: polygon_name:point1,point2,point3)"""
+        """Create multiple polygons from text input (format: room1:point1,point2,point3;room2:point1,point2,point3)"""
         if not polygon_text:
-            return None, "Please enter polygon in format: polygon_name:point1,point2,point3"
+            return None, "Please enter rooms in format: room1:point1,point2,point3;room2:point1,point2,point3"
         
         try:
-            # Split polygon name and points
-            if ':' not in polygon_text:
-                return None, "Invalid format. Use: polygon_name:point1,point2,point3"
+            # Split multiple room definitions
+            room_definitions = polygon_text.split(';')
+            success_messages = []
             
-            name, points_text = polygon_text.split(':')
-            point_names = points_text.split(',')
-            
-            if len(point_names) < 3:
-                return None, "Need at least 3 points to create a polygon"
-            
-            # Find points by name
-            polygon_points = []
-            for point_name in point_names:
-                point = next((p for p in self.points if p["name"] == point_name.strip()), None)
-                if not point:
-                    return None, f"Point {point_name} not found"
-                polygon_points.append(point)
-            
-            # Add the polygon
-            self.polygons.append({
-                "name": name.strip(),
-                "points": polygon_points
-            })
+            for room_def in room_definitions:
+                if not room_def.strip():
+                    continue
+                    
+                # Split room name and points
+                if ':' not in room_def:
+                    return None, f"Invalid format in: {room_def}. Use: room_name:point1,point2,point3"
+                
+                name, points_text = room_def.split(':')
+                point_names = points_text.split(',')
+                
+                if len(point_names) < 3:
+                    return None, f"Need at least 3 points to create room: {name}"
+                
+                # Find points by name
+                polygon_points = []
+                for point_name in point_names:
+                    point = next((p for p in self.points if p["name"] == point_name.strip()), None)
+                    if not point:
+                        return None, f"Point {point_name} not found for room {name}"
+                    polygon_points.append(point)
+                
+                # Add the polygon
+                self.polygons.append({
+                    "name": name.strip(),
+                    "points": polygon_points
+                })
+                success_messages.append(f"Created room: {name}")
             
             # Save to JSON and get save message
             save_message = self.save_polygons()
             
-            return self.update_preview(), f"Created room: {name}\n{save_message}"
+            return self.update_preview(), "\n".join(success_messages) + f"\n{save_message}"
         except Exception as e:
-            return None, f"Error creating polygon: {str(e)}"
+            return None, f"Error creating polygons: {str(e)}"
 
     def update_preview(self):
         """Update the preview image with points and polygons"""
@@ -254,7 +263,7 @@ class RoomSegmenter:
                         points_list = gr.Textbox(label="Points List", lines=10, interactive=False)
                         
                         gr.Markdown("### Room Creation")
-                        gr.Markdown("Enter room in format: room_name:point1,point2,point3")
+                        gr.Markdown("Enter room in format: room1:point1,point2,point3;room2:point1,point2,point3")
                         gr.Markdown("Example: living_room:corner1,corner2,corner3,corner4")
                         room_text = gr.Textbox(label="Room", lines=2)
                         create_room_btn = gr.Button("Create Room")
