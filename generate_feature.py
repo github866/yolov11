@@ -25,32 +25,59 @@ class DINOFeatureExtractor(nn.Module):
     def preprocess(self, image):
         if isinstance(image, str):
             image = Image.open(image).convert('RGB')
-        return self.transform(image).unsqueeze(0)
+        # Apply transforms and add batch dimension
+        tensor = self.transform(image)
+        return tensor.unsqueeze(0)
 
     def forward(self, x):
         with torch.no_grad():
-            return self.model.forward_features(x)
+            # Get the features from the last layer
+            features = self.model(x)
+            # If features is a tuple, take the first element (usually the main output)
+            if isinstance(features, tuple):
+                features = features[0]
+            return features
 
-def process_subject(json_path, extractor):
+def save_cropped_image(image, coords, output_path):
+    """Save the cropped image for verification"""
+    cropped = image.crop((coords['x1'], coords['y1'], coords['x2'], coords['y2']))
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    cropped.save(output_path)
+
+def process_subject(json_path, extractor, save_crops=False):
     # Read JSON file
     with open(json_path, 'r') as f:
         frames = json.load(f)
     
     features_list = []
+    subject_name = Path(json_path).stem
+    
+    # Create directory for cropped images if needed
+    if save_crops:
+        crop_dir = os.path.join('cropped_images', subject_name)
+        os.makedirs(crop_dir, exist_ok=True)
     
     # Process each frame
-    for frame_info in tqdm(frames, desc=f"Processing {Path(json_path).stem}"):
+    for frame_info in tqdm(frames, desc=f"Processing {subject_name}"):
         frame_path = frame_info['frame_path']
         coords = frame_info['coordinates']
         
         # Load and crop image
         try:
             image = Image.open(frame_path).convert('RGB')
-            cropped_image = image.crop((coords['x1'], coords['y1'], coords['x2'], coords['y2']))
-
             
-            # Extract features
-            features = extractor(cropped_image)
+            # Save cropped image if requested
+            if save_crops:
+                frame_name = Path(frame_path).stem
+                crop_path = os.path.join(crop_dir, f"{frame_name}_cropped.jpg")
+                save_cropped_image(image, coords, crop_path)
+            
+            # Crop the image
+            cropped_image = image.crop((coords['x1'], coords['y1'], coords['x2'], coords['y2']))
+            
+            # Preprocess and extract features
+            tensor = extractor.preprocess(cropped_image)
+            features = extractor(tensor)
             features_list.append(features)
         except Exception as e:
             print(f"Error processing {frame_path}: {e}")
@@ -68,6 +95,7 @@ def main():
     parser = argparse.ArgumentParser(description="Extract and average DINO features for subjects")
     parser.add_argument("--logs_dir", type=str, default="logs", help="Directory containing JSON files")
     parser.add_argument("--output_path", type=str, default="subject_features.pt", help="Path to save the features")
+    parser.add_argument("--save_crops", action="store_true", default=False, help="Save cropped images for verification")
     args = parser.parse_args()
 
     # Initialize feature extractor
@@ -81,7 +109,7 @@ def main():
             subject_name = Path(json_file).stem
             
             print(f"\nProcessing subject: {subject_name}")
-            features = process_subject(json_path, extractor)
+            features = process_subject(json_path, extractor, args.save_crops)
             
             if features is not None:
                 subject_features[subject_name] = features
@@ -89,6 +117,8 @@ def main():
     # Save all features
     torch.save(subject_features, args.output_path)
     print(f"\nFeatures saved to {args.output_path}")
+    if args.save_crops:
+        print(f"Cropped images saved in 'cropped_images' directory")
 
 if __name__ == "__main__":
     main()
