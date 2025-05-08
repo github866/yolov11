@@ -14,15 +14,15 @@ os.environ['GRADIO_TEMP_DIR'] = str(Path.home() / '.gradio_cache')
 os.environ['GRADIO_CACHE_DIR'] = str(Path.home() / '.gradio_cache')
 
 class VideoLabeler:
-    def __init__(self, video_path, ids, frame_dir="frames", log_dir="logs", clip_dir="clips"):
+    def __init__(self, video_path, ids, frame_dir="frames", log_dir="logs"):
         self.video_path = video_path
         self.ids = ids
         self.frame_dir = Path(frame_dir)
         self.log_dir = Path(log_dir)
-        self.clip_dir = Path(clip_dir)
         self.frames = []
         self.frame_index = 0
         self.current_frame_image = None
+        self.grid_size = 50  # Default grid size
         
         # Create temp directory in user's home directory
         self.temp_dir = Path.home() / ".video_labeler_temp"
@@ -32,73 +32,31 @@ class VideoLabeler:
         gradio_cache = Path.home() / '.gradio_cache'
         gradio_cache.mkdir(parents=True, exist_ok=True)
         
-        # Create clip directory
-        self.clip_dir.mkdir(parents=True, exist_ok=True)
+        # Create log directory
+        self.log_dir.mkdir(parents=True, exist_ok=True)
         
-        # Verify video file exists
-        if not os.path.exists(self.video_path):
-            raise FileNotFoundError(f"Video file not found: {self.video_path}")
+        # Load existing frames
+        self.load_existing_frames()
 
-    def extract_frames(self):
-        self.frame_dir.mkdir(parents=True, exist_ok=True)
-        cap = cv2.VideoCapture(self.video_path)
-        
-        if not cap.isOpened():
-            raise ValueError(f"Failed to open video file: {self.video_path}")
+    def load_existing_frames(self):
+        """Load existing frames from the frames directory"""
+        if not self.frame_dir.exists():
+            raise FileNotFoundError(f"Frames directory not found: {self.frame_dir}")
             
-        # Get video properties
-        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        duration = total_frames / fps
-        
-        print(f"Video properties:")
-        print(f"- Total frames: {total_frames}")
-        print(f"- FPS: {fps}")
-        print(f"- Duration: {duration:.2f} seconds")
-        print(f"Starting frame extraction...")
-        
-        start_time = time.time()
-        count = 0
-        self.frames = []
-        
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
-                
-            frame_file = self.frame_dir / f"frame_{count:04d}.jpg"
-            cv2.imwrite(str(frame_file), frame)
-            self.frames.append(str(frame_file))
-            
-            # Print progress every 100 frames
-            if count % 100 == 0:
-                elapsed_time = time.time() - start_time
-                frames_per_second = count / elapsed_time if elapsed_time > 0 else 0
-                remaining_frames = total_frames - count
-                estimated_time = remaining_frames / frames_per_second if frames_per_second > 0 else 0
-                
-                print(f"Progress: {count}/{total_frames} frames ({count/total_frames*100:.1f}%)")
-                print(f"Processing speed: {frames_per_second:.1f} frames/second")
-                print(f"Estimated time remaining: {estimated_time/60:.1f} minutes")
-            
-            count += 1
-            
-        cap.release()
+        # Get all PNG files in the frames directory
+        self.frames = sorted([str(f) for f in self.frame_dir.glob("frame_*.png")])
         
         if not self.frames:
-            raise ValueError("No frames were extracted from the video")
+            raise ValueError("No frames found in the frames directory")
             
-        total_time = time.time() - start_time
-        print(f"\nFrame extraction completed:")
-        print(f"- Total frames extracted: {len(self.frames)}")
-        print(f"- Total processing time: {total_time/60:.1f} minutes")
-        print(f"- Average processing speed: {len(self.frames)/total_time:.1f} frames/second")
+        print(f"Loaded {len(self.frames)} frames from {self.frame_dir}")
 
     def load_first_frame(self):
         try:
-            self.extract_frames()
             self.frame_index = 0
             self.current_frame_image = cv2.imread(self.frames[0])
+            if self.current_frame_image is None:
+                raise ValueError(f"Failed to load frame: {self.frames[0]}")
             return self.frames[0]
         except Exception as e:
             print(f"Error loading first frame: {str(e)}")
@@ -118,49 +76,129 @@ class VideoLabeler:
         self.current_frame_image = cv2.imread(self.frames[self.frame_index])
         return self.frames[self.frame_index]
 
-    def save_annotations(self, boxes, object_id):
-        if not boxes:
-            return "No boxes to save"
+    def draw_grid(self, image, grid_size):
+        """Draw grid lines on the image"""
+        height, width = image.shape[:2]
+        
+        # Draw vertical lines
+        for x in range(0, width, grid_size):
+            cv2.line(image, (x, 0), (x, height), (200, 200, 200), 1)
             
-        self.log_dir.mkdir(parents=True, exist_ok=True)
-        log_file = self.log_dir / f"{object_id}.json"
-        entry = {"frame": self.frame_index, "boxes": boxes}
-        if log_file.exists():
-            with open(log_file, "r") as f:
-                data = json.load(f)
-        else:
-            data = []
-        data.append(entry)
-        with open(log_file, "w") as f:
-            json.dump(data, f, indent=2)
-        return f"Saved {len(boxes)} boxes for {object_id} at frame {self.frame_index}"
+        # Draw horizontal lines
+        for y in range(0, height, grid_size):
+            cv2.line(image, (0, y), (width, y), (200, 200, 200), 1)
+            
+        # Add coordinate labels
+        for x in range(0, width, grid_size):
+            cv2.putText(image, str(x), (x + 5, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
+        for y in range(0, height, grid_size):
+            cv2.putText(image, str(y), (5, y + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
 
-    def clip_and_save(self, clip_box):
-        if not clip_box or not self.current_frame_image is not None:
-            return "No region selected or frame not loaded"
+    def preview_box(self, x1, y1, x2, y2, grid_size):
+        """Show a preview of the bounding box with grid"""
+        if self.current_frame_image is None:
+            return None
             
         try:
-            # Get coordinates from the clip box
-            x1, y1, x2, y2 = clip_box
+            # Convert coordinates to integers
+            x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
+            grid_size = int(grid_size)
+            
+            # Create a copy of the current frame
+            preview = self.current_frame_image.copy()
+            
+            # Draw grid
+            self.draw_grid(preview, grid_size)
+            
+            # Ensure coordinates are within image bounds
+            height, width = preview.shape[:2]
+            x1 = max(0, min(x1, width-1))
+            y1 = max(0, min(y1, height-1))
+            x2 = max(0, min(x2, width-1))
+            y2 = max(0, min(y2, height-1))
+            
+            # Draw red rectangle with thicker line
+            cv2.rectangle(preview, (x1, y1), (x2, y2), (0, 0, 255), 4)
+            
+            # Add semi-transparent overlay
+            overlay = preview.copy()
+            cv2.rectangle(overlay, (x1, y1), (x2, y2), (0, 0, 255), -1)
+            cv2.addWeighted(overlay, 0.2, preview, 0.8, 0, preview)
+            
+            # Draw red rectangle again on top
+            cv2.rectangle(preview, (x1, y1), (x2, y2), (0, 0, 255), 4)
+            
+            # Add coordinate labels
+            cv2.putText(preview, f"({x1},{y1})", (x1 + 5, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.putText(preview, f"({x2},{y2})", (x2 - 100, y2 + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+            
+            # Save preview to temp file
+            preview_path = self.temp_dir / f"preview_{int(time.time())}.png"
+            cv2.imwrite(str(preview_path), preview)
+            
+            return str(preview_path)
+        except Exception as e:
+            print(f"Error in preview_box: {str(e)}")
+            return None
+
+    def save_box(self, x1, y1, x2, y2, role):
+        """Save bounding box coordinates to JSON file"""
+        if self.current_frame_image is None:
+            return "Frame not loaded"
+            
+        if not role:
+            return "Please select a role first"
+            
+        try:
+            # Convert coordinates to integers
+            x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
             
             # Ensure coordinates are within image bounds
             height, width = self.current_frame_image.shape[:2]
-            x1 = max(0, min(int(x1), width))
-            y1 = max(0, min(int(y1), height))
-            x2 = max(0, min(int(x2), width))
-            y2 = max(0, min(int(y2), height))
+            x1 = max(0, min(x1, width-1))
+            y1 = max(0, min(y1, height-1))
+            x2 = max(0, min(x2, width-1))
+            y2 = max(0, min(y2, height-1))
             
-            # Extract the region
-            clipped = self.current_frame_image[y1:y2, x1:x2]
+            # Ensure x2 > x1 and y2 > y1
+            if x2 <= x1 or y2 <= y1:
+                return "Invalid coordinates: x2 must be greater than x1 and y2 must be greater than y1"
             
-            # Save the clipped image
-            clip_filename = f"clip_frame_{self.frame_index:04d}_{int(time.time())}.jpg"
-            clip_path = self.clip_dir / clip_filename
-            cv2.imwrite(str(clip_path), clipped)
+            # Create entry for JSON
+            entry = {
+                "frame": self.frame_index,
+                "frame_path": self.frames[self.frame_index],
+                "coordinates": {
+                    "x1": x1,
+                    "y1": y1,
+                    "x2": x2,
+                    "y2": y2
+                },
+                "timestamp": int(time.time())
+            }
             
-            return f"Saved clip to {clip_path}"
+            # Save to JSON file
+            log_file = self.log_dir / f"{role}.json"
+            
+            # Read existing data or create new list
+            try:
+                if log_file.exists() and log_file.stat().st_size > 0:
+                    with open(log_file, "r") as f:
+                        data = json.load(f)
+                else:
+                    data = []
+            except json.JSONDecodeError:
+                print(f"Invalid JSON in {log_file}, creating new file")
+                data = []
+                
+            data.append(entry)
+            with open(log_file, "w") as f:
+                json.dump(data, f, indent=2)
+            
+            return f"Saved box coordinates for {role} at frame {self.frame_index}"
         except Exception as e:
-            return f"Error saving clip: {str(e)}"
+            print(f"Error saving box: {str(e)}")
+            return f"Error saving box: {str(e)}"
 
     def cleanup(self):
         """Clean up temporary files"""
@@ -173,27 +211,55 @@ class VideoLabeler:
         except Exception as e:
             print(f"Warning: Failed to clean up temporary directory: {str(e)}")
 
+    def load_frame(self, frame_number):
+        """Load a specific frame by number"""
+        if not self.frames:
+            return None
+        try:
+            frame_number = int(frame_number)
+            if 0 <= frame_number < len(self.frames):
+                self.frame_index = frame_number
+                self.current_frame_image = cv2.imread(self.frames[self.frame_index])
+                return self.frames[self.frame_index]
+            else:
+                return None
+        except Exception as e:
+            print(f"Error loading frame {frame_number}: {str(e)}")
+            return None
+
     def launch(self):
         try:
             with gr.Blocks() as demo:
                 with gr.Row():
-                    image = gr.Image(label="Frame Viewer", type="filepath", interactive=True, tool="editor")
+                    image = gr.Image(label="Frame Viewer", type="filepath", interactive=True)
                     with gr.Column():
-                        obj_id = gr.Dropdown(choices=self.ids, label="Select Object ID")
-                        save_btn = gr.Button("💾 Save Box")
-                        msg_box = gr.Textbox(label="Status", interactive=False)
-                        prev_btn = gr.Button("⬅️ Prev")
-                        next_btn = gr.Button("➡️ Next")
+                        obj_id = gr.Dropdown(choices=self.ids, label="Select Object ID", value=self.ids[0])
+                        with gr.Row():
+                            frame_number = gr.Number(label="Frame Number", precision=0, value=0)
+                            jump_btn = gr.Button("Jump to Frame")
+                        with gr.Row():
+                            prev_btn = gr.Button("⬅️ Prev")
+                            next_btn = gr.Button("➡️ Next")
                         
-                        # Add clipping tools
-                        gr.Markdown("### Clipping Tools")
-                        clip_btn = gr.Button("✂️ Clip Selected Region")
-                        clip_status = gr.Textbox(label="Clip Status", interactive=False)
+                        # Add bounding box tools
+                        gr.Markdown("### Bounding Box Tools")
+                        gr.Markdown("Enter coordinates for the bounding box:")
+                        with gr.Row():
+                            x1 = gr.Number(label="X1", precision=0)
+                            y1 = gr.Number(label="Y1", precision=0)
+                        with gr.Row():
+                            x2 = gr.Number(label="X2", precision=0)
+                            y2 = gr.Number(label="Y2", precision=0)
+                        grid_size = gr.Slider(minimum=10, maximum=200, value=50, step=10, label="Grid Size")
+                        preview_btn = gr.Button("👁️ Preview Box")
+                        save_btn = gr.Button("💾 Save Box")
+                        status = gr.Textbox(label="Status", interactive=False)
 
-                save_btn.click(self.save_annotations, inputs=[image, obj_id], outputs=msg_box)
                 next_btn.click(self.next_frame, outputs=image)
                 prev_btn.click(self.prev_frame, outputs=image)
-                clip_btn.click(self.clip_and_save, inputs=[image], outputs=clip_status)
+                jump_btn.click(self.load_frame, inputs=[frame_number], outputs=image)
+                preview_btn.click(self.preview_box, inputs=[x1, y1, x2, y2, grid_size], outputs=image)
+                save_btn.click(self.save_box, inputs=[x1, y1, x2, y2, obj_id], outputs=status)
                 demo.load(self.load_first_frame, outputs=image)
 
             demo.launch(share=False)

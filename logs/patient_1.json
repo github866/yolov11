@@ -1,0 +1,332 @@
+[
+  {
+    "frame": 0,
+    "frame_path": "frames/frame_0000.png",
+    "coordinates": {
+      "x1": 900,
+      "y1": 400,
+      "x2": 1120,
+      "y2": 570
+    },
+    "timestamp": 1746657517
+  },
+  {
+    "frame": 3155,
+    "frame_path": "frames/frame_3155.png",
+    "coordinates": {
+      "x1": 1000,
+      "y1": 450,
+      "x2": 1150,
+      "y2": 840
+    },
+    "timestamp": 1746657788
+  },
+  {
+    "frame": 331,
+    "frame_path": "frames/frame_0331.png",
+    "coordinates": {
+      "x1": 880,
+      "y1": 420,
+      "x2": 1150,
+      "y2": 560
+    },
+    "timestamp": 1746657905
+  },
+  {
+    "frame": 2121,
+    "frame_path": "frames/frame_2121.png",
+    "coordinates": {
+      "x1": 500,
+      "y1": 300,
+      "x2": 620,
+      "y2": 560
+    },
+    "timestamp": 1746658006
+  },
+  {
+    "frame": 4188,
+    "frame_path": "frames/frame_4188.png",
+    "coordinates": {
+      "x1": 560,
+      "y1": 300,
+      "x2": 700,
+      "y2": 600
+    },
+    "timestamp": 1746658306
+  },
+  {
+    "frame": 3980,
+    "frame_path": "frames/frame_3980.png",
+    "coordinates": {
+      "x1": 460,
+      "y1": 550,
+      "x2": 700,
+      "y2": 950
+    },
+    "timestamp": 1746658452
+  },
+  {
+    "frame": 3317,
+    "frame_path": "frames/frame_3317.png",
+    "coordinates": {
+      "x1": 750,
+      "y1": 380,
+      "x2": 900,
+      "y2": 740
+    },
+    "timestamp": 1746658627
+  },
+  {
+    "frame": 2484,
+    "frame_path": "frames/frame_2484.png",
+    "coordinates": {
+      "x1": 620,
+      "y1": 360,
+      "x2": 750,
+      "y2": 700
+    },
+    "timestamp": 1746658689
+  },
+  {
+    "frame": 3904,
+    "frame_path": "frames/frame_3904.png",
+    "coordinates": {
+      "x1": 470,
+      "y1": 620,
+      "x2": 720,
+      "y2": 950
+    },
+    "timestamp": 1746658798
+  },
+  {
+    "frame": 2933,
+    "frame_path": "frames/frame_2933.png",
+    "coordinates": {
+      "x1": 790,
+      "y1": 660,
+      "x2": 970,
+      "y2": 1070
+    },
+    "timestamp": 1746658886
+  },
+  {
+    "frame": 4779,
+    "frame_path": "frames/frame_4779.png",
+    "coordinates": {
+      "x1": 750,
+      "y1": 480,
+      "x2": 900,
+      "y2": 870
+    },
+    "timestamp": 1746658990
+  },
+  {
+    "frame": 1789,
+    "frame_path": "frames/frame_1789.png",
+    "coordinates": {
+      "x1": 400,
+      "y1": 260,
+      "x2": 485,
+      "y2": 550
+    },
+    "timestamp": 1746659113
+  },
+  {
+    "frame": 4134,
+    "frame_path": "frames/frame_4134.png",
+    "coordinates": {
+      "x1": 580,
+      "y1": 300,
+      "x2": 710,
+      "y2": 600
+    },
+    "timestamp": 1746659303
+  },
+  {
+    "frame": 1140,
+    "frame_path": "frames/frame_1140.png",
+    "coordinates": {
+      "x1": 820,
+      "y1": 250,
+      "x2": 910,
+      "y2": 530
+    },
+    "timestamp": 1746659363
+  },
+  {
+    "frame": 2308,
+    "frame_path": "frames/frame_2308.png",
+    "coordinates": {
+      "x1": 550,
+      "y1": 270,
+      "x2": 650,
+      "y2": 600
+    },
+    "timestamp": 1746659415
+  },
+  {
+    "frame": 1144,
+    "frame_path": "frames/frame_1144.png",
+    "coordinates": {
+      "x1": 820,
+      "y1": 240,
+      "x2": 910,
+      "y2": 540
+    },
+    "timestamp": 1746659484
+  },
+  {
+    "frame": 776,
+    "frame_path": "frames/frame_0776.png",
+    "coordinates": {
+      "x1": 900,
+      "y1": 420,
+      "x2": 1150,
+      "y2": 570
+    },
+    "timestamp": 1746659537
+  },
+  {
+    "frame": 5065,
+    "frame_path": "frames/frame_5065.png",
+    "coordinates": {
+      "x1": 700,
+      "y1": 370,
+      "x2": 850,
+      "y2": 710
+    },
+    "timestamp": 1746659638
+  },
+  {
+    "frame": 2052,
+    "frame_path": "frames/frame_2052.png",
+    "coordinates": {
+      "x1": 510,
+      "y1": 290,
+      "x2": 620,
+      "y2": 570
+    },
+    "timestamp": 1746659707
+  },
+  {
+    "frame": 4362,
+    "frame_path": "frames/frame_4362.png",
+    "coordinates": {
+      "x1": 650,
+      "y1": 230,
+      "x2": 750,
+      "y2": 550
+    },
+    "timestamp": 1746659751
+  },
+  {
+    "frame": 4930,
+    "frame_path": "frames/frame_4930.png",
+    "coordinates": {
+      "x1": 750,
+      "y1": 376,
+      "x2": 850,
+      "y2": 700
+    },
+    "timestamp": 1746662875
+  },
+  {
+    "frame": 1203,
+    "frame_path": "frames/frame_1203.png",
+    "coordinates": {
+      "x1": 850,
+      "y1": 210,
+      "x2": 950,
+      "y2": 500
+    },
+    "timestamp": 1746663446
+  },
+  {
+    "frame": 2540,
+    "frame_path": "frames/frame_2540.png",
+    "coordinates": {
+      "x1": 650,
+      "y1": 310,
+      "x2": 760,
+      "y2": 670
+    },
+    "timestamp": 1746663811
+  },
+  {
+    "frame": 809,
+    "frame_path": "frames/frame_0809.png",
+    "coordinates": {
+      "x1": 880,
+      "y1": 420,
+      "x2": 1160,
+      "y2": 560
+    },
+    "timestamp": 1746663933
+  },
+  {
+    "frame": 604,
+    "frame_path": "frames/frame_0604.png",
+    "coordinates": {
+      "x1": 880,
+      "y1": 420,
+      "x2": 1160,
+      "y2": 560
+    },
+    "timestamp": 1746663942
+  },
+  {
+    "frame": 2704,
+    "frame_path": "frames/frame_2704.png",
+    "coordinates": {
+      "x1": 660,
+      "y1": 560,
+      "x2": 810,
+      "y2": 930
+    },
+    "timestamp": 1746664039
+  },
+  {
+    "frame": 3867,
+    "frame_path": "frames/frame_3867.png",
+    "coordinates": {
+      "x1": 560,
+      "y1": 560,
+      "x2": 700,
+      "y2": 930
+    },
+    "timestamp": 1746664089
+  },
+  {
+    "frame": 4585,
+    "frame_path": "frames/frame_4585.png",
+    "coordinates": {
+      "x1": 890,
+      "y1": 500,
+      "x2": 1040,
+      "y2": 800
+    },
+    "timestamp": 1746664186
+  },
+  {
+    "frame": 824,
+    "frame_path": "frames/frame_0824.png",
+    "coordinates": {
+      "x1": 880,
+      "y1": 420,
+      "x2": 1160,
+      "y2": 570
+    },
+    "timestamp": 1746664240
+  },
+  {
+    "frame": 2898,
+    "frame_path": "frames/frame_2898.png",
+    "coordinates": {
+      "x1": 760,
+      "y1": 720,
+      "x2": 920,
+      "y2": 1070
+    },
+    "timestamp": 1746664329
+  }
+]
