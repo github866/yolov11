@@ -206,24 +206,17 @@ class RoomSegmenter:
             return None, f"Error previewing points: {str(e)}"
 
     def save_polygons(self):
-        """Save all polygons to a JSON file with room information"""
+        """Save all polygons to a JSON file with simplified room information"""
         output_file = self.output_dir / "polygons.json"
         
-        # Create a more detailed output structure
-        output_data = {
-            "image_path": str(self.image_path),
-            "points": self.points,
-            "rooms": []
-        }
+        # Create a simplified output structure
+        output_data = {}
         
-        # Add each polygon as a room
+        # Add each polygon as a room with just coordinates
         for polygon in self.polygons:
-            room_data = {
-                "room_name": polygon["name"],
-                "points": polygon["points"],
-                "coordinates": [(p["x"], p["y"]) for p in polygon["points"]]
-            }
-            output_data["rooms"].append(room_data)
+            room_name = polygon["name"]
+            coordinates = [(p["x"], p["y"]) for p in polygon["points"]]
+            output_data[room_name] = coordinates
         
         with open(output_file, "w") as f:
             json.dump(output_data, f, indent=2)
