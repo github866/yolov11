@@ -227,6 +227,19 @@ class VideoLabeler:
             print(f"Error loading frame {frame_number}: {str(e)}")
             return None
 
+    def parse_coordinates(self, coord_text):
+        """Parse combined coordinates text into individual values, omitting decimals"""
+        try:
+            # Remove any whitespace, parentheses, and split by comma
+            coord_text = coord_text.replace(" ", "").replace("(", "").replace(")", "")
+            coords = coord_text.split(",")
+            if len(coords) != 4:
+                return None, None, None, None
+            # Convert to float first, then int (omit decimal part)
+            return [int(float(x)) for x in coords]
+        except Exception as e:
+            return None, None, None, None
+
     def launch(self):
         try:
             with gr.Blocks() as demo:
@@ -244,6 +257,7 @@ class VideoLabeler:
                         # Add bounding box tools
                         gr.Markdown("### Bounding Box Tools")
                         gr.Markdown("Enter coordinates for the bounding box:")
+                        combined_coords = gr.Textbox(label="Combined Coordinates (x1,y1,x2,y2)", placeholder="Enter coordinates as x1,y1,x2,y2")
                         with gr.Row():
                             x1 = gr.Number(label="X1", precision=0)
                             y1 = gr.Number(label="Y1", precision=0)
@@ -255,11 +269,16 @@ class VideoLabeler:
                         save_btn = gr.Button("💾 Save Box")
                         status = gr.Textbox(label="Status", interactive=False)
 
+                def update_coordinates(coord_text):
+                    x1_val, y1_val, x2_val, y2_val = self.parse_coordinates(coord_text)
+                    return x1_val, y1_val, x2_val, y2_val
+
                 next_btn.click(self.next_frame, outputs=image)
                 prev_btn.click(self.prev_frame, outputs=image)
                 jump_btn.click(self.load_frame, inputs=[frame_number], outputs=image)
                 preview_btn.click(self.preview_box, inputs=[x1, y1, x2, y2, grid_size], outputs=image)
                 save_btn.click(self.save_box, inputs=[x1, y1, x2, y2, obj_id], outputs=status)
+                combined_coords.change(update_coordinates, inputs=[combined_coords], outputs=[x1, y1, x2, y2])
                 demo.load(self.load_first_frame, outputs=image)
 
             demo.launch(share=False)
