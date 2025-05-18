@@ -581,5 +581,38 @@
       "y2": 176
     },
     "timestamp": 1747454810
+  },
+  {
+    "frame": 5127,
+    "frame_path": "frames/frame_5127.png",
+    "coordinates": {
+      "x1": 750,
+      "y1": 40,
+      "x2": 790,
+      "y2": 189
+    },
+    "timestamp": 1747474249
+  },
+  {
+    "frame": 5294,
+    "frame_path": "frames/frame_5294.png",
+    "coordinates": {
+      "x1": 750,
+      "y1": 40,
+      "x2": 805,
+      "y2": 138
+    },
+    "timestamp": 1747474568
+  },
+  {
+    "frame": 5393,
+    "frame_path": "frames/frame_5393.png",
+    "coordinates": {
+      "x1": 750,
+      "y1": 50,
+      "x2": 810,
+      "y2": 88
+    },
+    "timestamp": 1747474760
   }
 ]
