@@ -14,7 +14,7 @@ os.environ['GRADIO_TEMP_DIR'] = str(Path.home() / '.gradio_cache')
 os.environ['GRADIO_CACHE_DIR'] = str(Path.home() / '.gradio_cache')
 
 class VideoLabeler:
-    def __init__(self, video_path, ids, frame_dir="frames", log_dir="logs"):
+    def __init__(self, video_path, ids, frame_dir="../frames", log_dir="logs"):
         self.video_path = video_path
         self.ids = ids
         self.frame_dir = Path(frame_dir)

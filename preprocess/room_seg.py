@@ -308,7 +308,7 @@ class RoomSegmenter:
 if __name__ == "__main__":
     try:
         segmenter = RoomSegmenter(
-            image_path="frames/frame_0000.png"  # Replace with your image path
+            image_path="../frames/frame_0000.png"  # Replace with your image path
         )
         segmenter.launch()
     except Exception as e:
