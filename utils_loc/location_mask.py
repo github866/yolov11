@@ -1,7 +1,7 @@
 import json
 import numpy as np
 import cv2
-from utils_loc.utility import id_to_color
+# from utils_loc.utility import id_to_color
 
 def load_polygons(file_name):
     with open(file_name, "r") as f:
