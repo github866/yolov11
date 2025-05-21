@@ -60,10 +60,23 @@ def process_subject(json_path, extractor, save_crops=False):
     # Process each frame
     for frame_info in tqdm(frames, desc=f"Processing {subject_name}"):
         frame_path = frame_info['frame_path']
+        
+        # # Extract frame number from the frame path
+        # frame_name = Path(frame_path).stem
+        # try:
+        #     frame_number = int(frame_name.split('_')[-1])
+        #     # Skip frames before 4501
+        #     if frame_number < 4501:
+        #         continue
+        # except (ValueError, IndexError):
+        #     # If frame number can't be extracted, process the frame anyway
+        #     pass
+            
         coords = frame_info['coordinates']
         
         # Load and crop image
         try:
+            
             image = Image.open(frame_path).convert('RGB')
             
             # Save cropped image if requested
@@ -88,7 +101,7 @@ def process_subject(json_path, extractor, save_crops=False):
     
     # Stack and average features
     features_tensor = torch.cat(features_list, dim=0)
-    avg_features = torch.mean(features_tensor, dim=0)
+    # avg_features = torch.mean(features_tensor, dim=0)
     return avg_features
 
 def main():
@@ -114,8 +127,25 @@ def main():
             if features is not None:
                 subject_features[subject_name] = features
     
+    # Reorder subject features according to the specified sequence
+    ordered_subject_features = {}
+    desired_order = ["nurse_1", "nurse_2", "patient_1","patient_2","patient_3", "psychiatrist", "psychologist"]
+    
+    for key in desired_order:
+        if key in subject_features:
+            ordered_subject_features[key] = subject_features[key]
+            print(f"Added {key} to ordered features")
+        else:
+            print(f"Warning: {key} not found in processed features")
+    
+    # Include any additional keys not in the desired order at the end
+    for key in subject_features:
+        if key not in ordered_subject_features:
+            ordered_subject_features[key] = subject_features[key]
+            print(f"Added additional subject: {key}")
+    
     # Save all features
-    torch.save(subject_features, args.output_path)
+    torch.save(ordered_subject_features, args.output_path)
     print(f"\nFeatures saved to {args.output_path}")
     if args.save_crops:
         print(f"Cropped images saved in 'cropped_images' directory")

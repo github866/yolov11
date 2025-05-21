@@ -9,7 +9,7 @@ from src.detector.yolo import Detector
 from src.tracker.leo_tracker import PersonTracker
 
 class MOTWorker:
-    def __init__(self, video_path: str, output_path: str, ref_feature_path=None):
+    def __init__(self, video_path: str, output_path: str, ref_feature_path=None, iou_threshold=0.5, feature_similarity_threshold=0.8):
         self.video_path = video_path
         self.output_path = output_path
         self.detector = Detector(ckpt='./leo/ckpt/yolo11x.pt')
@@ -17,12 +17,12 @@ class MOTWorker:
         # Use the reference feature file if provided
         if ref_feature_path and os.path.exists(ref_feature_path):
             print(f"Using reference feature file: {ref_feature_path}")
-            self.tracker = PersonTracker(reference_feature_path=ref_feature_path)
+            self.tracker = PersonTracker(reference_feature_path=ref_feature_path, iou_threshold=iou_threshold)
         else:
             # Default to the subject_features.pt in the tracker directory
             default_ref_path = os.path.join(os.path.dirname(__file__), 'src/tracker/subject_features.pt')
             print(f"Using default reference feature file: {default_ref_path}")
-            self.tracker = PersonTracker(reference_feature_path=default_ref_path)
+            self.tracker = PersonTracker(reference_feature_path=default_ref_path, iou_threshold=iou_threshold)
     
     def process_video(self, first_frame_bbxs, room_mask_path):
         room_mask = cv2.imread(room_mask_path, cv2.IMREAD_COLOR)
@@ -105,6 +105,8 @@ if __name__ == "__main__":
     parser.add_argument('--metadata_path', type=str, default='/data/leohsu/human_dataset/humans/metadata/init_frames/loc02-frame0001.data')
     parser.add_argument('--ref_feature_path', type=str, default='src/tracker/subject_features.pt', 
                         help='Path to the reference feature file')
+    parser.add_argument('--iou_threshold', type=float, default=0.7, help='IOU threshold for tracking')
+    parser.add_argument('--feature_similarity_threshold', type=float, default=0.8, help='Feature similarity threshold for tracking')
     args = parser.parse_args()
 
     video_path = args.video_path
@@ -123,7 +125,7 @@ if __name__ == "__main__":
         else:
             first_frame_bbxs.append([0, 0, 0, 0])  # Placeholder for invalid bbox
     
-    mot_worker = MOTWorker(video_path, output_path, ref_feature_path)
+    mot_worker = MOTWorker(video_path, output_path, ref_feature_path, args.iou_threshold, args.feature_similarity_threshold)
     room_mask_path = './mask_visualization.png'
     mot_worker.process_video(first_frame_bbxs, room_mask_path)
 

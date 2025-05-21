@@ -9,7 +9,7 @@ class PersonTracker:
             distance_threshold=100, 
             feature_similarity_threshold=0.8, 
             iou_threshold=0.7,
-            reference_feature_path="subject_features.pt"
+            reference_feature_path="subject_features.pt",
         ):
         
         self.all_people_bboxs = {}  # person_id -> feature vector 
