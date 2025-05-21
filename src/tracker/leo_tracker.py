@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 from typing import Literal
 from .feature_extractor import DINOFeatureExtractor
 
@@ -8,6 +9,7 @@ class PersonTracker:
             distance_threshold=100, 
             feature_similarity_threshold=0.8, 
             iou_threshold=0.7,
+            reference_feature_path="subject_features.pt"
         ):
         
         self.all_people_bboxs = {}  # person_id -> feature vector 
@@ -15,11 +17,44 @@ class PersonTracker:
         self.iou_threshold = iou_threshold
         self.distance_threshold = distance_threshold
         self.feature_extractor = DINOFeatureExtractor()
-
-        self.reference_feature = None  # Reference feature for similarity comparison
+        self.reference_feature_path = reference_feature_path
+        
+        # Load the reference features
+        self.reference_features = self.load_reference_features()
+        
+        # Map of person_id to reference feature name
+        self.id_to_ref_name = {}
+    
+    def load_reference_features(self):
+        # Load the reference feature from the .pt file
+        print(f"Loading reference features from {self.reference_feature_path}")
+        try:
+            reference_features = torch.load(self.reference_feature_path)
+            print(f"Successfully loaded features for: {list(reference_features.keys())}")
+            return reference_features
+        except Exception as e:
+            print(f"Error loading reference features: {e}")
+            return {}
     
     def compute_feature_similarity(self, feature1, feature2):
-        return np.dot(feature1, feature2)
+        # if they came from a “.pt” checkpoint you’ll typically have torch.Tensors:
+        if isinstance(feature1, torch.Tensor):
+            feature1 = feature1.cpu().numpy()
+        if isinstance(feature2, torch.Tensor):
+            feature2 = feature2.cpu().numpy()
+            
+        # guard against zero‐vectors
+        norm1 = np.linalg.norm(feature1)
+        norm2 = np.linalg.norm(feature2)
+        if norm1 == 0 or norm2 == 0:
+            return 0.0
+        
+        # normalize and dot–product = cosine similarity
+        feature1_norm = feature1 / norm1
+        feature2_norm = feature2 / norm2
+        similarity = np.dot(feature1_norm, feature2_norm)
+        
+        return float(similarity)
     
     def compute_distance(self, pos1, pos2):
         return np.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
@@ -51,6 +86,33 @@ class PersonTracker:
             x1, y1, x2, y2 = bbox
             self.all_people_bboxs[i+1] = [x1, y1, x2, y2]
 
+    def identify_with_reference(self, feature_vector):
+        """
+        Identify a person by comparing their feature vector with reference features
+        
+        Args:
+            feature_vector: Feature vector extracted from the current frame
+            
+        Returns:
+            best_name: The name of the best matching reference person
+            best_similarity: The similarity score
+        """
+        best_name = None
+        best_similarity = 0
+        
+        for ref_name, ref_feature in self.reference_features.items():
+            # Convert PyTorch tensor to numpy if needed
+            if isinstance(ref_feature, torch.Tensor):
+                ref_feature = ref_feature.cpu().numpy()
+                
+            similarity = self.compute_feature_similarity(feature_vector, ref_feature)
+            
+            if similarity > best_similarity:
+                best_similarity = similarity
+                best_name = ref_name
+                
+        return best_name, best_similarity
+
     def update(self, frame, bboxs, metrics: Literal["feature", "distance", "iou"] = "feature"):
         """
         Update tracker with new detections using both spatial and feature information
@@ -80,6 +142,13 @@ class PersonTracker:
                 # Extract features from the current frame
                 feature_vector = self.feature_extractor.extract_features(frame[y1:y2, x1:x2])
                 all_people_bboxs_feature[k] = feature_vector
+                
+                # Compare with reference features if available
+                if self.reference_features and k not in self.id_to_ref_name:
+                    ref_name, similarity = self.identify_with_reference(feature_vector)
+                    if similarity > self.feature_similarity_threshold:
+                        self.id_to_ref_name[k] = (ref_name, similarity)
+                        print(f"Person {k} identified as {ref_name} with similarity {similarity:.4f}")
 
             for k, v in all_people_bboxs_feature.items():
                 similarity, iou_ratio, distance = 0, 0, 1e10
@@ -91,7 +160,7 @@ class PersonTracker:
                     new_similarity = self.compute_feature_similarity(v, feature_vector_new)
                         
                     if new_similarity > similarity and new_similarity > self.feature_similarity_threshold:
-                        candidate_bboxs[k] = [i, similarity]
+                        candidate_bboxs[k] = [i, new_similarity]
 
         elif metrics == "iou":
                     new_iou_ratio = self.compute_iou_ratio((x1, y1, x2, y2), (x1_new, y1_new, x2_new, y2_new))
@@ -122,4 +191,10 @@ class PersonTracker:
                 # If multiple keys are assigned to the same bbx, choose the one with the highest score
                 best_key = max(keys, key=lambda x: x[1])[0]
                 self.all_people_bboxs[best_key] = bboxs[bbx_i]
+    
+    def get_identity(self, person_id):
+        """Get the identified reference name for a person_id if available"""
+        if person_id in self.id_to_ref_name:
+            return self.id_to_ref_name[person_id][0]
+        return None
     

@@ -1,5 +1,6 @@
 import cv2
 import json
+import os
 from argparse import ArgumentParser
 
 from preprocess.init_bbox import read_init_frames
@@ -8,11 +9,20 @@ from src.detector.yolo import Detector
 from src.tracker.leo_tracker import PersonTracker
 
 class MOTWorker:
-    def __init__(self, video_path: str, output_path: str): # .mp4
+    def __init__(self, video_path: str, output_path: str, ref_feature_path=None):
         self.video_path = video_path
         self.output_path = output_path
         self.detector = Detector(ckpt='./leo/ckpt/yolo11x.pt')
-        self.tracker = PersonTracker()
+        
+        # Use the reference feature file if provided
+        if ref_feature_path and os.path.exists(ref_feature_path):
+            print(f"Using reference feature file: {ref_feature_path}")
+            self.tracker = PersonTracker(reference_feature_path=ref_feature_path)
+        else:
+            # Default to the subject_features.pt in the tracker directory
+            default_ref_path = os.path.join(os.path.dirname(__file__), 'src/tracker/subject_features.pt')
+            print(f"Using default reference feature file: {default_ref_path}")
+            self.tracker = PersonTracker(reference_feature_path=default_ref_path)
     
     def process_video(self, first_frame_bbxs, room_mask_path):
         room_mask = cv2.imread(room_mask_path, cv2.IMREAD_COLOR)
@@ -28,7 +38,8 @@ class MOTWorker:
             data_log[i] = {
                 'frame_id': [],
                 'bboxs': [],
-                'room': []
+                'room': [],
+                'identity': []
             }
         
         frame_count = 0
@@ -60,9 +71,18 @@ class MOTWorker:
                 mask_value = tuple(map(int, mask_value))  # Convert to tuple of integers
                 room_name= color_to_room(mask_value)
                 data_log[person_id]['room'].append(room_name)
+                
+                # Get the reference identity if available
+                ref_identity = self.tracker.get_identity(person_id)
+                if ref_identity:
+                    person_name = ref_identity
+                    data_log[person_id]['identity'].append(ref_identity)
+                else:
+                    person_name = id_to_name(person_id)
+                    data_log[person_id]['identity'].append(person_name)
 
                 cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 2)
-                cv2.putText(frame, f'{id_to_name(person_id)}', (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                cv2.putText(frame, person_name, (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 cv2.putText(frame, room_name, (int(x1), int(y1)-35), cv2.FONT_HERSHEY_SIMPLEX, 0.75, mask_value, 2)
 
             out.write(frame)
@@ -83,17 +103,18 @@ if __name__ == "__main__":
     parser.add_argument('--video_path', type=str, default='/data/leohsu/human_dataset/humans/clips_02/clip_01.mp4')
     parser.add_argument('--output_path', type=str, default='./results/clips_02_01.mp4')
     parser.add_argument('--metadata_path', type=str, default='/data/leohsu/human_dataset/humans/metadata/init_frames/loc02-frame0001.data')
+    parser.add_argument('--ref_feature_path', type=str, default='src/tracker/subject_features.pt', 
+                        help='Path to the reference feature file')
     args = parser.parse_args()
 
     video_path = args.video_path
     output_path = args.output_path
     metadata_path = args.metadata_path
+    ref_feature_path = args.ref_feature_path
     
     # Example bounding boxes for the first frame (x1, y1, x2, y2)
-    # initial_bounding_boxes = read_init_frames(metadata_path)
     initial_bounding_boxes = read_init_frames(metadata_path)
     
-
     first_frame_bbxs = []
     for bbox in initial_bounding_boxes:
         xyxy = xywh_to_xyxy(bbox)
@@ -102,7 +123,7 @@ if __name__ == "__main__":
         else:
             first_frame_bbxs.append([0, 0, 0, 0])  # Placeholder for invalid bbox
     
-    mot_worker = MOTWorker(video_path, output_path)
+    mot_worker = MOTWorker(video_path, output_path, ref_feature_path)
     room_mask_path = './mask_visualization.png'
     mot_worker.process_video(first_frame_bbxs, room_mask_path)
 
