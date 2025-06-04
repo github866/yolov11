@@ -82,51 +82,36 @@ The localization rules can be adjusted in `room_localization.py`:
 
 # Project Directory Structure for Training and Data Management
 
-To facilitate organized training, evaluation, and data management, use the following recommended directory structure:
-
-```
-├── configs/                   # Configuration files for training
-│   ├── datasets/              # Dataset YAML files
-│   └── models/                # Model architecture configurations
-├── data/                      # Main data directory (symlink to datasets if needed)
-│   ├── raw/                   # Raw/unprocessed data
-│   ├── processed/             # Processed data ready for training
-│   └── augmentations/         # Augmented images (optional)
-├── datasets/                  # Primary dataset directory (YOLO format)
-│   ├── train/
-│   │   ├── images/            # Training images
-│   │   └── labels/            # Training labels (.txt files)
-│   ├── val/
-│   │   ├── images/            # Validation images
-│   │   └── labels/            # Validation labels
-│   └── test/
-│       ├── images/            # Test images
-│       └── labels/            # Test labels
-├── models/                    # Model weights and checkpoints
-│   ├── pretrained/            # Downloaded base models
-│   └── fine_tuned/            # Fine-tuned model checkpoints
-├── runs/                      # Training outputs (auto-created by YOLO)
-│   ├── train/                 # Training runs
-│   └── val/                   # Validation runs
-├── scripts/                   # Training/evaluation scripts
-│   ├── train.sh               # Fine-tuning script
-│   └── evaluate.sh            # Evaluation script
-├── src/                       # Source code
-│   └── feature_extraction/    # Feature extraction code
-├── utils_loc/                 # Utilities
-├── ultralytics/               # YOLO framework
-├── preprocess/                # Preprocessing scripts
-├── tests/                     # Tests
-└── ...                        # Other existing files/dirs
-```
-
-**How to use:**
-- Place your dataset in the `datasets/` directory, following the YOLO format (images and labels split into train/val/test).
-- Store configuration files for datasets and models in `configs/`.
-- Use `models/` to keep both pretrained and fine-tuned weights.
-- Use `scripts/` for training and evaluation shell scripts.
-- Training outputs (logs, checkpoints, results) will be saved in `runs/` by YOLO automatically.
-
-This structure helps keep your project organized and makes it easier to manage experiments, datasets, and model versions.
-
----
+root/
+├── train/                  # Main training directory (your suggestion - good!)
+│   ├── data/               # Custom dataset in YOLO format
+│   │   ├── images/         # All images
+│   │   │   ├── train/      # Training images
+│   │   │   └── val/        # Validation images
+│   │   └── labels/         # Corresponding labels
+│   │       ├── train/      # Training labels
+│   │       └── val/        # Validation labels
+│   │
+│   ├── config/             # Configuration files
+│   │   ├── dataset.yaml    # Dataset config (paths, class names)
+│   │   └── hyperparameters.yaml  # Custom hyperparameters
+│   │
+│   ├── weights/            # Model weights
+│   │   ├── pretrained/     # Official pretrained weights
+│   │   └── finetuned/      # Fine-tuned checkpoints (output)
+│   │
+│   ├── runs/               # Training outputs (auto-created by YOLO)
+│   │   ├── train/          # Training logs, metrics, predictions
+│   │   └── val/            # Validation results
+│   │
+│   ├── scripts/            # Custom utilities
+│   │   ├── preprocess.py   # Data preprocessing
+│   │   └── visualize.py    # Result visualization
+│   │
+│   └── train.py            # Main training script
+│
+├── models/                 # Custom model definitions (optional)
+│   └── yolov11-custom.yaml # Modified architecture
+│
+├── docs/                   # Documentation
+└── README.md
