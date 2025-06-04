@@ -180,3 +180,4 @@ results/*
 # local_workspace
 local_workspace/*
 !local_workspace/**/*.py
+!local_workspace/cropped_images/crops.json
