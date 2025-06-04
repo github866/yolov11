@@ -36,8 +36,11 @@ def visualize_crops(data, output_path):
                     os.makedirs(subject_dir)
                 cv2.imwrite(f'{subject_dir}/crop_{frame_number}.png', crop_img)
 
-def create_rectangle(data, output_rect_path, start_frame, end_frame):
+def create_rectangle(data, output_rect_path, start_frame, end_frame, room_mask_path):
     # here we are drawing bounding boxes around the crops in the original images
+    room_mask = cv2.imread(room_mask_path)
+
+
     if not os.path.exists(output_rect_path):
         os.makedirs(output_rect_path)
     # Build a mapping from frame number to frame data for quick lookup
@@ -54,9 +57,9 @@ def create_rectangle(data, output_rect_path, start_frame, end_frame):
                     subject_name = person['subject_name']
                     coordinate = person['coordinate']
                     x1, y1, x2, y2 = coordinate
-                    #add labels
-                    cv2.putText(img, subject_name, (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 1)
-                    cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
+                    # Draw rectangle and label in the same style as leo_run_track.py (omit room name)
+                    cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 2)
+                    cv2.putText(img, subject_name, (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 cv2.imwrite(output_path, img)
             else:
                 # If the original frame image is missing, create a blank image
@@ -121,7 +124,8 @@ def main():
     data = load_json(json_path)
     #print the number of each subject and their corresponding total number of cropsin the data
     print_subject_count(data)
-
+    room_mask_path = '../room_mask.png'
+    
     # output_path = 'output_images'
     output_path_rect = 'output_images_rect'
     start_frame = 5000
