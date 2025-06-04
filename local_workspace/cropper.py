@@ -131,6 +131,10 @@ class Cropper:
         self.root.title(self.image_dir)
         self.root.geometry("1280x920")
 
+        # Bind left and right arrow keys to navigation functions
+        self.root.bind('<Left>', lambda event: self.previous_image())
+        self.root.bind('<Right>', lambda event: self.next_image())
+
         self.canvas = tk.Canvas(self.root, width=1920*self.RESIZE, height=1080*self.RESIZE)
         self.canvas.pack()
 
