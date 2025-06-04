@@ -8,7 +8,7 @@ import argparse
 from tkinter import ttk
 
 class Cropper:
-    def __init__(self, image_dir='frames/',json_name='crops.json'):
+    def __init__(self, image_dir='frames/',json_name='crops.json',current_subject_index=0):
         """
         Cropper is a graphical tool for interactively cropping regions from a sequence of images.
 
@@ -55,7 +55,7 @@ class Cropper:
             'patient_1','patient_2','patient_3',
             'psychiatrist','psychologist','researcher',
             'person_1','person_2','person_3','person_4'])
-        self.current_subject_index = 0
+        self.current_subject_index = current_subject_index
         self.min_subject_index = 0
         self.max_subject_index = len(self.IDENTITY_SUBJECT) - 1
         self.identity_var = None
@@ -110,7 +110,7 @@ class Cropper:
         with all the subjects as options. The combobox is then packed to the right side of the window.
         """
         self.identity_var = tk.StringVar()
-        self.identity_var.set(self.IDENTITY_SUBJECT[0])
+        self.identity_var.set(self.IDENTITY_SUBJECT[self.current_subject_index])
         self.identity_menu = ttk.Combobox(self.root, textvariable=self.identity_var, values=self.IDENTITY_SUBJECT, state="readonly")
         self.identity_menu.pack(side=tk.RIGHT, pady=10)
 
@@ -366,11 +366,13 @@ def main():
     parser.add_argument("--image_dir", type=str, default="frames/")
     parser.add_argument("--output_dir", type=str, default="cropped_images")
     parser.add_argument("--json_name", type=str, default="crops.json")
+    parser.add_argument("--current_subject_index", type=int, default=0)
     args = parser.parse_args()
-    
-    image_dir = args.image_dir
 
-    cropper = Cropper(args.image_dir,args.json_name)
+    image_dir = args.image_dir
+    json_name = args.json_name
+    current_subject_index = args.current_subject_index
+    cropper = Cropper(args.image_dir,args.json_name,args.current_subject_index)
     cropper.run()
 
 if __name__ == "__main__":
