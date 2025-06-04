@@ -2,6 +2,9 @@ import cv2
 import json
 import os
 import numpy as np
+import sys
+sys.path.append('..')
+from utils_loc.utility import color_to_room
 
 RESIZE = 2/3
 
@@ -60,11 +63,20 @@ def create_rectangle(data, output_rect_path, start_frame, end_frame, room_mask_p
                     # Draw rectangle and label in the same style as leo_run_track.py (omit room name)
                     cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 2)
                     cv2.putText(img, subject_name, (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                    # Find localization using room mask (center-bottom of bbox)
+                    ref_x = int((x1 + x2) / 2)
+                    ref_y = int(y2)
+                    if room_mask is not None and 0 <= ref_y < room_mask.shape[0] and 0 <= ref_x < room_mask.shape[1]:
+                        mask_value = room_mask[ref_y, ref_x]
+                        mask_value = tuple(map(int, mask_value))
+                        room_name = color_to_room(mask_value)
+                        cv2.putText(img, room_name, (int(x1), int(y1)-35), cv2.FONT_HERSHEY_SIMPLEX, 0.75, mask_value, 2)
+
+                    else:
+                        room_name = 'Unknown Room'
+                        cv2.putText(img, room_name, (int(x1), int(y1)-35), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 2)
+
                 cv2.imwrite(output_path, img)
-            else:
-                # If the original frame image is missing, create a blank image
-                blank_img = 255 * np.ones((1080, 1920, 3), dtype=np.uint8)
-                cv2.imwrite(output_path, blank_img)
         else:
             # If the frame is not in the JSON, create a blank image
             blank_img = 255 * np.ones((1080, 1920, 3), dtype=np.uint8)
@@ -124,14 +136,14 @@ def main():
     data = load_json(json_path)
     #print the number of each subject and their corresponding total number of cropsin the data
     print_subject_count(data)
-    room_mask_path = '../room_mask.png'
+    room_mask_path = '../mask_visualization.png'
     
     # output_path = 'output_images'
     output_path_rect = 'output_images_rect'
     start_frame = 5000
     end_frame = 5300
     # visualize_crops(data, output_path)
-    create_rectangle(data, output_path_rect, start_frame, end_frame)
+    # create_rectangle(data, output_path_rect, start_frame, end_frame, room_mask_path)
     
     #convert the dir back to video
     execution(start_frame, end_frame, output_path_rect)
