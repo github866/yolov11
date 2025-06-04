@@ -176,3 +176,7 @@ calibration_*.npy
 preprocess/cropped_images
 *frames/
 results/*
+
+# local_workspace
+local_workspace/*
+!local_workspace/**/*.py
