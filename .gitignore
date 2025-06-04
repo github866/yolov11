@@ -7,7 +7,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-*png
 .Python
 build/
 develop-eggs/
@@ -174,3 +173,11 @@ pnnx*
 
 # calibration image
 calibration_*.npy
+preprocess/cropped_images
+*frames/
+results/*
+
+# local_workspace
+local_workspace/*
+!local_workspace/**/*.py
+!local_workspace/cropped_images/crops.json
