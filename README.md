@@ -83,19 +83,22 @@ The localization rules can be adjusted in `room_localization.py`:
 # Project Directory Structure for Training and Data Management
 
 train/                          # ROOT DIRECTORY
-│
+├── reid/
+│   ├── dino_features/          # .npy or .pt per frame or track
+│   ├── index.faiss             # optional fast lookup
+│   └── configs/
+│       └── reid.yaml           # distance metric, cache policy, etc.
 ├── data/                       # All datasets
 │   ├── custom_dataset/         # Your fine-tuning dataset
 │   │   ├── images/             # Main image folder
-│   │   │   ├── train/         # Training images
-│   │   │   ├── val/           # Validation images
-│   │   │   └── test/          # Test images
-│   │   └── labels/            # Labels folder (mirrors images structure)
-│   │       ├── train/         # Training labels
-│   │       ├── val/           # Validation labels
-│   │       └── test/          # Test labels
+│   │   │   ├── train/          # Training images
+│   │   │   ├── val/            # Validation images
+│   │   │   └── test/           # Test images
+│   │   └── labels/             # Labels folder (mirrors images structure)
+│   │       ├── train/          # Training labels
+│   │       ├── val/            # Validation labels
+│   │       └── test/           # Test labels
 │   └── dataset.yaml            # Dataset config
-│
 ├── models/                     # Model definitions & weights
 │   ├── yolov11/                # Architecture configs
 │   │   ├── yolov11.yaml        # Base config
@@ -104,41 +107,110 @@ train/                          # ROOT DIRECTORY
 │   │   └── yolov11s.pt         # Downloaded weights
 │   └── finetuned/              # Output for trained weights
 │       └── runs/               # Auto-saved checkpoints
-│
 ├── core/                       # Main training components
 │   ├── engine.py               # Training loop
 │   ├── validator.py            # Validation logic
 │   └── model.py                # Model initialization
-│
 ├── utils/                      # Helper modules
 │   ├── dataloaders.py          # Data loading/pipeline
 │   ├── augmentations.py        # Custom image augmentations
 │   ├── callbacks.py            # Training callbacks
 │   └── feature_extractors.py   # Feature extraction utils
-│
 ├── configs/                    # Training configurations
 │   ├── base.yaml               # Default hyperparameters
 │   ├── finetune.yaml           # Fine-tuning specific config
 │   └── experiments/            # Per-run configs
 │       ├── exp1_config.yaml
 │       └── exp2_config.yaml
-│
 ├── outputs/                    # Training artifacts
 │   ├── logs/                   # TensorBoard/CSV logs
 │   ├── visualizations/         # Feature maps, attention, etc.
 │   └── metrics/                # Detailed metrics
-│
 ├── experiments/                # Experiment tracking
 │   ├── exp1/                   # Experiment 1
 │   │   ├── weights/            # Best checkpoint
 │   │   └── results.csv         # Performance metrics
 │   └── exp2/                   # Experiment 2
-│
 ├── scripts/                    # Automation scripts
 │   ├── start_training.sh       # Launch training
 │   └── evaluate.sh             # Run evaluation
-│
 ├── train.py                    # MAIN TRAINING SCRIPT
 ├── detect.py                   # Inference script
 ├── requirements.txt            # Dependencies
 └── README.md                   # Project documentation
+
+## Build Directory Structure with Shell Script
+
+You can use the following shell script to create the above directory structure:
+
+```sh
+#!/bin/bash
+
+# Root directory
+mkdir -p train
+
+# ReID directories
+mkdir -p train/reid/dino_features
+mkdir -p train/reid/configs
+touch train/reid/index.faiss
+touch train/reid/configs/reid.yaml
+
+# Data directories
+mkdir -p train/data/custom_dataset/images/train
+mkdir -p train/data/custom_dataset/images/val
+mkdir -p train/data/custom_dataset/images/test
+mkdir -p train/data/custom_dataset/labels/train
+mkdir -p train/data/custom_dataset/labels/val
+mkdir -p train/data/custom_dataset/labels/test
+touch train/data/dataset.yaml
+
+# Model directories
+mkdir -p train/models/yolov11
+mkdir -p train/models/pretrained
+mkdir -p train/models/finetuned/runs
+touch train/models/yolov11/yolov11.yaml
+touch train/models/yolov11/yolov11_finetune.yaml
+touch train/models/pretrained/yolov11s.pt
+
+# Core training components
+mkdir -p train/core
+touch train/core/engine.py
+touch train/core/validator.py
+touch train/core/model.py
+
+# Utils
+mkdir -p train/utils
+touch train/utils/dataloaders.py
+touch train/utils/augmentations.py
+touch train/utils/callbacks.py
+touch train/utils/feature_extractors.py
+
+# Configs
+mkdir -p train/configs/experiments
+touch train/configs/base.yaml
+touch train/configs/finetune.yaml
+touch train/configs/experiments/exp1_config.yaml
+touch train/configs/experiments/exp2_config.yaml
+
+# Outputs
+mkdir -p train/outputs/logs
+mkdir -p train/outputs/visualizations
+mkdir -p train/outputs/metrics
+
+# Experiments
+mkdir -p train/experiments/exp1/weights
+mkdir -p train/experiments/exp2
+touch train/experiments/exp1/results.csv
+
+# Scripts
+mkdir -p train/scripts
+touch train/scripts/start_training.sh
+touch train/scripts/evaluate.sh
+
+# Main scripts and requirements
+touch train/train.py
+touch train/detect.py
+touch train/requirements.txt
+touch train/README.md
+
+echo "Project directory structure created."

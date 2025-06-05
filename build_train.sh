@@ -3,6 +3,12 @@
 # Create root directory
 mkdir -p train
 
+# ReID directories
+mkdir -p train/reid/dino_features
+mkdir -p train/reid/configs
+touch train/reid/index.faiss
+touch train/reid/configs/reid.yaml
+
 # Data directories
 mkdir -p train/data/custom_dataset/images/train
 mkdir -p train/data/custom_dataset/images/val
