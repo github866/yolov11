@@ -82,36 +82,63 @@ The localization rules can be adjusted in `room_localization.py`:
 
 # Project Directory Structure for Training and Data Management
 
-root/
-├── train/                  # Main training directory (your suggestion - good!)
-│   ├── data/               # Custom dataset in YOLO format
-│   │   ├── images/         # All images
-│   │   │   ├── train/      # Training images
-│   │   │   └── val/        # Validation images
-│   │   └── labels/         # Corresponding labels
-│   │       ├── train/      # Training labels
-│   │       └── val/        # Validation labels
-│   │
-│   ├── config/             # Configuration files
-│   │   ├── dataset.yaml    # Dataset config (paths, class names)
-│   │   └── hyperparameters.yaml  # Custom hyperparameters
-│   │
-│   ├── weights/            # Model weights
-│   │   ├── pretrained/     # Official pretrained weights
-│   │   └── finetuned/      # Fine-tuned checkpoints (output)
-│   │
-│   ├── runs/               # Training outputs (auto-created by YOLO)
-│   │   ├── train/          # Training logs, metrics, predictions
-│   │   └── val/            # Validation results
-│   │
-│   ├── scripts/            # Custom utilities
-│   │   ├── preprocess.py   # Data preprocessing
-│   │   └── visualize.py    # Result visualization
-│   │
-│   └── train.py            # Main training script
+train/                          # ROOT DIRECTORY
 │
-├── models/                 # Custom model definitions (optional)
-│   └── yolov11-custom.yaml # Modified architecture
+├── data/                       # All datasets
+│   ├── custom_dataset/         # Your fine-tuning dataset
+│   │   ├── images/             # Main image folder
+│   │   │   ├── train/         # Training images
+│   │   │   ├── val/           # Validation images
+│   │   │   └── test/          # Test images
+│   │   └── labels/            # Labels folder (mirrors images structure)
+│   │       ├── train/         # Training labels
+│   │       ├── val/           # Validation labels
+│   │       └── test/          # Test labels
+│   └── dataset.yaml            # Dataset config
 │
-├── docs/                   # Documentation
-└── README.md
+├── models/                     # Model definitions & weights
+│   ├── yolov11/                # Architecture configs
+│   │   ├── yolov11.yaml        # Base config
+│   │   └── yolov11_finetune.yaml # Fine-tuning adjustments
+│   ├── pretrained/             # Pre-trained weights
+│   │   └── yolov11s.pt         # Downloaded weights
+│   └── finetuned/              # Output for trained weights
+│       └── runs/               # Auto-saved checkpoints
+│
+├── core/                       # Main training components
+│   ├── engine.py               # Training loop
+│   ├── validator.py            # Validation logic
+│   └── model.py                # Model initialization
+│
+├── utils/                      # Helper modules
+│   ├── dataloaders.py          # Data loading/pipeline
+│   ├── augmentations.py        # Custom image augmentations
+│   ├── callbacks.py            # Training callbacks
+│   └── feature_extractors.py   # Feature extraction utils
+│
+├── configs/                    # Training configurations
+│   ├── base.yaml               # Default hyperparameters
+│   ├── finetune.yaml           # Fine-tuning specific config
+│   └── experiments/            # Per-run configs
+│       ├── exp1_config.yaml
+│       └── exp2_config.yaml
+│
+├── outputs/                    # Training artifacts
+│   ├── logs/                   # TensorBoard/CSV logs
+│   ├── visualizations/         # Feature maps, attention, etc.
+│   └── metrics/                # Detailed metrics
+│
+├── experiments/                # Experiment tracking
+│   ├── exp1/                   # Experiment 1
+│   │   ├── weights/            # Best checkpoint
+│   │   └── results.csv         # Performance metrics
+│   └── exp2/                   # Experiment 2
+│
+├── scripts/                    # Automation scripts
+│   ├── start_training.sh       # Launch training
+│   └── evaluate.sh             # Run evaluation
+│
+├── train.py                    # MAIN TRAINING SCRIPT
+├── detect.py                   # Inference script
+├── requirements.txt            # Dependencies
+└── README.md                   # Project documentation
