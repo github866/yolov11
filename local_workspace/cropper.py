@@ -168,11 +168,15 @@ class Cropper:
             for h in self.handles:
                 self.canvas.delete(h)
             self.handles = []
-            # Draw new handles at corners
-            for (cx, cy) in [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]:
+            # Draw handles at the midpoints of each edge
+            mid_top = ((x1 + x2) / 2, y1)
+            mid_right = (x2, (y1 + y2) / 2)
+            mid_bottom = ((x1 + x2) / 2, y2)
+            mid_left = (x1, (y1 + y2) / 2)
+            for (cx, cy) in [mid_top, mid_right, mid_bottom, mid_left]:
                 handle = self.canvas.create_rectangle(
                     cx-HANDLE_SIZE, cy-HANDLE_SIZE, cx+HANDLE_SIZE, cy+HANDLE_SIZE,
-                    fill='blue', outline='white'
+                    fill='#6699ff', outline='white'
                 )
                 self.handles.append(handle)
 
@@ -207,14 +211,15 @@ class Cropper:
             if self.active_handle is not None and self.rect:
                 x1, y1, x2, y2 = self.canvas.coords(self.rect)
                 coords = [x1, y1, x2, y2]
-                if self.active_handle == 0:  # top-left
-                    coords[0], coords[1] = clamped_x, clamped_y
-                elif self.active_handle == 1:  # top-right
-                    coords[2], coords[1] = clamped_x, clamped_y
-                elif self.active_handle == 2:  # bottom-right
-                    coords[2], coords[3] = clamped_x, clamped_y
-                elif self.active_handle == 3:  # bottom-left
-                    coords[0], coords[3] = clamped_x, clamped_y
+                # Edge handles: 0=top, 1=right, 2=bottom, 3=left
+                if self.active_handle == 0:  # top edge
+                    coords[1] = clamped_y
+                elif self.active_handle == 1:  # right edge
+                    coords[2] = clamped_x
+                elif self.active_handle == 2:  # bottom edge
+                    coords[3] = clamped_y
+                elif self.active_handle == 3:  # left edge
+                    coords[0] = clamped_x
                 self.canvas.coords(self.rect, *coords)
                 draw_handles(*coords)
                 self.crop_coords = (int(min(coords[0], coords[2])), int(min(coords[1], coords[3])),
@@ -330,13 +335,13 @@ class Cropper:
         self.canvas.bind('<ButtonRelease-1>', on_button_release)
 
     def next_image(self):
-        self.current_frame += 1
+        self.current_frame += 21
         if self.current_frame > self.end_frame:
             self.current_frame = 0
         self.update_image()
 
     def previous_image(self):
-        self.current_frame -= 1
+        self.current_frame -= 21
         if self.current_frame < 0:
             self.current_frame = 0
         self.update_image()
@@ -369,7 +374,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--image_dir", type=str, default="frames/")
     parser.add_argument("--output_dir", type=str, default="cropped_images")
-    parser.add_argument("--json_name", type=str, default="crops.json")
+    parser.add_argument("--json_name", type=str, default="total.json")
     parser.add_argument("--current_subject_index", type=int, default=0)
     args = parser.parse_args()
 

@@ -25,8 +25,8 @@ def pretty_print_dir(path: str = '.', prefix: str = ''):
             print(f"{prefix}{connector}{color}{entry}/{RESET}")
             extension = '    ' if i == entries_count - 1 else '│   '
             pretty_print_dir(full_path, prefix + extension)
-        else:
-            color = GREEN if entry.endswith('.py') else CYAN if entry.endswith('.sh') else YELLOW if entry.endswith('.md') else MAGENTA if entry.endswith('.yaml') else RESET
+
+            color = GREEN if entry.endswith('.py') else CYAN if entry.endswith('.sh') else YELLOW if entry.endswith('.md') else MAGENTA if entry.endswith('.yaml') else RESET        else:
             print(f"{prefix}{connector}{color}{entry}{RESET}")
 
 if __name__ == '__main__':

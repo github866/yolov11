@@ -140,13 +140,13 @@ def main():
     
     # output_path = 'output_images'
     output_path_rect = 'output_images_rect'
-    start_frame = 5000
-    end_frame = 5300
+    # start_frame = 5000
+    # end_frame = 5300
     # visualize_crops(data, output_path)
     # create_rectangle(data, output_path_rect, start_frame, end_frame, room_mask_path)
     
     #convert the dir back to video
-    execution(start_frame, end_frame, output_path_rect)
+    # execution(start_frame, end_frame, output_path_rect)
 
 if __name__ == '__main__':
     main()
