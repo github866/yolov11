@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 
-json_path = 'cropped_images/crops.json'
+json_path = 'cropped_images/total.json'
 
 with open(json_path, 'r', encoding='utf-8') as f:
     data = json.load(f)
@@ -9,8 +9,15 @@ with open(json_path, 'r', encoding='utf-8') as f:
 # Collect all frame numbers present in the file
 frames_present = set(entry.get('frame') for entry in data)
 
-# Define the full range
-full_range = set(range(5000, 5301))
+# Define the custom range: 1 + 21*n for n >= 0, not exceeding 5251
+full_range = set()
+n = 0
+while True:
+    val = 1 + 21 * n
+    if val > 5251:
+        break
+    full_range.add(val)
+    n += 1
 
 # Find missing frames overall
 missing_frames = sorted(full_range - frames_present)
