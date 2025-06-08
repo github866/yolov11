@@ -132,17 +132,19 @@ def execution(start_frame, end_frame, output_rect_path):
     print(f"Video saved as output_video_{start_frame}_{end_frame}.mp4")
 
 def main():
-    json_path = 'cropped_images/crops.json'
+    json_path = 'cropped_images/total.json'
     data = load_json(json_path)
     #print the number of each subject and their corresponding total number of cropsin the data
     print_subject_count(data)
     room_mask_path = '../mask_visualization.png'
     
-    # output_path = 'output_images'
-    output_path_rect = 'output_images_rect'
+    output_path = 'output_images'
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    # output_path_rect = 'output_images_rect'
     # start_frame = 5000
     # end_frame = 5300
-    # visualize_crops(data, output_path)
+    visualize_crops(data, output_path)
     # create_rectangle(data, output_path_rect, start_frame, end_frame, room_mask_path)
     
     #convert the dir back to video

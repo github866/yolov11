@@ -35,5 +35,6 @@ for entry in data:
 # Find missing frames for each subject
 print('\nMissing frames for each subject:')
 for subject, frames in subject_frames.items():
+    print(len(subject_frames[subject]))
     missing = sorted(full_range - frames)
     print(f'{subject}: {missing}')
