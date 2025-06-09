@@ -335,13 +335,13 @@ class Cropper:
         self.canvas.bind('<ButtonRelease-1>', on_button_release)
 
     def next_image(self):
-        self.current_frame += 21
+        self.current_frame += 1
         if self.current_frame > self.end_frame:
             self.current_frame = 0
         self.update_image()
 
     def previous_image(self):
-        self.current_frame -= 21
+        self.current_frame -= 1
         if self.current_frame < 0:
             self.current_frame = 0
         self.update_image()
@@ -374,7 +374,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--image_dir", type=str, default="frames/")
     parser.add_argument("--output_dir", type=str, default="cropped_images")
-    parser.add_argument("--json_name", type=str, default="total.json")
+    parser.add_argument("--json_name", type=str, default="missing.json")
     parser.add_argument("--current_subject_index", type=int, default=0)
     args = parser.parse_args()
 
