@@ -374,7 +374,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--image_dir", type=str, default="frames/")
     parser.add_argument("--output_dir", type=str, default="cropped_images")
-    parser.add_argument("--json_name", type=str, default="missing.json")
+    parser.add_argument("--json_name", type=str, default="bad_bbox.json")
     parser.add_argument("--current_subject_index", type=int, default=0)
     args = parser.parse_args()
 
