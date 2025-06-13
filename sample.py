@@ -3,14 +3,9 @@ import os
 import json
 from ultralytics import YOLO
 import re
+import argparse
 
-model = YOLO("yolo11n.pt")
-
-image_dir = "frames"
-output_dir = "results"
-os.makedirs(output_dir, exist_ok=True)
-
-def detect_human(image_dir):
+def detect_human(image_dir, output_dir, output_json_name, model):
     all_results = {}
     for image_file in sorted(os.listdir(image_dir)):
         if not (image_file.lower().endswith('.jpg') or image_file.lower().endswith('.png')):
@@ -28,7 +23,6 @@ def detect_human(image_dir):
                     "coordinates": box.xyxy[0].tolist(),
                     "conf": float(box.conf[0]),
                     "cls": int(box.cls[0]),
-                    # make frame number an int
                     "frame_name": frame_number
                 }
                 result_data.append(box_data)
@@ -43,16 +37,31 @@ def detect_human(image_dir):
         out_img_path = os.path.join(output_dir, image_file)
         cv2.imwrite(out_img_path, img)
     # Write all results to a single JSON file
-    json_path = os.path.join(output_dir, "all_results.json")
+    json_path = os.path.join(output_dir, output_json_name)
     with open(json_path, "w") as f:
         json.dump(all_results, f, indent=2)
 
-def convert_to_mp4():
+def convert_to_mp4(output_dir):
     # Convert processed images back to mp4
-    # Assumes output images are named in order (e.g., frame_0001.png, frame_0002.png, ...)
-    os.system(f"ffmpeg -framerate 30 -i results/frame_%04d.png -c:v libx264 -pix_fmt yuv420p -vf 'pad=ceil(iw/2)*2:ceil(ih/2)*2' results/output.mp4")
+    os.system(f"ffmpeg -framerate 30 -i {output_dir}/frame_%04d.png -c:v libx264 -pix_fmt yuv420p -vf 'pad=ceil(iw/2)*2:ceil(ih/2)*2' {output_dir}/output.mp4")
+
+def process_clip(clip_number, model):
+    image_dir = f"local_workspace/clip{clip_number}"
+    output_dir = f"local_workspace/yolo_results/clip{clip_number}"
+    output_json_name = f"clip{clip_number}_result.json"
+    
+    os.makedirs(output_dir, exist_ok=True)
+    detect_human(image_dir, output_dir, output_json_name, model)
+    convert_to_mp4(output_dir)
+
+def main():
+    model = YOLO("yolo11n.pt")
+    
+    # Process clips 1 through 6
+    for clip_num in range(1, 7):
+        print(f"Processing clip {clip_num}...")
+        process_clip(clip_num, model)
+        print(f"Finished processing clip {clip_num}")
 
 if __name__ == "__main__":
-    detect_human(image_dir)
-    convert_to_mp4()
-    
+    main()

@@ -66,11 +66,11 @@ class Cropper:
 
     @staticmethod
     def load_image(image_dir):
-        # print the image name in sequence
-        image_paths = sorted(os.listdir(image_dir), key=lambda x: int(x.split('_')[1].split('.')[0]))
-        # for image_path in image_paths:
-        #     image = cv2.imread(os.path.join(image_dir, image_path))
-        #     # print(image_dir + image_path)
+        # Get all files and filter for frame_XXXX pattern
+        all_files = os.listdir(image_dir)
+        image_paths = [f for f in all_files if f.startswith('frame_') and (f.endswith('.png') or f.endswith('.jpg'))]
+        # Sort by frame number
+        image_paths = sorted(image_paths, key=lambda x: int(x.split('_')[1].split('.')[0]))
         return image_paths
 
 
@@ -372,9 +372,9 @@ class Cropper:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image_dir", type=str, default="frames/")
+    parser.add_argument("--image_dir", type=str, default=" /")
     parser.add_argument("--output_dir", type=str, default="cropped_images")
-    parser.add_argument("--json_name", type=str, default="bad_bbox.json")
+    parser.add_argument("--json_name", type=str, default="clip1_missing.json")
     parser.add_argument("--current_subject_index", type=int, default=0)
     args = parser.parse_args()
 

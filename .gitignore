@@ -178,6 +178,7 @@ preprocess/cropped_images
 results/*
 
 # local_workspace
-local_workspace/*
-!local_workspace/**/*.py
-!local_workspace/cropped_images/*.json
+local_workspace/clip*/
+local_workspace/yolo_results/*
+local_workspace/Camera-Loc02.mp4
+*.pt
