@@ -24,12 +24,12 @@ python3 cropper.py --image_dir <image_directory> --json_name <output_json_name>
 
 For processing YOLO results:
 ```bash
-python3 cropper.py --image_dir yolo_results/clip2/ --json_name clip1_missing.json
+python3 cropper.py --image_dir yolo_results/clip2/ --json_name clip2_missing.json
 ```
 
 For processing original images:
 ```bash
-python3 cropper.py --image_dir clip2/ --json_name clip1_missing.json
+python3 cropper.py --image_dir clip2/ --json_name clip2_missing.json
 ```
 
 ### Command Line Arguments
