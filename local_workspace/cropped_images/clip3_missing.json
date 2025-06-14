@@ -1843,8 +1843,8 @@
     "frame": 631,
     "persons": [
       {
-        "subject_id": 3,
-        "subject_name": "patient_2",
+        "subject_id": 4,
+        "subject_name": "patient_3",
         "coordinate": [
           1034,
           234,
@@ -3421,8 +3421,8 @@
         "subject_id": 7,
         "subject_name": "researcher",
         "coordinate": [
-          273,
-          453,
+          278,
+          447,
           417,
           741
         ]
