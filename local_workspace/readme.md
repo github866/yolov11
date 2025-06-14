@@ -29,7 +29,7 @@ python3 cropper.py --image_dir yolo_results/clip2/ --json_name clip2_missing.jso
 
 For processing original images:
 ```bash
-python3 cropper.py --image_dir clip2/ --json_name clip2_missing.json
+python3 cropper.py --image_dir clip3/ --json_name clip3_missing.json
 ```
 
 ### Command Line Arguments
