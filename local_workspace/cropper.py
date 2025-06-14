@@ -176,7 +176,7 @@ class Cropper:
             for (cx, cy) in [mid_top, mid_right, mid_bottom, mid_left]:
                 handle = self.canvas.create_rectangle(
                     cx-HANDLE_SIZE, cy-HANDLE_SIZE, cx+HANDLE_SIZE, cy+HANDLE_SIZE,
-                    fill='#6699ff', outline='white'
+                    fill='', outline='#6699ff', width=2
                 )
                 self.handles.append(handle)
 

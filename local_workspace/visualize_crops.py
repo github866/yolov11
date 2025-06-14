@@ -5,7 +5,7 @@ import numpy as np
 import sys
 sys.path.append('..')
 from utils_loc.utility import color_to_room
-
+import argparse
 RESIZE = 2/3
 
 def load_json(json_path):
@@ -13,10 +13,10 @@ def load_json(json_path):
         data = json.load(f)
     return data
 
-def visualize_crops(data, output_path):
+def visualize_crops(input_dir,data, output_path):
     for frame in data:
         frame_number = frame['frame']
-        frame_path = f'frames/frame_{frame_number:04d}.png'
+        frame_path = f'{input_dir}/frame_{frame_number:04d}.png'
         frame_data = frame['persons']
         for person in frame_data:
             subject_id = person['subject_id']
@@ -30,7 +30,7 @@ def visualize_crops(data, output_path):
             # Ensure coordinates are in correct order and within bounds
             x1, x2 = sorted([max(0, min(x1, w-1)), max(0, min(x2, w-1))])
             y1, y2 = sorted([max(0, min(y1, h-1)), max(0, min(y2, h-1))])
-            print(x1, x2, y1, y2)
+            print(x1, y1, x2, y2)
             if x2 > x1 and y2 > y1:
                 crop_img = img[y1:y2, x1:x2]
                 # create subject dir for each subject
@@ -132,7 +132,10 @@ def execution(start_frame, end_frame, output_rect_path):
     print(f"Video saved as output_video_{start_frame}_{end_frame}.mp4")
 
 def main():
-    json_path = 'cropped_images/total.json'
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input_dir', type=str, default='clip1')
+    input_dir = parser.parse_args().input_dir
+    json_path = f'cropped_images/{input_dir}_missing.json'
     data = load_json(json_path)
     #print the number of each subject and their corresponding total number of cropsin the data
     print_subject_count(data)
@@ -144,7 +147,7 @@ def main():
     # output_path_rect = 'output_images_rect'
     # start_frame = 5000
     # end_frame = 5300
-    visualize_crops(data, output_path)
+    visualize_crops(input_dir,data, output_path)
     # create_rectangle(data, output_path_rect, start_frame, end_frame, room_mask_path)
     
     #convert the dir back to video
