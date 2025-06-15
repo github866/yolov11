@@ -133,7 +133,7 @@ def execution(start_frame, end_frame, output_rect_path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input_dir', type=str, default='clip4')
+    parser.add_argument('--input_dir', type=str, default='clip5')
     input_dir = parser.parse_args().input_dir
     json_path = f'cropped_images/{input_dir}_missing.json'
     data = load_json(json_path)
@@ -147,7 +147,7 @@ def main():
     # output_path_rect = 'output_images_rect'
     # start_frame = 5000
     # end_frame = 5300
-    visualize_crops(input_dir,data, output_path)
+    # visualize_crops(input_dir,data, output_path)
     # create_rectangle(data, output_path_rect, start_frame, end_frame, room_mask_path)
     
     #convert the dir back to video

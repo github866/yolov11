@@ -335,7 +335,7 @@ class Cropper:
         self.canvas.bind('<ButtonRelease-1>', on_button_release)
 
     def next_image(self):
-        self.current_frame += 1
+        self.current_frame += 3
         if self.current_frame > self.end_frame:
             self.current_frame = 0
         self.update_image()
