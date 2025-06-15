@@ -486,6 +486,91 @@
           968,
           284
         ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          747,
+          110,
+          794,
+          246
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 132,
+    "persons": [
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          768,
+          110,
+          820,
+          254
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 135,
+    "persons": [
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          758,
+          112,
+          813,
+          250
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 138,
+    "persons": [
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          748,
+          111,
+          807,
+          246
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 141,
+    "persons": [
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          748,
+          110,
+          807,
+          246
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 150,
+    "persons": [
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          747,
+          110,
+          794,
+          246
+        ]
       }
     ]
   }
