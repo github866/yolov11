@@ -147,7 +147,7 @@ def main():
     # output_path_rect = 'output_images_rect'
     # start_frame = 5000
     # end_frame = 5300
-    # visualize_crops(input_dir,data, output_path)
+    visualize_crops(input_dir,data, output_path)
     # create_rectangle(data, output_path_rect, start_frame, end_frame, room_mask_path)
     
     #convert the dir back to video

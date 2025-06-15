@@ -341,7 +341,7 @@ class Cropper:
         self.update_image()
 
     def previous_image(self):
-        self.current_frame -= 1
+        self.current_frame -= 3
         if self.current_frame < 0:
             self.current_frame = 0
         self.update_image()
