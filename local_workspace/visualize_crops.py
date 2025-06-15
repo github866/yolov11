@@ -133,7 +133,7 @@ def execution(start_frame, end_frame, output_rect_path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input_dir', type=str, default='clip3')
+    parser.add_argument('--input_dir', type=str, default='clip4')
     input_dir = parser.parse_args().input_dir
     json_path = f'cropped_images/{input_dir}_missing.json'
     data = load_json(json_path)
