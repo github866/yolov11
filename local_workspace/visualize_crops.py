@@ -13,24 +13,30 @@ def load_json(json_path):
         data = json.load(f)
     return data
 
-def visualize_crops(input_dir,data, output_path):
+def visualize_crops(input_dir, data, output_path):
     for frame in data:
         frame_number = frame['frame']
         frame_path = f'{input_dir}/frame_{frame_number:04d}.png'
         frame_data = frame['persons']
+        
+        # Read the frame image once
+        img = cv2.imread(frame_path)
+        if img is None:
+            print(f"Warning: Could not read frame {frame_number} from {frame_path}")
+            continue
+            
+        h, w = img.shape[:2]  # should be 1080p: h=1080, w=1920
+        
         for person in frame_data:
             subject_id = person['subject_id']
             subject_name = person['subject_name']
             coordinate = person['coordinate']
             x1, y1, x2, y2 = coordinate
-            #crop images
-        img = cv2.imread(frame_path)
-        if img is not None:
-            h, w = img.shape[:2]  # should be 1080p: h=1080, w=1920
+            
             # Ensure coordinates are in correct order and within bounds
             x1, x2 = sorted([max(0, min(x1, w-1)), max(0, min(x2, w-1))])
             y1, y2 = sorted([max(0, min(y1, h-1)), max(0, min(y2, h-1))])
-            print(x1, y1, x2, y2)
+            
             if x2 > x1 and y2 > y1:
                 crop_img = img[y1:y2, x1:x2]
                 # create subject dir for each subject
@@ -147,7 +153,7 @@ def main():
     # output_path_rect = 'output_images_rect'
     # start_frame = 5000
     # end_frame = 5300
-    visualize_crops(input_dir,data, output_path)
+    visualize_crops(input_dir, data, output_path)
     # create_rectangle(data, output_path_rect, start_frame, end_frame, room_mask_path)
     
     #convert the dir back to video
