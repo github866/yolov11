@@ -37,3 +37,27 @@ class DINOFeatureExtractor:
         features = F.normalize(features, dim=-1)
         
         return features.cpu().numpy()[0]
+    
+class CLIPFeatureExtractor:
+    def __init__(self, model_name='ViT-B/32', device='cuda' if torch.cuda.is_available() else 'cpu'):
+        self.device = device
+        self.model, self.preprocess = torch.hub.load('openai/CLIP', model_name, device=device)
+        self.model.eval()
+    
+    @torch.no_grad()
+    def extract_features(self, image_crop):
+        """Extract CLIP features from an image crop"""
+        # Convert crop to PIL Image
+        image_crop = cv2.cvtColor(image_crop, cv2.COLOR_BGR2RGB)
+        image_pil = transforms.ToPILImage()(image_crop)
+        
+        # Preprocess the image
+        img_tensor = self.preprocess(image_pil).unsqueeze(0).to(self.device)
+        
+        # Extract features
+        features = self.model.encode_image(img_tensor)
+        
+        # Normalize features
+        features = F.normalize(features, dim=-1)
+        
+        return features.cpu().numpy()[0]

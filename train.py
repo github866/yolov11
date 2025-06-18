@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from pathlib import Path
 import argparse
-from repo.yolov11.run_track import process_frames, DINOPersonTracker
+from run_track import process_frames, DINOPersonTracker
 
 def select_frames(total_frames, num_frames=20):
     """Select frames evenly spaced throughout the video"""
