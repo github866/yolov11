@@ -1,6 +1,7 @@
 import json
 import cv2
 import os
+import argparse
 
 def load_data(file_path: str) -> list[dict]:
     """Load JSON data from file"""
