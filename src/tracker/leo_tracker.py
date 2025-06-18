@@ -10,12 +10,16 @@ class PersonTracker:
             iou_threshold=0.7,
         ):
         
-        self.all_people_bboxs = {}  # person_id -> feature vector 
+        self.all_people_bboxs = {} # person_id -> [x1, y1, x2, y2]
+        self.all_people_feature = {} # person_id -> feature vector 
+
+        # thresholds for different metrics
         self.feature_similarity_threshold = feature_similarity_threshold
         self.iou_threshold = iou_threshold
         self.distance_threshold = distance_threshold
+        # Initialize the feature extractor
         self.feature_extractor = DINOFeatureExtractor()
-
+        # feature bank
         self.reference_feature = None  # Reference feature for similarity comparison
     
     def compute_feature_similarity(self, feature1, feature2):
@@ -43,13 +47,16 @@ class PersonTracker:
         union_area = (x2_j - x1_j) * (y2_j - y1_j)
         return intersection_area / union_area if union_area > 0 else 0
     
-    def initialize_first_frame(self, GT_bboxs): # x1, y1, x2, y2
+    def initialize_first_frame(self, GT_bboxs, frame): # x1, y1, x2, y2
         for i, bbox in enumerate(GT_bboxs):
             if bbox == [0, 0, 0, 0]:
                 self.all_people_bboxs[i+1] = None
                 continue
             x1, y1, x2, y2 = bbox
             self.all_people_bboxs[i+1] = [x1, y1, x2, y2]
+            self.all_people_feature[i+1] = self.feature_extractor.extract_features(
+                frame[y1:y2, x1:x2]
+            )
 
     def update(self, frame, bboxs, metrics: Literal["feature", "distance", "iou"] = "feature"):
         """
@@ -72,17 +79,8 @@ class PersonTracker:
             candidate_bboxs[key] = None
 
         if metrics == "feature":
-            all_people_bboxs_feature = {}
-            for k, v in self.all_people_bboxs.items():
-                if self.all_people_bboxs[k] is None:
-                    continue
-                x1, y1, x2, y2 = map(int, v)
-                # Extract features from the current frame
-                feature_vector = self.feature_extractor.extract_features(frame[y1:y2, x1:x2])
-                all_people_bboxs_feature[k] = feature_vector
-
-            for k, v in all_people_bboxs_feature.items():
-                similarity, iou_ratio, distance = 0, 0, 1e10
+            for k, v in self.all_people_feature.items():
+                similarity = 0
                 for i, bbox in enumerate(bboxs):
                     x1_new, y1_new, x2_new, y2_new = map(int, bbox)
                     feature_vector_new = self.feature_extractor.extract_features(frame[y1_new:y2_new, x1_new:x2_new])
@@ -92,16 +90,37 @@ class PersonTracker:
                         
                     if new_similarity > similarity and new_similarity > self.feature_similarity_threshold:
                         candidate_bboxs[k] = [i, similarity]
+                        similarity = new_similarity
 
         elif metrics == "iou":
+            for k, bbox in self.all_people_bboxs.items():
+                iou_ratio = 0
+                if bbox is None:
+                    continue
+                x1, y1, x2, y2 = bbox
+                for i, new_bbox in enumerate(bboxs):
+                    x1_new, y1_new, x2_new, y2_new = new_bbox
                     new_iou_ratio = self.compute_iou_ratio((x1, y1, x2, y2), (x1_new, y1_new, x2_new, y2_new))
                     if new_iou_ratio > iou_ratio and new_iou_ratio > self.iou_threshold:
                         candidate_bboxs[k] = [i, new_iou_ratio]
+                        iou_ratio = new_iou_ratio
 
         elif metrics == "distance":
-            new_distance = self.compute_distance((x1, y1), (x1_new, y1_new))
-            if new_distance < distance and self.distance_threshold:
-                candidate_bboxs[k] = [i, new_distance*-1]
+            for k, bbox in self.all_people_bboxs.items():
+                distance = 1e10
+                if bbox is None:
+                    continue
+                x1, y1, x2, y2 = bbox
+                for i, new_bbox in enumerate(bboxs):
+                    x1_new, y1_new, x2_new, y2_new = new_bbox
+                    x_c = int((x1 + x2) / 2)
+                    y_c = int((y1 + y2) / 2)
+                    x_c_new = int((x1_new + x2_new) / 2)
+                    y_c_new = int((y1_new + y2_new) / 2)
+                    new_distance = self.compute_distance((x_c, y_c), (x_c_new, y_c_new))
+                    if new_distance < distance and new_distance < self.distance_threshold:
+                        candidate_bboxs[k] = [i, new_distance]
+                        distance = new_distance
 
         # Check if the same bbx will be assigned to multiple keys
         bbx_to_keys = {}
@@ -115,11 +134,10 @@ class PersonTracker:
         
         # Decide which key to assign the bbx to
         for bbx_i, keys in bbx_to_keys.items():
-            if len(keys) == 1:
-                k, score = keys[0]
-                self.all_people_bboxs[k] = bboxs[bbx_i]
-            elif len(keys) > 1:
-                # If multiple keys are assigned to the same bbx, choose the one with the highest score
-                best_key = max(keys, key=lambda x: x[1])[0]
-                self.all_people_bboxs[best_key] = bboxs[bbx_i]
+            # If multiple keys are assigned to the same bbx, choose the one with the highest score
+            best_key = max(keys, key=lambda x: x[1])[0]
+            self.all_people_bboxs[best_key] = bboxs[bbx_i]
+            self.all_people_feature[best_key] = self.feature_extractor.extract_features(
+                frame[int(bboxs[bbx_i][1]):int(bboxs[bbx_i][3]), int(bboxs[bbx_i][0]):int(bboxs[bbx_i][2])]
+            )
     

@@ -37,12 +37,12 @@ def id_to_name(id):
 
 def color_to_room(rgb: tuple):
     if rgb == (255, 0, 0): #blue
-        return "CSU_Miliue"
+        return "CSU Miliue"
     elif rgb == (0, 255, 0): #green
         return 'Nursing Station'
     elif rgb == (0, 0, 255): #red
         return 'Quiet Room'
     elif rgb == (255, 255, 0): #cyan
-        return 'Sally_Port_Entrance'
+        return 'Sally Port / Entrance'
     elif rgb == (0, 255, 255): #yellow
         return 'Unknown Room'

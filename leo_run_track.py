@@ -8,15 +8,14 @@ from src.detector.yolo import Detector
 from src.tracker.leo_tracker import PersonTracker
 
 class MOTWorker:
-    def __init__(self, video_path: str, output_path: str): # .mp4
+    def __init__(self, video_path: str, output_path: str, ckpt='./leo/ckpt/yolo11x.pt'): # .mp4
         self.video_path = video_path
         self.output_path = output_path
-        self.detector = Detector(ckpt='./leo/ckpt/yolo11x.pt')
+        self.detector = Detector(ckpt='/home/agenuinedream/repo/yolov11/leo/ckpt/yolo8_coco_ours_tuned.pt') #'./leo/ckpt/yolov8n_coco_tuned.pt'
         self.tracker = PersonTracker()
     
     def process_video(self, first_frame_bbxs, room_mask_path):
         room_mask = cv2.imread(room_mask_path, cv2.IMREAD_COLOR)
-        self.tracker.initialize_first_frame(first_frame_bbxs)
         cap = cv2.VideoCapture(self.video_path)
         fps = cap.get(cv2.CAP_PROP_FPS)
         w,h = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -36,9 +35,13 @@ class MOTWorker:
             ret, frame = cap.read()
             if not ret:
                 break
+            if frame_count == 0:
+                # Initialize tracker with the first frame bounding boxes
+                self.tracker.initialize_first_frame(first_frame_bbxs, frame)
+                print(f"Initialized tracker with {len(first_frame_bbxs)} bounding boxes.")
             
             # Perform detection
-            results = self.detector.track(frame)
+            results = self.detector.detect(frame)
             bboxs = results[0].boxes.xyxy.cpu().numpy()  # Get bounding boxes in xyxy format
             
             # Update tracker
@@ -71,17 +74,18 @@ class MOTWorker:
         
         # Save the data log
         output_json_path = self.output_path.replace('.mp4', '.json')
+
         with open(output_json_path, 'w') as f:
             json.dump(data_log, f, indent=4)
         print(f"Data log saved to {output_json_path}")
 
         cap.release()
         out.release()
-
+    
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument('--video_path', type=str, default='/data/leohsu/human_dataset/humans/clips_02/clip_01.mp4')
-    parser.add_argument('--output_path', type=str, default='./results/clips_02_01.mp4')
+    parser.add_argument('--video_path', type=str, default='/data/leohsu/human_dataset/humans/loc_02/clip_01.mp4')
+    parser.add_argument('--output_path', type=str, default='./results/loc_02_01.mp4')
     parser.add_argument('--metadata_path', type=str, default='/data/leohsu/human_dataset/humans/metadata/init_frames/loc02-frame0001.data')
     args = parser.parse_args()
 
@@ -93,7 +97,6 @@ if __name__ == "__main__":
     # initial_bounding_boxes = read_init_frames(metadata_path)
     initial_bounding_boxes = read_init_frames(metadata_path)
     
-
     first_frame_bbxs = []
     for bbox in initial_bounding_boxes:
         xyxy = xywh_to_xyxy(bbox)
@@ -105,26 +108,4 @@ if __name__ == "__main__":
     mot_worker = MOTWorker(video_path, output_path)
     room_mask_path = './mask_visualization.png'
     mot_worker.process_video(first_frame_bbxs, room_mask_path)
-
-
-    # 01
-    # initial_bounding_boxes = [
-        # [595.36, 417.17, 134.28, 320.03], 
-        # [135.94, 347.41, 110.53, 197.61], 
-        # [875.75, 419.34, 238.53, 169.06], 
-        # [230.74, 414.42, 182.90, 213.61], 
-        # [1044.48, 243.93, 149.47, 119.39],
-        # [713.41, 78.57, 72.63, 185.01],
-        # [769.82, 95.63, 71.31, 181.95], 
-        # [489.89, 133.93, 91.32, 235.12],
-        # [614.39, 86.20, 78.36, 197.15],
-        # [862.51, 81.09, 88.11, 216.49], 
-        # [758.02, 418.76, 200.42, 350.79], 
-        # [220, 200, 60, 100]
-    # ]
-    # 901
-    # 1801
-    # 2701
-    # 3601
-    # 4501
     
