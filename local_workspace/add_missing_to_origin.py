@@ -103,7 +103,7 @@ def main():
     crop_yolo_format = add_crop_image_bounding_box(crop_data, origin_data)
     
     print(f"Converted {len(crop_yolo_format)} frames to yolo format")
-    print("Saved to yolo_results_json/clip1_with_missing.json")
+    print(f"Saved to yolo_results_json/{name}_with_missing.json")
 
     image_dir = name
     output_dir = f"output_bounding_boxes_{name}"
