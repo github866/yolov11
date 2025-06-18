@@ -11,6 +11,16 @@
           195,
           440
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_4",
+        "coordinate": [
+          220,
+          195,
+          274,
+          298
+        ]
       }
     ]
   },
@@ -26,6 +36,16 @@
           195,
           440
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_4",
+        "coordinate": [
+          220,
+          195,
+          274,
+          298
+        ]
       }
     ]
   },
@@ -40,6 +60,16 @@
           340,
           195,
           440
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_4",
+        "coordinate": [
+          220,
+          195,
+          274,
+          298
         ]
       }
     ]

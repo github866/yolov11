@@ -93,6 +93,10 @@ def main():
     frame_list = []
     for frame in crop_data:
         frame_list.append(frame['frame'])
+    frame_list.sort()
+    with open(f'yolo_results_json/frame_list_{name}.txt', 'w') as f:
+        for frame in frame_list:
+            f.write(f"{frame}\n")
     
     # print(frame_list)
 
@@ -104,6 +108,12 @@ def main():
     
     print(f"Converted {len(crop_yolo_format)} frames to yolo format")
     print(f"Saved to yolo_results_json/{name}_with_missing.json")
+
+    # save crop_yolo_format to json file
+    with open(f'yolo_results_json/{name}_with_missing.json', 'w') as f:
+        json.dump(crop_yolo_format, f, indent=2)
+
+    print("Saving completed")
 
     image_dir = name
     output_dir = f"output_bounding_boxes_{name}"
