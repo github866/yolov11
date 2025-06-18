@@ -8,7 +8,7 @@ import argparse
 from tkinter import ttk
 
 class Cropper:
-    def __init__(self, image_dir='frames/',json_name='crops.json',current_subject_index=0):
+    def __init__(self, image_dir='frames/',json_name='crops.json',current_subject_index=0,filter_txt='yolo_results_json/frame_list_clip1.txt',filter_frame_flag=False):
         """
         Cropper is a graphical tool for interactively cropping regions from a sequence of images.
 
@@ -63,6 +63,16 @@ class Cropper:
 
         # Constant for image to fit in UI
         self.RESIZE = 2/3
+        self.txt_list = []
+        self.filter_frame_flag = filter_frame_flag
+        self.load_txt(filter_txt)
+
+    
+        
+    def load_txt(self,filter_txt):
+        with open(filter_txt, 'r') as f:
+            self.txt_list = [int(line.strip()) for line in f.readlines()]
+        self.txt_list.sort()
 
     @staticmethod
     def load_image(image_dir):
@@ -121,7 +131,7 @@ class Cropper:
     def get_selected_identity_name(self):
         # print(self.identity_var.get())
         return self.identity_var.get()
-        
+    
 
     def run(self):
         """
@@ -335,16 +345,42 @@ class Cropper:
         self.canvas.bind('<ButtonRelease-1>', on_button_release)
 
     def next_image(self):
-        self.current_frame += 3
-        if self.current_frame > self.end_frame:
-            self.current_frame = 0
-        self.update_image()
+        if not self.filter_frame_flag:
+            self.current_frame += 1
+            if self.current_frame > self.end_frame:
+                self.current_frame = 0
+            self.update_image()
+        else:
+            # Find the next frame in txt_list that is greater than current_frame
+            current_frame_1based = self.current_frame + 1  # Convert to 1-based indexing
+            next_frames = [f for f in self.txt_list if f > current_frame_1based]
+            if next_frames:
+                # Convert back to 0-based indexing
+                self.current_frame = next_frames[0] - 1
+            else:
+                # If no next frame found, wrap to the first frame in txt_list
+                if self.txt_list:
+                    self.current_frame = self.txt_list[0] - 1
+            self.update_image()
 
     def previous_image(self):
-        self.current_frame -= 3
-        if self.current_frame < 0:
-            self.current_frame = 0
-        self.update_image()
+        if not self.filter_frame_flag:
+            self.current_frame -= 1
+            if self.current_frame < 0:
+                self.current_frame = 0
+            self.update_image()
+        else:
+            # Find the previous frame in txt_list that is less than current_frame
+            current_frame_1based = self.current_frame + 1  # Convert to 1-based indexing
+            prev_frames = [f for f in self.txt_list if f < current_frame_1based]
+            if prev_frames:
+                # Convert back to 0-based indexing
+                self.current_frame = prev_frames[-1] - 1
+            else:
+                # If no previous frame found, wrap to the last frame in txt_list
+                if self.txt_list:
+                    self.current_frame = self.txt_list[-1] - 1
+            self.update_image()
 
     def display_select_frame(self):
         try:
@@ -372,16 +408,20 @@ class Cropper:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image_dir", type=str, default=" /")
+    parser.add_argument("--image_dir", type=str, default="frames/")
     parser.add_argument("--output_dir", type=str, default="cropped_images")
     parser.add_argument("--json_name", type=str, default="clip1_missing.json")
     parser.add_argument("--current_subject_index", type=int, default=0)
+    parser.add_argument("--filter_txt", type=str, default="yolo_results_json/frame_list_clip1.txt")
+    parser.add_argument("--filter_frame_flag", type=bool, default=False)
     args = parser.parse_args()
 
     image_dir = args.image_dir
     json_name = args.json_name
     current_subject_index = args.current_subject_index
-    cropper = Cropper(args.image_dir,args.json_name,args.current_subject_index)
+    filter_txt = args.filter_txt
+    filter_frame_flag = args.filter_frame_flag
+    cropper = Cropper(args.image_dir,args.json_name,args.current_subject_index,filter_txt,filter_frame_flag)
     cropper.run()
 
 if __name__ == "__main__":
