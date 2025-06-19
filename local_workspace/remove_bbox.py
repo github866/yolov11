@@ -4,6 +4,7 @@ import cv2
 import argparse
 import tkinter as tk
 from PIL import Image, ImageTk, ImageDraw
+from tkinter import messagebox
         
 class BBoxDisplay:
     def __init__(self, img_path, json_path, frame_id=1):
@@ -16,6 +17,12 @@ class BBoxDisplay:
         self.tk_img = None
         self.label = None
         self.frame_label = None
+        self.listbox = None
+        self.scrollbar = None
+        self.bbox_indices = []  # To map listbox index to bbox index
+        self.selected_bbox_index = None
+        self.modified_data = json.loads(json.dumps(self.data))  # Deep copy for modifications
+        self.new_json_path = self.json_path.replace('.json', '_removed.json')
 
     def load_json(self):
         with open(self.json_path, 'r') as f:
@@ -52,34 +59,97 @@ class BBoxDisplay:
     def display(self):
         self.root = tk.Tk()
         self.root.title('BBox Display')
+        # Add image and bbox list
+        img_frame = tk.Frame(self.root)
+        img_frame.pack(side=tk.LEFT, padx=10, pady=10)
         self.update_image()
-        # Add navigation buttons
+        # Listbox for bboxes
+        list_frame = tk.Frame(self.root)
+        list_frame.pack(side=tk.RIGHT, padx=10, pady=10, fill=tk.Y)
+        tk.Label(list_frame, text="Bounding Boxes").pack()
+        self.scrollbar = tk.Scrollbar(list_frame)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.listbox = tk.Listbox(list_frame, height=20, width=30, yscrollcommand=self.scrollbar.set)
+        self.listbox.pack(side=tk.LEFT, fill=tk.BOTH)
+        self.scrollbar.config(command=self.listbox.yview)
+        self.listbox.bind('<<ListboxSelect>>', self.on_bbox_select)
+        self.populate_bbox_list()
+        # Delete button
+        del_btn = tk.Button(list_frame, text="Delete Selected", command=self.delete_selected_bbox)
+        del_btn.pack(pady=10)
+        # Navigation buttons
         btn_frame = tk.Frame(self.root)
         btn_frame.pack(side=tk.BOTTOM, pady=10)
         prev_btn = tk.Button(btn_frame, text="Previous", command=self.show_previous_frame)
         prev_btn.pack(side=tk.LEFT, padx=10)
         next_btn = tk.Button(btn_frame, text="Next", command=self.show_next_frame)
         next_btn.pack(side=tk.LEFT, padx=10)
-        # Add frame number label
         self.frame_label = tk.Label(btn_frame, text=f"Frame: {self.frame_id}")
         self.frame_label.pack(side=tk.LEFT, padx=10)
         self.root.mainloop()
 
-    def update_image(self):
+    def populate_bbox_list(self):
+        self.listbox.delete(0, tk.END)
+        self.bbox_indices = []
+        frame_key = f"frame_{self.frame_id:04d}.png"
+        bboxes = self.modified_data.get(frame_key, [])
+        for idx, obj in enumerate(bboxes):
+            coords = obj['coordinates']
+            self.listbox.insert(tk.END, f"BBox {idx+1}: {coords}")
+            self.bbox_indices.append(idx)
+        self.selected_bbox_index = None
+
+    def on_bbox_select(self, event):
+        selection = self.listbox.curselection()
+        if selection:
+            self.selected_bbox_index = self.bbox_indices[selection[0]]
+            self.update_image(highlight_bbox=self.selected_bbox_index)
+        else:
+            self.selected_bbox_index = None
+            self.update_image()
+
+    def delete_selected_bbox(self):
+        if self.selected_bbox_index is None:
+            messagebox.showwarning("No selection", "Please select a bounding box to delete.")
+            return
+        frame_key = f"frame_{self.frame_id:04d}.png"
+        bboxes = self.modified_data.get(frame_key, [])
+        if 0 <= self.selected_bbox_index < len(bboxes):
+            del bboxes[self.selected_bbox_index]
+            self.modified_data[frame_key] = bboxes
+            self.save_modified_json()
+            self.populate_bbox_list()
+            self.update_image()
+            self.selected_bbox_index = None
+        else:
+            messagebox.showerror("Error", "Invalid bounding box selection.")
+
+    def save_modified_json(self):
+        with open(self.new_json_path, 'w') as f:
+            json.dump(self.modified_data, f, indent=2)
+
+    def update_image(self, highlight_bbox=None):
         img_path = f'{self.img_dir}/frame_{self.frame_id:04d}.png'
         if not os.path.exists(img_path):
             print(f"Image {img_path} does not exist.")
             return
         image = Image.open(img_path).convert('RGB')
-        bboxes = self.load_bboxes(self.frame_id)
+        frame_key = f"frame_{self.frame_id:04d}.png"
+        bboxes = [obj['coordinates'] for obj in self.modified_data.get(frame_key, [])]
         draw = ImageDraw.Draw(image)
-        for bbox in bboxes:
+        for idx, bbox in enumerate(bboxes):
             x1, y1, x2, y2 = bbox
-            draw.rectangle([x1, y1, x2, y2], outline='red', width=3)
+            color = 'red'
+            width = 3
+            if highlight_bbox is not None and idx == highlight_bbox:
+                color = 'yellow'
+                width = 5
+            draw.rectangle([x1, y1, x2, y2], outline=color, width=width)
+
         self.tk_img = ImageTk.PhotoImage(image)
         if self.label is None:
             self.label = tk.Label(self.root, image=self.tk_img)
-            self.label.pack()
+            self.label.pack(side=tk.LEFT)
         else:
             self.label.configure(image=self.tk_img)
             self.label.image = self.tk_img
@@ -105,12 +175,14 @@ class BBoxDisplay:
         next_frame = self.find_next_frame()
         if next_frame != self.frame_id:
             self.frame_id = next_frame
+            self.populate_bbox_list()
             self.update_image()
 
     def show_previous_frame(self):
         prev_frame = self.find_previous_frame()
         if prev_frame != self.frame_id:
             self.frame_id = prev_frame
+            self.populate_bbox_list()
             self.update_image()
 
 if __name__ == "__main__":
