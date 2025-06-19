@@ -145,7 +145,13 @@ class BBoxDisplay:
                 color = 'yellow'
                 width = 5
             draw.rectangle([x1, y1, x2, y2], outline=color, width=width)
-
+        # Resize image to fit within max size
+        max_width, max_height = 640, 360
+        img_w, img_h = image.size
+        scale = min(max_width / img_w, max_height / img_h, 1.0)
+        if scale < 1.0:
+            new_size = (int(img_w * scale), int(img_h * scale))
+            image = image.resize(new_size, Image.Resampling.LANCZOS)
         self.tk_img = ImageTk.PhotoImage(image)
         if self.label is None:
             self.label = tk.Label(self.root, image=self.tk_img)
