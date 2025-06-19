@@ -66,7 +66,8 @@ class Cropper:
         self.txt_list = []
         self.filter_frame_flag = filter_frame_flag
         self.load_txt(filter_txt)
-
+        if filter_frame_flag:
+            print(self.txt_list)
     
         
     def load_txt(self,filter_txt):
@@ -412,7 +413,7 @@ def main():
     parser.add_argument("--output_dir", type=str, default="cropped_images")
     parser.add_argument("--json_name", type=str, default="clip1_missing.json")
     parser.add_argument("--current_subject_index", type=int, default=0)
-    parser.add_argument("--filter_txt", type=str, default="yolo_results_json/frame_list_clip1.txt")
+    parser.add_argument("--filter_txt", type=str, default="yolo_results_train_json/frame_list_clip1.txt")
     parser.add_argument("--filter_frame_flag", type=bool, default=False)
     args = parser.parse_args()
 

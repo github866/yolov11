@@ -183,3 +183,4 @@ local_workspace/yolo_results/*
 local_workspace/Camera-Loc02.mp4
 *.pt
 local_workspace/output_bounding_boxes_clip*/
+local_workspace/yolo_results_train/*

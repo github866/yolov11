@@ -47,7 +47,7 @@ def convert_to_mp4(output_dir):
 
 def process_clip(clip_number, model):
     image_dir = f"local_workspace/clip{clip_number}"
-    output_dir = f"local_workspace/yolo_results/clip{clip_number}"
+    output_dir = f"local_workspace/yolo_results_train/clip{clip_number}"
     output_json_name = f"clip{clip_number}_result.json"
     
     os.makedirs(output_dir, exist_ok=True)

@@ -7,6 +7,9 @@ def load_data(file_path: str) -> list[dict]:
     """Load JSON data from file"""
     with open(file_path, 'r') as file:
         return json.load(file)
+    if not os.path.exists(file_path):
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        return []
 
 def draw_bounding_box(frame_list: list[int], yolo_data: dict, image_dir: str, output_dir: str):
     """Draw bounding boxes on images using yolo format data"""
@@ -53,7 +56,7 @@ def draw_bounding_box(frame_list: list[int], yolo_data: dict, image_dir: str, ou
     
     print(f"Bounding boxes drawn and saved to {output_dir}")
 
-# adding crop image bounding box into yolo_results_json in the format in yolo_result
+# adding crop image bounding box into yolo_results_json_path in the format in yolo_result
 def add_crop_image_bounding_box(crop_data: list[dict], origin_data: dict) -> dict:
     result = origin_data.copy()  # Start with original data
     
@@ -87,30 +90,34 @@ def main():
     parser.add_argument('--name', type=str, default='clip1', help='Directory containing images')
     args = parser.parse_args()
     name = args.name
-
+    yolo_results_json_path = 'yolo_results_train_json'
     crop_data = load_data(f'cropped_images/{name}_missing.json')
     
     frame_list = []
-    for frame in crop_data:
-        frame_list.append(frame['frame'])
-    frame_list.sort()
-    with open(f'yolo_results_json/frame_list_{name}.txt', 'w') as f:
+    if crop_data:
+        for frame in crop_data:
+            frame_list.append(frame['frame'])
+        frame_list.sort()
+    else:
+        for i in range(1,901,15):
+            frame_list.append(i)
+    with open(f'{yolo_results_json_path}/frame_list_{name}.txt', 'w') as f:
         for frame in frame_list:
             f.write(f"{frame}\n")
     
     # print(frame_list)
 
-    origin_data = load_data(f'yolo_results_json/{name}_result.json')
+    origin_data = load_data(f'{yolo_results_json_path}/{name}_result.json')
 
     
     # Convert crop data to yolo format
     crop_yolo_format = add_crop_image_bounding_box(crop_data, origin_data)
     
     print(f"Converted {len(crop_yolo_format)} frames to yolo format")
-    print(f"Saved to yolo_results_json/{name}_with_missing.json")
+    print(f"Saved to {yolo_results_json_path}/{name}_with_missing.json")
 
     # save crop_yolo_format to json file
-    with open(f'yolo_results_json/{name}_with_missing.json', 'w') as f:
+    with open(f'{yolo_results_json_path}/{name}_with_missing.json', 'w') as f:
         json.dump(crop_yolo_format, f, indent=2)
 
     print("Saving completed")
