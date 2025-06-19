@@ -121,7 +121,10 @@ def main():
         json.dump(crop_yolo_format, f, indent=2)
 
     print("Saving completed")
-
+    for frame_key, detections in crop_yolo_format.items():
+        for obj in detections:
+            if obj.get('conf', 0) == 1.0:
+                print(obj['coordinates'])
     image_dir = name
     output_dir = f"output_bounding_boxes_{name}"
 
