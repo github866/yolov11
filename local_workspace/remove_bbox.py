@@ -146,7 +146,7 @@ class BBoxDisplay:
                 width = 5
             draw.rectangle([x1, y1, x2, y2], outline=color, width=width)
         # Resize image to fit within max size
-        max_width, max_height = 640, 360
+        max_width, max_height = 1280, 640
         img_w, img_h = image.size
         scale = min(max_width / img_w, max_height / img_h, 1.0)
         if scale < 1.0:
