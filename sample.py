@@ -12,7 +12,7 @@ def detect_human(image_dir, output_dir, output_json_name, model):
             continue
         image_path = os.path.join(image_dir, image_file)
         # Only detect human (class 0)
-        results = model.predict(image_path, save=False, conf=0.2, iou=0.7, classes=[0])
+        results = model.predict(image_path, save=False, conf=0.2, iou=0.45, classes=[0])
         # Save results as JSON
         result_data = []
         for r in results:
@@ -55,10 +55,10 @@ def process_clip(clip_number, model):
     convert_to_mp4(output_dir)
 
 def main():
-    model = YOLO("yolo11n.pt")
+    model = YOLO("yolon11.pt")
     
     # Process clips 1 through 6
-    for clip_num in range(1, 7):
+    for clip_num in range(6, 7):
         print(f"Processing clip {clip_num}...")
         process_clip(clip_num, model)
         print(f"Finished processing clip {clip_num}")

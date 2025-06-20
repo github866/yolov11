@@ -5,11 +5,16 @@ import argparse
 
 def load_data(file_path: str) -> list[dict]:
     """Load JSON data from file"""
-    with open(file_path, 'r') as file:
-        return json.load(file)
-    if not os.path.exists(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        print(f"Warning: File {file_path} not found. Creating empty file.")
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        return []
+        empty_data = []  # Empty list for missing data
+        with open(file_path, 'w') as file:
+            json.dump(empty_data, file)
+        return empty_data
 
 def draw_bounding_box(frame_list: list[int], yolo_data: dict, image_dir: str, output_dir: str):
     """Draw bounding boxes on images using yolo format data"""
@@ -92,20 +97,19 @@ def main():
     name = args.name
     yolo_results_json_path = 'yolo_results_train_json'
     crop_data = load_data(f'cropped_images/{name}_missing.json')
-    
+
     frame_list = []
-    if crop_data:
-        for frame in crop_data:
-            frame_list.append(frame['frame'])
-        frame_list.sort()
-    else:
-        for i in range(1,901,15):
-            frame_list.append(i)
+    # if crop_data:
+    #     for frame in crop_data:
+    #         frame_list.append(frame['frame'])
+    #     frame_list.sort()
+    # else:
+    for i in range(1,901,15):
+        frame_list.append(i)
     with open(f'{yolo_results_json_path}/frame_list_{name}.txt', 'w') as f:
         for frame in frame_list:
             f.write(f"{frame}\n")
     
-    # print(frame_list)
 
     origin_data = load_data(f'{yolo_results_json_path}/{name}_result.json')
 
@@ -121,13 +125,18 @@ def main():
         json.dump(crop_yolo_format, f, indent=2)
 
     print("Saving completed")
-    for frame_key, detections in crop_yolo_format.items():
-        for obj in detections:
-            if obj.get('conf', 0) == 1.0:
-                print(obj['coordinates'])
+    # for frame_key, detections in crop_yolo_format.items():
+    #     for obj in detections:
+    #         if obj.get('conf', 0) == 1.0:
+    #             print(obj['coordinates'])
+    frame_id = 1
+    frame_key = f'frame_{frame_id:04d}.png'
+    if frame_key in crop_yolo_format:
+        print(len(crop_yolo_format[frame_key]))
+    else:
+        print(f"No data for {frame_key}")    
     image_dir = name
     output_dir = f"output_bounding_boxes_{name}"
-
     draw_bounding_box(frame_list, crop_yolo_format, image_dir, output_dir)
 
 if __name__ == '__main__':

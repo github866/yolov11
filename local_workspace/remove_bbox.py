@@ -22,7 +22,6 @@ class BBoxDisplay:
         self.bbox_indices = []  # To map listbox index to bbox index
         self.selected_bbox_index = None
         self.modified_data = json.loads(json.dumps(self.data))  # Deep copy for modifications
-        self.new_json_path = self.json_path.replace('.json', '_removed.json')
 
     def load_json(self):
         with open(self.json_path, 'r') as f:
@@ -125,7 +124,7 @@ class BBoxDisplay:
             messagebox.showerror("Error", "Invalid bounding box selection.")
 
     def save_modified_json(self):
-        with open(self.new_json_path, 'w') as f:
+        with open(self.json_path, 'w') as f:
             json.dump(self.modified_data, f, indent=2)
 
     def update_image(self, highlight_bbox=None):
@@ -146,7 +145,7 @@ class BBoxDisplay:
                 width = 5
             draw.rectangle([x1, y1, x2, y2], outline=color, width=width)
         # Resize image to fit within max size
-        max_width, max_height = 1280, 640
+        max_width, max_height = 1280, 720
         img_w, img_h = image.size
         scale = min(max_width / img_w, max_height / img_h, 1.0)
         if scale < 1.0:
@@ -196,7 +195,7 @@ if __name__ == "__main__":
     parser.add_argument('--name', type=str, default='clip1', required=True)
     parser.add_argument('--frame', type=int, default=1, required=False)
     args = parser.parse_args()
-    json_path = f'yolo_results_train_json/{args.name}_with_missing.json'
+    json_path = f'yolo_results_train_json/{args.name}_result.json'
     img_dir = f'output_bounding_boxes_{args.name}'
     img_path = f'{img_dir}/frame_{args.frame:04d}.png'
     bbox_display = BBoxDisplay(img_path, json_path, frame_id=args.frame)
