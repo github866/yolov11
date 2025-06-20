@@ -22,6 +22,7 @@ class BBoxDisplay:
         self.bbox_indices = []  # To map listbox index to bbox index
         self.selected_bbox_index = None
         self.modified_data = json.loads(json.dumps(self.data))  # Deep copy for modifications
+        self.img_frame = None  # Reference to the image frame
 
     def load_json(self):
         with open(self.json_path, 'r') as f:
@@ -58,37 +59,94 @@ class BBoxDisplay:
     def display(self):
         self.root = tk.Tk()
         self.root.title('BBox Display')
-        # Add image and bbox list
-        img_frame = tk.Frame(self.root)
-        img_frame.pack(side=tk.LEFT, padx=10, pady=10)
+        
+        # Configure window styling
+        self.root.configure(bg='#f0f0f0')
+        
+        # Main container frame
+        main_frame = tk.Frame(self.root, bg='#f0f0f0')
+        main_frame.pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
+        
+        # Left side: Image and navigation
+        left_frame = tk.Frame(main_frame, bg='#f0f0f0')
+        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        
+        # Image frame with navigation buttons at bottom
+        img_container = tk.Frame(left_frame, bg='white', relief=tk.RAISED, bd=2)
+        img_container.pack(fill=tk.BOTH, expand=True)
+        
+        # Image display area
+        img_frame = tk.Frame(img_container, bg='white')
+        img_frame.pack(fill=tk.BOTH, expand=True)
+        self.img_frame = img_frame  # Store reference
         self.update_image()
-        # Listbox for bboxes
-        list_frame = tk.Frame(self.root)
-        list_frame.pack(side=tk.RIGHT, padx=10, pady=10, fill=tk.Y)
-        tk.Label(list_frame, text="Bounding Boxes").pack()
+        
+        # Navigation buttons at bottom of image
+        nav_frame = tk.Frame(img_container, bg='#e8e8e8', relief=tk.SUNKEN, bd=1)
+        nav_frame.pack(side=tk.BOTTOM, fill=tk.X, pady=(5, 0))
+        
+        # Previous button
+        prev_btn = tk.Button(nav_frame, text="← Previous", command=self.show_previous_frame, 
+                           width=12, height=2, font=('Arial', 10, 'bold'),
+                           bg='#4CAF50', fg='white', relief=tk.RAISED,
+                           activebackground='#45a049', activeforeground='white')
+        prev_btn.pack(side=tk.LEFT, padx=(10, 5), pady=5)
+        
+        # Frame counter
+        self.frame_label = tk.Label(nav_frame, text=f"Frame: {self.frame_id}", 
+                                  font=('Arial', 12, 'bold'), bg='#2196F3', fg='white',
+                                  relief=tk.RAISED, padx=15, pady=5)
+        self.frame_label.pack(side=tk.LEFT, padx=10, pady=5)
+    
+        
+        # Next button
+        next_btn = tk.Button(nav_frame, text="Next →", command=self.show_next_frame,
+                           width=12, height=2, font=('Arial', 10, 'bold'),
+                           bg='#4CAF50', fg='white', relief=tk.RAISED,
+                           activebackground='#45a049', activeforeground='white')
+        next_btn.pack(side=tk.LEFT, padx=(5, 10), pady=5)
+        
+        # Delete button
+        del_btn = tk.Button(nav_frame, text="🗑 Delete", command=self.delete_selected_bbox,
+                           width=12, height=2, font=('Arial', 10, 'bold'),
+                           bg='#f44336', fg='white', relief=tk.RAISED,
+                           activebackground='#d32f2f', activeforeground='white')
+        del_btn.pack(side=tk.LEFT, padx=10, pady=5)
+
+        # Right side: Bounding box list
+        list_frame = tk.Frame(main_frame, bg='white', relief=tk.RAISED, bd=2)
+        list_frame.pack(side=tk.RIGHT, padx=(20, 0), fill=tk.Y)
+        
+        # Title for bbox list
+        title_label = tk.Label(list_frame, text="Bounding Boxes", 
+                             font=('Arial', 12, 'bold'), bg='#2196F3', fg='white',
+                             relief=tk.RAISED, padx=10, pady=5)
+        title_label.pack(fill=tk.X, pady=(0, 10))
+        
+        # Scrollbar and listbox
         self.scrollbar = tk.Scrollbar(list_frame)
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        self.listbox = tk.Listbox(list_frame, height=20, width=30, yscrollcommand=self.scrollbar.set)
-        self.listbox.pack(side=tk.LEFT, fill=tk.BOTH)
+        
+        self.listbox = tk.Listbox(list_frame, height=20, width=35, yscrollcommand=self.scrollbar.set,
+                                 font=('Arial', 10), bg='#fafafa', selectbackground='#2196F3',
+                                 selectforeground='white', relief=tk.SUNKEN, bd=1)
+        self.listbox.pack(side=tk.LEFT, fill=tk.BOTH, padx=10, pady=(0, 10))
         self.scrollbar.config(command=self.listbox.yview)
         self.listbox.bind('<<ListboxSelect>>', self.on_bbox_select)
         self.populate_bbox_list()
-        # Delete button
-        del_btn = tk.Button(list_frame, text="Delete Selected", command=self.delete_selected_bbox)
-        del_btn.pack(pady=10)
-        # Navigation buttons
-        btn_frame = tk.Frame(self.root)
-        btn_frame.pack(side=tk.BOTTOM, pady=10)
-        prev_btn = tk.Button(btn_frame, text="Previous", command=self.show_previous_frame)
-        prev_btn.pack(side=tk.LEFT, padx=10)
-        next_btn = tk.Button(btn_frame, text="Next", command=self.show_next_frame)
-        next_btn.pack(side=tk.LEFT, padx=10)
-        self.frame_label = tk.Label(btn_frame, text=f"Frame: {self.frame_id}")
-        self.frame_label.pack(side=tk.LEFT, padx=10)
         
         # Bind keyboard events for arrow keys
         self.root.bind('<Left>', lambda event: self.show_previous_frame())
         self.root.bind('<Right>', lambda event: self.show_next_frame())
+        self.root.bind('<Delete>', lambda event: self.delete_selected_bbox())
+        
+        # Center the window on screen
+        self.root.update_idletasks()
+        width = self.root.winfo_width()
+        height = self.root.winfo_height()
+        x = (self.root.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.root.winfo_screenheight() // 2) - (height // 2)
+        self.root.geometry(f'{width}x{height}+{x}+{y}')
         
         self.root.mainloop()
 
@@ -158,8 +216,8 @@ class BBoxDisplay:
             image = image.resize(new_size, Image.Resampling.LANCZOS)
         self.tk_img = ImageTk.PhotoImage(image)
         if self.label is None:
-            self.label = tk.Label(self.root, image=self.tk_img)
-            self.label.pack(side=tk.LEFT)
+            self.label = tk.Label(self.img_frame, image=self.tk_img)
+            self.label.pack(expand=True, fill=tk.BOTH)
         else:
             self.label.configure(image=self.tk_img)
             self.label.image = self.tk_img
