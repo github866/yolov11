@@ -93,9 +93,10 @@ def add_crop_image_bounding_box(crop_data: list[dict], origin_data: dict) -> dic
 def main():
     parser = argparse.ArgumentParser(description='Add missing frames to origin data')
     parser.add_argument('--name', type=str, default='clip1', help='Directory containing images')
+    parser.add_argument('--yolo_path', type=str, default='loc03_data/origin', help='Frame list file')
     args = parser.parse_args()
     name = args.name
-    yolo_results_json_path = 'yolo_results_train_json'
+    yolo_results_json_path = args.yolo_path
     crop_data = load_data(f'cropped_images/{name}_missing.json')
 
     frame_list = []
@@ -104,7 +105,7 @@ def main():
     #         frame_list.append(frame['frame'])
     #     frame_list.sort()
     # else:
-    for i in range(1,901,15):
+    for i in range(1,901,10):
         frame_list.append(i)
     with open(f'{yolo_results_json_path}/frame_list_{name}.txt', 'w') as f:
         for frame in frame_list:
