@@ -55,10 +55,10 @@ def process_clip(clip_number, model):
     convert_to_mp4(output_dir)
 
 def main():
-    model = YOLO("yolon11.pt")
+    model = YOLO("models/yolo11n.pt")
     
     # Process clips 1 through 6
-    for clip_num in range(6, 7):
+    for clip_num in range(1, 7):
         print(f"Processing clip {clip_num}...")
         process_clip(clip_num, model)
         print(f"Finished processing clip {clip_num}")

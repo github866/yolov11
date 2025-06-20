@@ -1,6 +1,0 @@
-path: ./data/custom_dataset
-train: images/train
-val: images/val
-test: images/test
-nc: 20
-names: ['class1', 'class2', ...]
