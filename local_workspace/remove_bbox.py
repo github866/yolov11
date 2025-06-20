@@ -85,6 +85,11 @@ class BBoxDisplay:
         next_btn.pack(side=tk.LEFT, padx=10)
         self.frame_label = tk.Label(btn_frame, text=f"Frame: {self.frame_id}")
         self.frame_label.pack(side=tk.LEFT, padx=10)
+        
+        # Bind keyboard events for arrow keys
+        self.root.bind('<Left>', lambda event: self.show_previous_frame())
+        self.root.bind('<Right>', lambda event: self.show_next_frame())
+        
         self.root.mainloop()
 
     def populate_bbox_list(self):
@@ -194,8 +199,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', type=str, default='clip1', required=True)
     parser.add_argument('--frame', type=int, default=1, required=False)
+    parser.add_argument('--json_path',type=str,default='loc03_data/origin/',required=False)
     args = parser.parse_args()
-    json_path = f'yolo_results_train_json/{args.name}_result.json'
+    json_path = f'{args.json_path}{args.name}_result.json'
     img_dir = f'output_bounding_boxes_{args.name}'
     img_path = f'{img_dir}/frame_{args.frame:04d}.png'
     bbox_display = BBoxDisplay(img_path, json_path, frame_id=args.frame)
