@@ -106,7 +106,7 @@ class BBoxDisplay:
                            activebackground='#45a049', activeforeground='white')
         next_btn.pack(side=tk.LEFT, padx=(5, 10), pady=5)
         
-        # Delete button
+        #chmod +x run.sh Delete button
         del_btn = tk.Button(nav_frame, text="🗑 Delete", command=self.delete_selected_bbox,
                            width=12, height=2, font=('Arial', 10, 'bold'),
                            bg='#f44336', fg='white', relief=tk.RAISED,
