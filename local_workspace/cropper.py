@@ -45,7 +45,20 @@ class Cropper:
         if not os.path.exists(self.cropped_dir):
             os.makedirs(self.cropped_dir)
         self.json_name = json_name
-        self.json_path = os.path.join(self.cropped_dir, self.json_name)
+        
+        # Handle both relative and absolute paths for JSON file
+        if os.path.isabs(json_name) or json_name.startswith('./') or json_name.startswith('../'):
+            # If it's an absolute path or starts with ./ or ../, use it as is
+            self.json_path = json_name
+        else:
+            # Otherwise, join with cropped_dir
+            self.json_path = os.path.join(self.cropped_dir, self.json_name)
+        
+        # Ensure the directory exists before creating the file
+        json_dir = os.path.dirname(self.json_path)
+        if json_dir and not os.path.exists(json_dir):
+            os.makedirs(json_dir)
+            
         if not os.path.exists(self.json_path):
             with open(self.json_path, 'w') as f:
                 json.dump([], f)
