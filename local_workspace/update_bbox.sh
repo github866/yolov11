@@ -2,8 +2,8 @@
 
 # Configuration
 clips=("clip1" "clip2" "clip3" "clip4" "clip5" "clip6")
-iterations=(15 30 30 15 15 15)
-data_dir="loc02_data"
+iterations=(15 15 15 15 15 15)
+data_dir="loc01_data"
 
 # Loop through all clips
 for i in "${!clips[@]}"; do

@@ -135,10 +135,14 @@ class BBoxDisplay:
         self.listbox.bind('<<ListboxSelect>>', self.on_bbox_select)
         self.populate_bbox_list()
         
-        # Bind keyboard events for arrow keys
+        # Bind keyboard events for navigation and deletion
+        # Bind to root window for global keyboard shortcuts
         self.root.bind('<Left>', lambda event: self.show_previous_frame())
         self.root.bind('<Right>', lambda event: self.show_next_frame())
         self.root.bind('<Delete>', lambda event: self.delete_selected_bbox())
+        
+        # Also bind to listbox to ensure Delete key works when listbox has focus
+        # self.listbox.bind('<Delete>', lambda event: self.delete_selected_bbox())
         
         # Center the window on screen
         self.root.update_idletasks()
