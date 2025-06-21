@@ -75,3 +75,7 @@ The tool saves crop data in a JSON file with the following structure:
 - Previous/Next buttons: Navigate between frames
 - Frame selection: Directly input frame number
 - Identity dropdown: Select identity label for current crop
+
+sh file iterations for each loc:
+loc02: 15, 15, 15, 15, 15, 15
+loc03: 15, 30, 30, 15, 15, 15
