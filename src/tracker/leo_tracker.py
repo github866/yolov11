@@ -1,24 +1,25 @@
 import numpy as np
 from typing import Literal
-from .feature_extractor import DINOFeatureExtractor
+from .feature_extractor import DINOFeatureExtractor, CLIPFeatureExtractor
 
 class PersonTracker:
     def __init__(
             self,
             distance_threshold=100, 
-            feature_similarity_threshold=0.8, 
+            feature_similarity_threshold=0.5, 
             iou_threshold=0.7,
         ):
         
         self.all_people_bboxs = {} # person_id -> [x1, y1, x2, y2]
-        self.all_people_feature = {} # person_id -> feature vector 
+        self.all_people_feature = {} # person_id -> feature vector
+        self.feature_bank = {} # person_id -> feature vector 
 
         # thresholds for different metrics
         self.feature_similarity_threshold = feature_similarity_threshold
         self.iou_threshold = iou_threshold
         self.distance_threshold = distance_threshold
         # Initialize the feature extractor
-        self.feature_extractor = DINOFeatureExtractor()
+        self.feature_extractor = CLIPFeatureExtractor() # DINOFeatureExtractor()
         # feature bank
         self.reference_feature = None  # Reference feature for similarity comparison
     
@@ -57,6 +58,9 @@ class PersonTracker:
             self.all_people_feature[i+1] = self.feature_extractor.extract_features(
                 frame[y1:y2, x1:x2]
             )
+    
+    def init_feature_bank(self, img_dir, json_dir):
+        pass
 
     def update(self, frame, bboxs, metrics: Literal["feature", "distance", "iou"] = "feature"):
         """
@@ -87,10 +91,10 @@ class PersonTracker:
                         
                     # Compute similarity
                     new_similarity = self.compute_feature_similarity(v, feature_vector_new)
-                        
+                    print(f"Comparing feature {k} with bbox {i}: similarity = {new_similarity:.4f}")
                     if new_similarity > similarity and new_similarity > self.feature_similarity_threshold:
-                        candidate_bboxs[k] = [i, similarity]
                         similarity = new_similarity
+                        candidate_bboxs[k] = [i, similarity]
 
         elif metrics == "iou":
             for k, bbox in self.all_people_bboxs.items():
@@ -136,6 +140,7 @@ class PersonTracker:
         for bbx_i, keys in bbx_to_keys.items():
             # If multiple keys are assigned to the same bbx, choose the one with the highest score
             best_key = max(keys, key=lambda x: x[1])[0]
+            print(f"Assigning bbox {bbx_i} to key {best_key} with score {keys[0][1]}")
             self.all_people_bboxs[best_key] = bboxs[bbx_i]
             self.all_people_feature[best_key] = self.feature_extractor.extract_features(
                 frame[int(bboxs[bbx_i][1]):int(bboxs[bbx_i][3]), int(bboxs[bbx_i][0]):int(bboxs[bbx_i][2])]

@@ -12,7 +12,7 @@ from tqdm import tqdm
 from utils.file_utils import save_detections_to_json, save_detections_to_yaml  
 from tracker.tracker import DINOPersonTracker
 from tracker.feature_extractor import DINOFeatureExtractor 
-from preprocess.label import point_in_quad, draw_rooms
+from preprocess.label_jone import point_in_quad, draw_rooms
 
 def yolo_init(ckpt='./leo/ckpt/yolo11x.pt'):
     model = YOLO(ckpt)

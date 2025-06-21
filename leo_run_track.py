@@ -11,6 +11,7 @@ class MOTWorker:
     def __init__(self, video_path: str, output_path: str, ckpt='./leo/ckpt/yolo11x.pt'): # .mp4
         self.video_path = video_path
         self.output_path = output_path
+        self.detection_output_path = output_path.replace('.mp4', '_detection.mp4')
         self.detector = Detector(ckpt='/home/agenuinedream/repo/yolov11/leo/ckpt/yolo8_coco_ours_tuned.pt') #'./leo/ckpt/yolov8n_coco_tuned.pt'
         self.tracker = PersonTracker()
     
@@ -21,6 +22,10 @@ class MOTWorker:
         w,h = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         out = cv2.VideoWriter(self.output_path, fourcc, fps, (w, h))
+
+        # You can use the same VideoWriter instance (out) for writing frames to a single output video file.
+        # If you want to write to a different output video (e.g., detection_output_path), you need to create a separate VideoWriter:
+        detection_out = cv2.VideoWriter(self.detection_output_path, fourcc, fps, (w, h))
 
         data_log = {}
         for i in range(1, 8):
@@ -44,6 +49,18 @@ class MOTWorker:
             results = self.detector.detect(frame)
             bboxs = results[0].boxes.xyxy.cpu().numpy()  # Get bounding boxes in xyxy format
             
+            # draw all the bounding boxes on the frame for debugging
+
+            detect_frame = frame.copy()
+            
+            for i, (conf, bbox) in enumerate(zip(results[0].boxes.conf.cpu().numpy(), results[0].boxes.xyxy.cpu().numpy())):
+                x1, y1, x2, y2 = map(int, bbox)
+                cv2.rectangle(detect_frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.putText(detect_frame, f'{i}_{conf:.2f}', (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 0), 2)
+
+            detection_out.write(detect_frame)
+
+
             # Update tracker
             self.tracker.update(frame, bboxs)
             
@@ -106,6 +123,6 @@ if __name__ == "__main__":
             first_frame_bbxs.append([0, 0, 0, 0])  # Placeholder for invalid bbox
     
     mot_worker = MOTWorker(video_path, output_path)
-    room_mask_path = './mask_visualization.png'
+    room_mask_path = '/home/agenuinedream/repo/yolov11/preprocess/mask_visualization.png'
     mot_worker.process_video(first_frame_bbxs, room_mask_path)
     

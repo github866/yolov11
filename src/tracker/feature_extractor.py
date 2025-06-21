@@ -2,6 +2,7 @@ import torch
 import torch.nn.functional as F
 import torchvision.transforms as transforms
 import cv2
+import clip
 
 class DINOFeatureExtractor:
     def __init__(self, model_name='dino_vits8', device='cuda' if torch.cuda.is_available() else 'cpu'):
@@ -14,10 +15,10 @@ class DINOFeatureExtractor:
             transforms.ToPILImage(),
             transforms.Resize((224, 224)),
             transforms.ToTensor(),
-            transforms.Normalize(
-                mean=[0.485, 0.456, 0.406], 
-                std=[0.229, 0.224, 0.225]
-            )
+            # transforms.Normalize(
+            #     mean=[0.485, 0.456, 0.406], 
+            #     std=[0.229, 0.224, 0.225]
+            # )
         ])
     
     @torch.no_grad()
@@ -41,7 +42,7 @@ class DINOFeatureExtractor:
 class CLIPFeatureExtractor:
     def __init__(self, model_name='ViT-B/32', device='cuda' if torch.cuda.is_available() else 'cpu'):
         self.device = device
-        self.model, self.preprocess = torch.hub.load('openai/CLIP', model_name, device=device)
+        self.model, self.preprocess = clip.load(model_name, device=device)
         self.model.eval()
     
     @torch.no_grad()
