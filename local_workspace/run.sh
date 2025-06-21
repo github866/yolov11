@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #SETUP VARIABLES
-name="clip2"
-iteration=30
-data_type="train"
+name="clip4"
+iteration=15
+data_type="origin"
 
 # CONSTANTS
 loc_dir="loc03_data/"
