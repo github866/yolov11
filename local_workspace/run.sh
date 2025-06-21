@@ -1,5 +1,22 @@
 #!/bin/bash
 
+#SETUP
+
+
+name="clip4"
+loc_dir="loc03_data"
+origin_json_dir="${loc_dir}/origin/"
+missing_json_dir="${loc_dir}/cropped_images/"
+missing_json_file="${loc_dir}/cropped_images/${name}_missing.json"
+iteration=15
+
+echo "updating output bounding box json file"
+
+python3 side_process/add_missing.py --name ${name} \
+--missing_json_file ${missing_json_dir}/${name}_missing.json \
+--iteration ${iteration}
+
+
 # Function to show usage
 show_usage() {
     echo "Usage: $0 [OPTIONS]"
@@ -56,21 +73,19 @@ fi
 # get new images
 ### part 1
 if [[ "$RUN_PART1" == true || "$RUN_BOTH" == true ]]; then
-    name="clip1"
-    json_name="loc03_data/origin/"
     if [[ "$RUN_BOTH" == true ]]; then
         echo "Starting part 1 in background..."
         python3 cropper.py \
             --image_dir ${name}/ \
-            --json_name local_workspace/loc03_data/cropped_images/${name}_missing.json \
-            --filter_txt ${json_name}/frame_list_${name}.txt \
+            --json_name loc03_data/cropped_images/${name}_missing.json \
+            --filter_txt ${origin_json_dir}/frame_list_${name}.txt \
             --filter_frame_flag True &
     else
         echo "Running part 1..."
         python3 cropper.py \
             --image_dir ${name}/ \
-            --json_name local_workspace/loc03_data/cropped_images/${name}_missing.json \
-            --filter_txt ${json_name}/frame_list_${name}.txt \
+            --json_name loc03_data/cropped_images/${name}_missing.json \
+            --filter_txt ${origin_json_dir}/frame_list_${name}.txt \
             --filter_frame_flag True
     fi
 fi
@@ -80,10 +95,10 @@ fi
 if [[ "$RUN_PART2" == true || "$RUN_BOTH" == true ]]; then
     if [[ "$RUN_BOTH" == true ]]; then
         echo "Starting part 2 in background..."
-        python3 remove_bbox.py --name clip1 &
+        python3 remove_bbox.py --name ${name} --json_path ${origin_json_dir} &
     else
         echo "Running part 2..."
-        python3 remove_bbox.py --name clip1
+        python3 remove_bbox.py --name ${name} --json_path ${origin_json_dir}
     fi
 fi
 ### part 2 ends
@@ -95,11 +110,11 @@ if [[ "$RUN_BOTH" == true ]]; then
     echo "Both parts completed!"
 fi
 
-# python3 side_process/add_missing.py --name clip1 
-# python3 side_process/add_missing.py --name clip2 
-# python3 side_process/add_missing.py --name clip3 
-# python3 side_process/add_missing.py --name clip4 
-# python3 side_process/add_missing.py --name clip5 
-# python3 side_process/add_missing.py --name clip6
+# python3 side_process/add_missing.py --name clip1 --missing_json_file loc03_data/cropped_images/clip1_missing.json
+# python3 side_process/add_missing.py --name clip2 --missing_json_file loc03_data/cropped_images/clip2_missing.json
+# python3 side_process/add_missing.py --name clip3 --missing_json_file loc03_data/cropped_images/clip3_missing.json
+# python3 side_process/add_missing.py --name clip4 --missing_json_file loc03_data/cropped_images/clip4_missing.json
+# python3 side_process/add_missing.py --name clip5 --missing_json_file loc03_data/cropped_images/clip5_missing.json
+# python3 side_process/add_missing.py --name clip6 --missing_json_file loc03_data/cropped_images/clip6_missing.json
 
 # python3 side_process/create_video.py

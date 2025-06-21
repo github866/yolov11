@@ -93,11 +93,13 @@ def add_crop_image_bounding_box(crop_data: list[dict], origin_data: dict) -> dic
 def main():
     parser = argparse.ArgumentParser(description='Add missing frames to origin data')
     parser.add_argument('--name', type=str, default='clip1', help='Directory containing images')
-    parser.add_argument('--yolo_path', type=str, default='loc03_data/origin', help='Frame list file')
+    parser.add_argument('--yolo_path', type=str, default='loc03_data/origin/', help='Frame list file')
+    parser.add_argument('--missing_json_file',type=str,default='loc03_data/cropped_images/clip1_missing.json')
+    parser.add_argument('--iteration',type=int,default=15,help='iteration number')
     args = parser.parse_args()
     name = args.name
     yolo_results_json_path = args.yolo_path
-    crop_data = load_data(f'cropped_images/{name}_missing.json')
+    crop_data = load_data(args.missing_json_file)
 
     frame_list = []
     # if crop_data:
@@ -105,7 +107,7 @@ def main():
     #         frame_list.append(frame['frame'])
     #     frame_list.sort()
     # else:
-    for i in range(1,901,10):
+    for i in range(1,901,args.iteration):
         frame_list.append(i)
     with open(f'{yolo_results_json_path}/frame_list_{name}.txt', 'w') as f:
         for frame in frame_list:
@@ -119,7 +121,7 @@ def main():
     crop_yolo_format = add_crop_image_bounding_box(crop_data, origin_data)
     
     print(f"Converted {len(crop_yolo_format)} frames to yolo format")
-    print(f"Saved to {yolo_results_json_path}/{name}_with_missing.json")
+    print(f"Saved to {yolo_results_json_path}{name}_with_missing.json")
 
     # save crop_yolo_format to json file
     with open(f'{yolo_results_json_path}/{name}_with_missing.json', 'w') as f:
@@ -130,12 +132,13 @@ def main():
     #     for obj in detections:
     #         if obj.get('conf', 0) == 1.0:
     #             print(obj['coordinates'])
-    frame_id = 1
-    frame_key = f'frame_{frame_id:04d}.png'
-    if frame_key in crop_yolo_format:
-        print(len(crop_yolo_format[frame_key]))
-    else:
-        print(f"No data for {frame_key}")    
+    # frame_id = 1
+    # frame_key = f'frame_{frame_id:04d}.png'
+    # if frame_key in crop_yolo_format:
+    #     print(len(crop_yolo_format[frame_key]))
+    # else:
+    #     print(f"No data for {frame_key}")    
+
     image_dir = name
     output_dir = f"output_bounding_boxes_{name}"
     draw_bounding_box(frame_list, crop_yolo_format, image_dir, output_dir)

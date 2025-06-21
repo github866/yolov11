@@ -46,10 +46,13 @@ class Cropper:
             os.makedirs(self.cropped_dir)
         self.json_name = json_name
         
-        # Handle both relative and absolute paths for JSON file
-        if os.path.isabs(json_name) or json_name.startswith('./') or json_name.startswith('../'):
-            # If it's an absolute path or starts with ./ or ../, use it as is
+        # Handle path construction for JSON file
+        if os.path.isabs(json_name):
+            # If it's an absolute path, use it as is
             self.json_path = json_name
+        elif '/' in json_name or '\\' in json_name:
+            # If it contains directory separators, treat as relative path from current directory
+            self.json_path = os.path.join(os.getcwd(), json_name)
         else:
             # Otherwise, join with cropped_dir
             self.json_path = os.path.join(self.cropped_dir, self.json_name)
@@ -423,7 +426,6 @@ class Cropper:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--image_dir", type=str, default="frames/")
-    parser.add_argument("--output_dir", type=str, default="cropped_images")
     parser.add_argument("--json_name", type=str, default="clip1_missing.json")
     parser.add_argument("--current_subject_index", type=int, default=0)
     parser.add_argument("--filter_txt", type=str, default="yolo_results_train_json/frame_list_clip1.txt")
