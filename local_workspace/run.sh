@@ -1,20 +1,22 @@
 #!/bin/bash
 
-#SETUP
+#SETUP VARIABLES
+name="clip2"
+iteration=30
+data_type="train"
 
-
-name="clip4"
-loc_dir="loc03_data"
-origin_json_dir="${loc_dir}/origin/"
+# CONSTANTS
+loc_dir="loc03_data/"
+origin_json_dir="${loc_dir}/${data_type}/"
 missing_json_dir="${loc_dir}/cropped_images/"
-missing_json_file="${loc_dir}/cropped_images/${name}_missing.json"
-iteration=15
+missing_json_file="${missing_json_dir}${name}_missing.json"
 
 echo "updating output bounding box json file"
 
 python3 side_process/add_missing.py --name ${name} \
---missing_json_file ${missing_json_dir}/${name}_missing.json \
---iteration ${iteration}
+--missing_json_file ${missing_json_file} \
+--iteration ${iteration} \
+--yolo_path ${origin_json_dir}
 
 
 # Function to show usage
@@ -77,15 +79,15 @@ if [[ "$RUN_PART1" == true || "$RUN_BOTH" == true ]]; then
         echo "Starting part 1 in background..."
         python3 cropper.py \
             --image_dir ${name}/ \
-            --json_name loc03_data/cropped_images/${name}_missing.json \
-            --filter_txt ${origin_json_dir}/frame_list_${name}.txt \
+            --json_name ${loc_dir}/cropped_images/${name}_missing.json \
+            --filter_txt ${origin_json_dir}frame_list_${name}.txt \
             --filter_frame_flag True &
     else
         echo "Running part 1..."
         python3 cropper.py \
             --image_dir ${name}/ \
-            --json_name loc03_data/cropped_images/${name}_missing.json \
-            --filter_txt ${origin_json_dir}/frame_list_${name}.txt \
+            --json_name ${loc_dir}/cropped_images/${name}_missing.json \
+            --filter_txt ${origin_json_dir}frame_list_${name}.txt \
             --filter_frame_flag True
     fi
 fi
@@ -110,11 +112,11 @@ if [[ "$RUN_BOTH" == true ]]; then
     echo "Both parts completed!"
 fi
 
-# python3 side_process/add_missing.py --name clip1 --missing_json_file loc03_data/cropped_images/clip1_missing.json
-# python3 side_process/add_missing.py --name clip2 --missing_json_file loc03_data/cropped_images/clip2_missing.json
-# python3 side_process/add_missing.py --name clip3 --missing_json_file loc03_data/cropped_images/clip3_missing.json
-# python3 side_process/add_missing.py --name clip4 --missing_json_file loc03_data/cropped_images/clip4_missing.json
-# python3 side_process/add_missing.py --name clip5 --missing_json_file loc03_data/cropped_images/clip5_missing.json
-# python3 side_process/add_missing.py --name clip6 --missing_json_file loc03_data/cropped_images/clip6_missing.json
+# python3 side_process/add_missing.py --name clip1 --missing_json_file ${loc_dir}/cropped_images/clip1_missing.json
+# python3 side_process/add_missing.py --name clip2 --missing_json_file ${loc_dir}/cropped_images/clip2_missing.json
+# python3 side_process/add_missing.py --name clip3 --missing_json_file ${loc_dir}/cropped_images/clip3_missing.json
+# python3 side_process/add_missing.py --name clip4 --missing_json_file ${loc_dir}/cropped_images/clip4_missing.json
+# python3 side_process/add_missing.py --name clip5 --missing_json_file ${loc_dir}/cropped_images/clip5_missing.json
+# python3 side_process/add_missing.py --name clip6 --missing_json_file ${loc_dir}/cropped_images/clip6_missing.json
 
 # python3 side_process/create_video.py

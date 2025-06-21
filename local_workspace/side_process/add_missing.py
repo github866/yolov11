@@ -62,31 +62,35 @@ def draw_bounding_box(frame_list: list[int], yolo_data: dict, image_dir: str, ou
     print(f"Bounding boxes drawn and saved to {output_dir}")
 
 # adding crop image bounding box into yolo_results_json_path in the format in yolo_result
-def add_crop_image_bounding_box(crop_data: list[dict], origin_data: dict) -> dict:
-    result = origin_data.copy()  # Start with original data
+def add_crop_image_bounding_box(crop_data: list[dict], origin_data: dict, frame_list: list[int]) -> dict:
+    result = {}  # Start with empty dict instead of copying origin_data
     
-    for frame in crop_data:
-        frame_num = frame['frame']
+    # Only process frames that are in frame_list
+    for frame_num in frame_list:
         frame_key = f"frame_{frame_num:04d}.png"
         
-        # Get existing detections for this frame (if any)
-        existing_detections = result.get(frame_key, [])
+        # Get existing detections for this frame from origin_data (if any)
+        existing_detections = origin_data.get(frame_key, []).copy()
         
-        # Add new detections from crop data
-        for person in frame['persons']:
-            coordinate = person['coordinate']
-            x1, y1, x2, y2 = coordinate
-            
-            # Convert to yolo format: [x1, y1, x2, y2]
-            detection = {
-                "coordinates": [x1, y1, x2, y2],
-                "conf": 1.0,  # Set confidence to 1.0 for crop data
-                "cls": 0,     # Class 0 for person
-                "frame_name": frame_num
-            }
-            existing_detections.append(detection)
+        # Add new detections from crop data for this frame
+        for frame in crop_data:
+            if frame['frame'] == frame_num:
+                for person in frame['persons']:
+                    coordinate = person['coordinate']
+                    x1, y1, x2, y2 = coordinate
+                    
+                    # Convert to yolo format: [x1, y1, x2, y2]
+                    detection = {
+                        "coordinates": [x1, y1, x2, y2],
+                        "conf": 1.0,  # Set confidence to 1.0 for crop data
+                        "cls": 0,     # Class 0 for person
+                        "frame_name": frame_num
+                    }
+                    existing_detections.append(detection)
         
-        result[frame_key] = existing_detections
+        # Only add to result if there are detections for this frame
+        if existing_detections:
+            result[frame_key] = existing_detections
     
     return result
 
@@ -118,7 +122,7 @@ def main():
 
     
     # Convert crop data to yolo format
-    crop_yolo_format = add_crop_image_bounding_box(crop_data, origin_data)
+    crop_yolo_format = add_crop_image_bounding_box(crop_data, origin_data, frame_list)
     
     print(f"Converted {len(crop_yolo_format)} frames to yolo format")
     print(f"Saved to {yolo_results_json_path}{name}_with_missing.json")
