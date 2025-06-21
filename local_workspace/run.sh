@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #SETUP VARIABLES
-name="clip6"
+name="clip1"
 iteration=15
 data_type="origin"
 
 # CONSTANTS
-loc_dir="loc03_data/"
+loc_dir="loc03_data"
 origin_json_dir="${loc_dir}/${data_type}/"
 missing_json_dir="${loc_dir}/cropped_images/"
 missing_json_file="${missing_json_dir}${name}_missing.json"
