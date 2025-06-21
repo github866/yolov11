@@ -741,6 +741,28 @@
       "conf": 1.0,
       "cls": 0,
       "frame_name": 121
+    },
+    {
+      "coordinates": [
+        807,
+        168,
+        873,
+        342
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 121
+    },
+    {
+      "coordinates": [
+        814,
+        117,
+        874,
+        296
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 121
     }
   ],
   "frame_0136.png": [
