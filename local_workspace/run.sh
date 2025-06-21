@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SETUP VARIABLES
-name="clip5"
+name="clip6"
 iteration=15
 data_type="origin"
 
