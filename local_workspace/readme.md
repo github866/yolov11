@@ -77,5 +77,5 @@ The tool saves crop data in a JSON file with the following structure:
 - Identity dropdown: Select identity label for current crop
 
 sh file iterations for each loc:
-loc01, loc02: 15, 15, 15, 15, 15, 15
+loc01, loc02, loc04: 15, 15, 15, 15, 15, 15
 loc03: 15, 30, 30, 15, 15, 15

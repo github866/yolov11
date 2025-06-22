@@ -73,8 +73,8 @@ def split_json_by_frames(data, frames_per_file=900):
     return split_data
 
 if __name__ == "__main__":
-    data = "loc01_data"
-    json_file = f"{data}/ultralytics/output_inference_yolo11x_loc01.json"
+    data = "loc04_data"
+    json_file = f"{data}/ultralytics/output_inference_yolo11x_loc04.json"
     output_dir = f"{data}/origin"
     
     # Create output directory if it doesn't exist
