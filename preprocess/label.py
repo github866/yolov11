@@ -68,6 +68,7 @@ def create_room_mask(image_size, room_data, json_scale=1.0):
     # Define colors in BGR format (OpenCV uses BGR)
     colors = {
         'CSU Miliue': (255, 0, 0),      # Blue
+        'CSU Miliue2': (255, 0, 0),      # Blue
         'Nursing Station': (0, 255, 0),   # Green
         'Quiet Room': (0, 0, 255),      # Red
         'Sally Port / Entrance': (255, 255, 0)  # Light Blue (Cyan)
@@ -93,7 +94,7 @@ def create_room_mask(image_size, room_data, json_scale=1.0):
     return mask
 
 def main():
-    name = 'loc04'
+    name = 'loc03'
     image_path = f'first_frame_img/{name}.png'
     
     # Create complete room data

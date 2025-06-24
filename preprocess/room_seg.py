@@ -362,7 +362,7 @@ class RoomSegmenter:
             raise
 
 if __name__ == "__main__":
-    name = "loc02"
+    name = "loc03"
     segmenter = RoomSegmenter(
         image_path=f"first_frame_img/{name}.png",output_name=f"{name}.json"
     )   
