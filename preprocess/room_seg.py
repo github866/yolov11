@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 import time
+import argparse
 
 # Set Gradio cache directory to user's home directory
 os.environ['GRADIO_TEMP_DIR'] = str(Path.home() / '.gradio_cache')
@@ -125,14 +126,15 @@ class RoomSegmenter:
                 # Draw larger point
                 cv2.circle(preview, (x, y), 8, (0, 0, 255), -1)  # Red for points
                 # Draw point name and coordinates with background
-                text = f"{point['name']}:({x},{y})"
+                # text = f"{point['name']}:({x},{y})"
+                text = f"{point['name']}"
                 (text_width, text_height), _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)
                 # Draw background rectangle with more padding and a border
                 pad_x, pad_y = 8, 8
                 rect_start = (x+5, y-text_height-5-pad_y)
                 rect_end = (x+5+text_width+pad_x, y+5+pad_y)
-                cv2.rectangle(preview, rect_start, rect_end, (255, 255, 255), -1)  # White background
-                cv2.rectangle(preview, rect_start, rect_end, (0, 0, 0), 2)  # Black border
+                # cv2.rectangle(preview, rect_start, rect_end, (255, 255, 255), -1)  # White background
+                # cv2.rectangle(preview, rect_start, rect_end, (0, 0, 0), 2)  # Black border
                 # Draw text
                 cv2.putText(preview, text, (x+5+pad_x//2, y),
                           cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
@@ -362,7 +364,13 @@ class RoomSegmenter:
             raise
 
 if __name__ == "__main__":
-    name = "loc03"
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--id', help='Input file to process.')
+    args = parser.parse_args()
+
+    input_id = args.id
+
+    name = "loc0" + str(input_id)
     segmenter = RoomSegmenter(
         image_path=f"first_frame_img/{name}.png",output_name=f"{name}.json"
     )   
