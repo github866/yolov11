@@ -33,6 +33,10 @@ class MOTWorker:
         # You can use the same VideoWriter instance (out) for writing frames to a single output video file.
         # If you want to write to a different output video (e.g., detection_output_path), you need to create a separate VideoWriter:
 
+        # You can use the same VideoWriter instance (out) for writing frames to a single output video file.
+        # If you want to write to a different output video (e.g., detection_output_path), you need to create a separate VideoWriter:
+        detection_out = cv2.VideoWriter(self.detection_output_path, fourcc, fps, (w, h))
+
         data_log = {}
         for i in range(1, 13):
             data_log[i] = {

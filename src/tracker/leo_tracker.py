@@ -26,6 +26,7 @@ class PersonTracker:
         # Initialize the feature extractor
         self.feature_extractor = DINOFeatureExtractor(model_name='dino_vits8')
         # self.feature_extractor = CLIPFeatureExtractor(weights_path="/home/agenuinedream/repo/HSfM_RELEASE/checkpoints/MSMT17_clipreid_12x12sie_ViT-B-16_60.pth")
+
         # feature bank
         self.use_feature_bank = True 
     
