@@ -19,21 +19,29 @@ def id_to_name(id):
     :return: name
     """
     if id == 1:
-        return "Nurse1"
+        return "Nurse_1"
     elif id == 2:
-        return "Nurse2"
+        return "Nurse_2"
     elif id == 3:
-        return "Patient1"
+        return "Patient_1"
     elif id == 4:
-        return "Patient2"
+        return "Patient_2"
     elif id == 5:
-        return "Patient3"
+        return "Patient_3"
     elif id == 6:
         return "Psychiatrist"
     elif id == 7:
         return "Psychologist"
-    else:
-        return f"Unknown {id}"
+    elif id == 11:
+        return "Researcher"
+    elif id == 8:
+        return "Person_1"
+    elif id == 9:
+        return "Person_2"
+    elif id == 10:
+        return "Person_3"
+    elif id == 12:
+        return "Person_4"
 
 def color_to_room(rgb: tuple):
     if rgb == (255, 0, 0): #blue

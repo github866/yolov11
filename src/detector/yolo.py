@@ -15,8 +15,8 @@ class Detector:
     def detect(self, img: np.ndarray):
         results = self.model(
             img, 
-            conf=0.1, 
-            iou=0.9, # if iou > threshold, the detection will be discarded by nms
+            conf=0.6, 
+            iou=0.6, # if iou > threshold, the detection will be discarded by nms
             agnostic_nms=False, #  Use class-specific NMS
             max_det=30, 
             classes=[0], 

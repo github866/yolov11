@@ -1,4 +1,5 @@
 import pandas as pd
+
 def read_init_frames(file_path): # the path endwith .data
     df = pd.read_csv(file_path, header=None)
     df.columns = ["frame_id", "id", "x", "y", "w", "h", "class", "flag1", "flag2", "flag3"]
