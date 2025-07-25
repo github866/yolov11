@@ -1,0 +1,4731 @@
+{
+  "frame_0001.png": [
+    {
+      "coordinates": [
+        1029,
+        287,
+        1165,
+        581
+      ],
+      "conf": 0.8457176089286804,
+      "cls": 0,
+      "frame_name": 1
+    },
+    {
+      "coordinates": [
+        622,
+        155,
+        684,
+        331
+      ],
+      "conf": 0.8238950967788696,
+      "cls": 0,
+      "frame_name": 1
+    },
+    {
+      "coordinates": [
+        827,
+        132,
+        881,
+        278
+      ],
+      "conf": 0.7249820828437805,
+      "cls": 0,
+      "frame_name": 1
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 1
+    },
+    {
+      "coordinates": [
+        822,
+        81,
+        849,
+        135
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 1
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        340
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 1
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        868,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 1
+    }
+  ],
+  "frame_0016.png": [
+    {
+      "coordinates": [
+        1025,
+        293,
+        1144,
+        600
+      ],
+      "conf": 0.8521108031272888,
+      "cls": 0,
+      "frame_name": 16
+    },
+    {
+      "coordinates": [
+        622,
+        155,
+        684,
+        330
+      ],
+      "conf": 0.8267886638641357,
+      "cls": 0,
+      "frame_name": 16
+    },
+    {
+      "coordinates": [
+        826,
+        130,
+        881,
+        279
+      ],
+      "conf": 0.6628282070159912,
+      "cls": 0,
+      "frame_name": 16
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 16
+    },
+    {
+      "coordinates": [
+        825,
+        84,
+        854,
+        135
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 16
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        340
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 16
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        880,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 16
+    }
+  ],
+  "frame_0031.png": [
+    {
+      "coordinates": [
+        621,
+        154,
+        684,
+        330
+      ],
+      "conf": 0.819533109664917,
+      "cls": 0,
+      "frame_name": 31
+    },
+    {
+      "coordinates": [
+        1030,
+        299,
+        1169,
+        601
+      ],
+      "conf": 0.819232165813446,
+      "cls": 0,
+      "frame_name": 31
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 31
+    },
+    {
+      "coordinates": [
+        838,
+        81,
+        868,
+        136
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 31
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        340
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 31
+    },
+    {
+      "coordinates": [
+        777,
+        150,
+        882,
+        276
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 31
+    },
+    {
+      "coordinates": [
+        813,
+        128,
+        860,
+        278
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 31
+    }
+  ],
+  "frame_0046.png": [
+    {
+      "coordinates": [
+        1037,
+        305,
+        1176,
+        600
+      ],
+      "conf": 0.845160722732544,
+      "cls": 0,
+      "frame_name": 46
+    },
+    {
+      "coordinates": [
+        620,
+        154,
+        684,
+        330
+      ],
+      "conf": 0.8190520405769348,
+      "cls": 0,
+      "frame_name": 46
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 46
+    },
+    {
+      "coordinates": [
+        838,
+        81,
+        870,
+        135
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 46
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        340
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 46
+    },
+    {
+      "coordinates": [
+        777,
+        150,
+        878,
+        276
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 46
+    },
+    {
+      "coordinates": [
+        813,
+        128,
+        860,
+        278
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 46
+    }
+  ],
+  "frame_0061.png": [
+    {
+      "coordinates": [
+        1031,
+        308,
+        1155,
+        602
+      ],
+      "conf": 0.8475232720375061,
+      "cls": 0,
+      "frame_name": 61
+    },
+    {
+      "coordinates": [
+        620,
+        154,
+        685,
+        331
+      ],
+      "conf": 0.8098109364509583,
+      "cls": 0,
+      "frame_name": 61
+    },
+    {
+      "coordinates": [
+        827,
+        139,
+        877,
+        280
+      ],
+      "conf": 0.6490135788917542,
+      "cls": 0,
+      "frame_name": 61
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 61
+    },
+    {
+      "coordinates": [
+        843,
+        82,
+        868,
+        140
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 61
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        340
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 61
+    }
+  ],
+  "frame_0076.png": [
+    {
+      "coordinates": [
+        1027,
+        309,
+        1154,
+        602
+      ],
+      "conf": 0.8455494046211243,
+      "cls": 0,
+      "frame_name": 76
+    },
+    {
+      "coordinates": [
+        620,
+        154,
+        685,
+        331
+      ],
+      "conf": 0.816837728023529,
+      "cls": 0,
+      "frame_name": 76
+    },
+    {
+      "coordinates": [
+        830,
+        142,
+        877,
+        278
+      ],
+      "conf": 0.6651321649551392,
+      "cls": 0,
+      "frame_name": 76
+    },
+    {
+      "coordinates": [
+        834,
+        81,
+        873,
+        143
+      ],
+      "conf": 0.31020432710647583,
+      "cls": 0,
+      "frame_name": 76
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 76
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        340
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 76
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        879,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 76
+    }
+  ],
+  "frame_0091.png": [
+    {
+      "coordinates": [
+        1039,
+        307,
+        1169,
+        601
+      ],
+      "conf": 0.8447890281677246,
+      "cls": 0,
+      "frame_name": 91
+    },
+    {
+      "coordinates": [
+        619,
+        155,
+        683,
+        330
+      ],
+      "conf": 0.8292552828788757,
+      "cls": 0,
+      "frame_name": 91
+    },
+    {
+      "coordinates": [
+        823,
+        81,
+        868,
+        136
+      ],
+      "conf": 0.4393084943294525,
+      "cls": 0,
+      "frame_name": 91
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 91
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        340
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 91
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        880,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 91
+    },
+    {
+      "coordinates": [
+        825,
+        136,
+        868,
+        276
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 91
+    }
+  ],
+  "frame_0106.png": [
+    {
+      "coordinates": [
+        1051,
+        306,
+        1175,
+        596
+      ],
+      "conf": 0.8546783924102783,
+      "cls": 0,
+      "frame_name": 106
+    },
+    {
+      "coordinates": [
+        619,
+        154,
+        701,
+        329
+      ],
+      "conf": 0.8234670758247375,
+      "cls": 0,
+      "frame_name": 106
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 106
+    },
+    {
+      "coordinates": [
+        812,
+        80,
+        836,
+        126
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 106
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        340
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 106
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        879,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 106
+    },
+    {
+      "coordinates": [
+        810,
+        135,
+        861,
+        280
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 106
+    }
+  ],
+  "frame_0121.png": [
+    {
+      "coordinates": [
+        1043,
+        307,
+        1163,
+        591
+      ],
+      "conf": 0.8656787276268005,
+      "cls": 0,
+      "frame_name": 121
+    },
+    {
+      "coordinates": [
+        633,
+        148,
+        707,
+        326
+      ],
+      "conf": 0.8025422096252441,
+      "cls": 0,
+      "frame_name": 121
+    },
+    {
+      "coordinates": [
+        775,
+        90,
+        796,
+        187
+      ],
+      "conf": 0.25241509079933167,
+      "cls": 0,
+      "frame_name": 121
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 121
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        306
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 121
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        879,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 121
+    },
+    {
+      "coordinates": [
+        806,
+        132,
+        861,
+        280
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 121
+    }
+  ],
+  "frame_0136.png": [
+    {
+      "coordinates": [
+        1046,
+        305,
+        1162,
+        586
+      ],
+      "conf": 0.8459871411323547,
+      "cls": 0,
+      "frame_name": 136
+    },
+    {
+      "coordinates": [
+        646,
+        147,
+        712,
+        320
+      ],
+      "conf": 0.8125756978988647,
+      "cls": 0,
+      "frame_name": 136
+    },
+    {
+      "coordinates": [
+        753,
+        91,
+        795,
+        187
+      ],
+      "conf": 0.4881313741207123,
+      "cls": 0,
+      "frame_name": 136
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 136
+    },
+    {
+      "coordinates": [
+        1094,
+        154,
+        1143,
+        306
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 136
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        879,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 136
+    },
+    {
+      "coordinates": [
+        806,
+        129,
+        861,
+        280
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 136
+    }
+  ],
+  "frame_0151.png": [
+    {
+      "coordinates": [
+        1058,
+        297,
+        1165,
+        586
+      ],
+      "conf": 0.8231529593467712,
+      "cls": 0,
+      "frame_name": 151
+    },
+    {
+      "coordinates": [
+        655,
+        145,
+        711,
+        320
+      ],
+      "conf": 0.7861043810844421,
+      "cls": 0,
+      "frame_name": 151
+    },
+    {
+      "coordinates": [
+        718,
+        93,
+        769,
+        221
+      ],
+      "conf": 0.6771513819694519,
+      "cls": 0,
+      "frame_name": 151
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 151
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 151
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        879,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 151
+    },
+    {
+      "coordinates": [
+        807,
+        129,
+        852,
+        280
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 151
+    }
+  ],
+  "frame_0166.png": [
+    {
+      "coordinates": [
+        1057,
+        291,
+        1166,
+        583
+      ],
+      "conf": 0.8393212556838989,
+      "cls": 0,
+      "frame_name": 166
+    },
+    {
+      "coordinates": [
+        656,
+        144,
+        711,
+        320
+      ],
+      "conf": 0.7853031158447266,
+      "cls": 0,
+      "frame_name": 166
+    },
+    {
+      "coordinates": [
+        710,
+        101,
+        759,
+        244
+      ],
+      "conf": 0.600186824798584,
+      "cls": 0,
+      "frame_name": 166
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 166
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 166
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        879,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 166
+    },
+    {
+      "coordinates": [
+        810,
+        138,
+        852,
+        280
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 166
+    }
+  ],
+  "frame_0181.png": [
+    {
+      "coordinates": [
+        1057,
+        291,
+        1166,
+        583
+      ],
+      "conf": 0.8425227999687195,
+      "cls": 0,
+      "frame_name": 181
+    },
+    {
+      "coordinates": [
+        657,
+        144,
+        709,
+        320
+      ],
+      "conf": 0.779289722442627,
+      "cls": 0,
+      "frame_name": 181
+    },
+    {
+      "coordinates": [
+        690,
+        106,
+        749,
+        256
+      ],
+      "conf": 0.6940546035766602,
+      "cls": 0,
+      "frame_name": 181
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 181
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 181
+    },
+    {
+      "coordinates": [
+        783,
+        150,
+        879,
+        273
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 181
+    },
+    {
+      "coordinates": [
+        798,
+        138,
+        846,
+        280
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 181
+    }
+  ],
+  "frame_0196.png": [
+    {
+      "coordinates": [
+        1056,
+        292,
+        1165,
+        584
+      ],
+      "conf": 0.8352763056755066,
+      "cls": 0,
+      "frame_name": 196
+    },
+    {
+      "coordinates": [
+        657,
+        143,
+        710,
+        320
+      ],
+      "conf": 0.7297846078872681,
+      "cls": 0,
+      "frame_name": 196
+    },
+    {
+      "coordinates": [
+        808,
+        148,
+        883,
+        223
+      ],
+      "conf": 0.6943472027778625,
+      "cls": 0,
+      "frame_name": 196
+    },
+    {
+      "coordinates": [
+        767,
+        141,
+        812,
+        277
+      ],
+      "conf": 0.6243603825569153,
+      "cls": 0,
+      "frame_name": 196
+    },
+    {
+      "coordinates": [
+        683,
+        110,
+        729,
+        257
+      ],
+      "conf": 0.5218937993049622,
+      "cls": 0,
+      "frame_name": 196
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 196
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 196
+    }
+  ],
+  "frame_0211.png": [
+    {
+      "coordinates": [
+        1056,
+        292,
+        1165,
+        584
+      ],
+      "conf": 0.8482025861740112,
+      "cls": 0,
+      "frame_name": 211
+    },
+    {
+      "coordinates": [
+        655,
+        144,
+        709,
+        320
+      ],
+      "conf": 0.7632339596748352,
+      "cls": 0,
+      "frame_name": 211
+    },
+    {
+      "coordinates": [
+        680,
+        113,
+        725,
+        264
+      ],
+      "conf": 0.6860916018486023,
+      "cls": 0,
+      "frame_name": 211
+    },
+    {
+      "coordinates": [
+        744,
+        150,
+        797,
+        297
+      ],
+      "conf": 0.5820865035057068,
+      "cls": 0,
+      "frame_name": 211
+    },
+    {
+      "coordinates": [
+        806,
+        148,
+        883,
+        222
+      ],
+      "conf": 0.5508003830909729,
+      "cls": 0,
+      "frame_name": 211
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 211
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 211
+    }
+  ],
+  "frame_0226.png": [
+    {
+      "coordinates": [
+        1056,
+        293,
+        1165,
+        582
+      ],
+      "conf": 0.8490428328514099,
+      "cls": 0,
+      "frame_name": 226
+    },
+    {
+      "coordinates": [
+        653,
+        147,
+        710,
+        320
+      ],
+      "conf": 0.7283604741096497,
+      "cls": 0,
+      "frame_name": 226
+    },
+    {
+      "coordinates": [
+        680,
+        113,
+        726,
+        267
+      ],
+      "conf": 0.6813610792160034,
+      "cls": 0,
+      "frame_name": 226
+    },
+    {
+      "coordinates": [
+        804,
+        148,
+        882,
+        223
+      ],
+      "conf": 0.6590718030929565,
+      "cls": 0,
+      "frame_name": 226
+    },
+    {
+      "coordinates": [
+        730,
+        153,
+        793,
+        283
+      ],
+      "conf": 0.6250666975975037,
+      "cls": 0,
+      "frame_name": 226
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 226
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 226
+    }
+  ],
+  "frame_0241.png": [
+    {
+      "coordinates": [
+        1056,
+        293,
+        1165,
+        581
+      ],
+      "conf": 0.850541353225708,
+      "cls": 0,
+      "frame_name": 241
+    },
+    {
+      "coordinates": [
+        653,
+        149,
+        710,
+        320
+      ],
+      "conf": 0.6888988018035889,
+      "cls": 0,
+      "frame_name": 241
+    },
+    {
+      "coordinates": [
+        726,
+        151,
+        789,
+        288
+      ],
+      "conf": 0.6270370483398438,
+      "cls": 0,
+      "frame_name": 241
+    },
+    {
+      "coordinates": [
+        679,
+        116,
+        723,
+        243
+      ],
+      "conf": 0.41820356249809265,
+      "cls": 0,
+      "frame_name": 241
+    },
+    {
+      "coordinates": [
+        787,
+        142,
+        886,
+        277
+      ],
+      "conf": 0.33151674270629883,
+      "cls": 0,
+      "frame_name": 241
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 241
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 241
+    }
+  ],
+  "frame_0256.png": [
+    {
+      "coordinates": [
+        1057,
+        293,
+        1165,
+        582
+      ],
+      "conf": 0.8520875573158264,
+      "cls": 0,
+      "frame_name": 256
+    },
+    {
+      "coordinates": [
+        652,
+        145,
+        708,
+        320
+      ],
+      "conf": 0.767441987991333,
+      "cls": 0,
+      "frame_name": 256
+    },
+    {
+      "coordinates": [
+        727,
+        147,
+        779,
+        280
+      ],
+      "conf": 0.6656826734542847,
+      "cls": 0,
+      "frame_name": 256
+    },
+    {
+      "coordinates": [
+        678,
+        117,
+        719,
+        279
+      ],
+      "conf": 0.6058564186096191,
+      "cls": 0,
+      "frame_name": 256
+    },
+    {
+      "coordinates": [
+        788,
+        145,
+        883,
+        272
+      ],
+      "conf": 0.38668495416641235,
+      "cls": 0,
+      "frame_name": 256
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 256
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 256
+    }
+  ],
+  "frame_0271.png": [
+    {
+      "coordinates": [
+        1057,
+        294,
+        1165,
+        582
+      ],
+      "conf": 0.850960373878479,
+      "cls": 0,
+      "frame_name": 271
+    },
+    {
+      "coordinates": [
+        652,
+        142,
+        707,
+        319
+      ],
+      "conf": 0.7659786939620972,
+      "cls": 0,
+      "frame_name": 271
+    },
+    {
+      "coordinates": [
+        726,
+        147,
+        781,
+        284
+      ],
+      "conf": 0.6392766237258911,
+      "cls": 0,
+      "frame_name": 271
+    },
+    {
+      "coordinates": [
+        676,
+        122,
+        718,
+        281
+      ],
+      "conf": 0.5927032232284546,
+      "cls": 0,
+      "frame_name": 271
+    },
+    {
+      "coordinates": [
+        786,
+        142,
+        884,
+        277
+      ],
+      "conf": 0.39011794328689575,
+      "cls": 0,
+      "frame_name": 271
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 271
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 271
+    }
+  ],
+  "frame_0286.png": [
+    {
+      "coordinates": [
+        1056,
+        294,
+        1166,
+        583
+      ],
+      "conf": 0.8467357158660889,
+      "cls": 0,
+      "frame_name": 286
+    },
+    {
+      "coordinates": [
+        653,
+        140,
+        713,
+        320
+      ],
+      "conf": 0.744608461856842,
+      "cls": 0,
+      "frame_name": 286
+    },
+    {
+      "coordinates": [
+        726,
+        146,
+        783,
+        286
+      ],
+      "conf": 0.5653385519981384,
+      "cls": 0,
+      "frame_name": 286
+    },
+    {
+      "coordinates": [
+        786,
+        139,
+        883,
+        278
+      ],
+      "conf": 0.37907281517982483,
+      "cls": 0,
+      "frame_name": 286
+    },
+    {
+      "coordinates": [
+        677,
+        128,
+        720,
+        281
+      ],
+      "conf": 0.3077061176300049,
+      "cls": 0,
+      "frame_name": 286
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 286
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        362
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 286
+    }
+  ],
+  "frame_0301.png": [
+    {
+      "coordinates": [
+        1056,
+        293,
+        1166,
+        584
+      ],
+      "conf": 0.8391375541687012,
+      "cls": 0,
+      "frame_name": 301
+    },
+    {
+      "coordinates": [
+        654,
+        140,
+        712,
+        320
+      ],
+      "conf": 0.7342175841331482,
+      "cls": 0,
+      "frame_name": 301
+    },
+    {
+      "coordinates": [
+        729,
+        146,
+        781,
+        281
+      ],
+      "conf": 0.6321946382522583,
+      "cls": 0,
+      "frame_name": 301
+    },
+    {
+      "coordinates": [
+        678,
+        126,
+        720,
+        281
+      ],
+      "conf": 0.4245140552520752,
+      "cls": 0,
+      "frame_name": 301
+    },
+    {
+      "coordinates": [
+        785,
+        142,
+        883,
+        278
+      ],
+      "conf": 0.4056784212589264,
+      "cls": 0,
+      "frame_name": 301
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 301
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 301
+    }
+  ],
+  "frame_0316.png": [
+    {
+      "coordinates": [
+        655,
+        140,
+        709,
+        320
+      ],
+      "conf": 0.7443515658378601,
+      "cls": 0,
+      "frame_name": 316
+    },
+    {
+      "coordinates": [
+        728,
+        147,
+        783,
+        281
+      ],
+      "conf": 0.6530358791351318,
+      "cls": 0,
+      "frame_name": 316
+    },
+    {
+      "coordinates": [
+        679,
+        125,
+        721,
+        283
+      ],
+      "conf": 0.6249030828475952,
+      "cls": 0,
+      "frame_name": 316
+    },
+    {
+      "coordinates": [
+        781,
+        147,
+        883,
+        282
+      ],
+      "conf": 0.43893033266067505,
+      "cls": 0,
+      "frame_name": 316
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 316
+    },
+    {
+      "coordinates": [
+        1062,
+        296,
+        1166,
+        580
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 316
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 316
+    }
+  ],
+  "frame_0331.png": [
+    {
+      "coordinates": [
+        1056,
+        292,
+        1166,
+        582
+      ],
+      "conf": 0.8492055535316467,
+      "cls": 0,
+      "frame_name": 331
+    },
+    {
+      "coordinates": [
+        655,
+        140,
+        708,
+        320
+      ],
+      "conf": 0.7480381727218628,
+      "cls": 0,
+      "frame_name": 331
+    },
+    {
+      "coordinates": [
+        727,
+        146,
+        780,
+        279
+      ],
+      "conf": 0.6519051790237427,
+      "cls": 0,
+      "frame_name": 331
+    },
+    {
+      "coordinates": [
+        678,
+        124,
+        720,
+        282
+      ],
+      "conf": 0.5905225872993469,
+      "cls": 0,
+      "frame_name": 331
+    },
+    {
+      "coordinates": [
+        777,
+        143,
+        880,
+        280
+      ],
+      "conf": 0.36216363310813904,
+      "cls": 0,
+      "frame_name": 331
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 331
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 331
+    }
+  ],
+  "frame_0346.png": [
+    {
+      "coordinates": [
+        1057,
+        293,
+        1167,
+        582
+      ],
+      "conf": 0.8432385325431824,
+      "cls": 0,
+      "frame_name": 346
+    },
+    {
+      "coordinates": [
+        655,
+        140,
+        706,
+        320
+      ],
+      "conf": 0.7630839943885803,
+      "cls": 0,
+      "frame_name": 346
+    },
+    {
+      "coordinates": [
+        723,
+        145,
+        788,
+        317
+      ],
+      "conf": 0.6057261228561401,
+      "cls": 0,
+      "frame_name": 346
+    },
+    {
+      "coordinates": [
+        678,
+        123,
+        720,
+        281
+      ],
+      "conf": 0.5673369765281677,
+      "cls": 0,
+      "frame_name": 346
+    },
+    {
+      "coordinates": [
+        791,
+        149,
+        882,
+        234
+      ],
+      "conf": 0.2553356885910034,
+      "cls": 0,
+      "frame_name": 346
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 346
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 346
+    }
+  ],
+  "frame_0361.png": [
+    {
+      "coordinates": [
+        1057,
+        293,
+        1167,
+        582
+      ],
+      "conf": 0.8436093330383301,
+      "cls": 0,
+      "frame_name": 361
+    },
+    {
+      "coordinates": [
+        655,
+        138,
+        706,
+        320
+      ],
+      "conf": 0.7475313544273376,
+      "cls": 0,
+      "frame_name": 361
+    },
+    {
+      "coordinates": [
+        726,
+        150,
+        777,
+        289
+      ],
+      "conf": 0.7200266122817993,
+      "cls": 0,
+      "frame_name": 361
+    },
+    {
+      "coordinates": [
+        678,
+        123,
+        721,
+        281
+      ],
+      "conf": 0.5302808880805969,
+      "cls": 0,
+      "frame_name": 361
+    },
+    {
+      "coordinates": [
+        785,
+        147,
+        884,
+        277
+      ],
+      "conf": 0.388359397649765,
+      "cls": 0,
+      "frame_name": 361
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 361
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 361
+    }
+  ],
+  "frame_0376.png": [
+    {
+      "coordinates": [
+        1056,
+        293,
+        1166,
+        583
+      ],
+      "conf": 0.8576193451881409,
+      "cls": 0,
+      "frame_name": 376
+    },
+    {
+      "coordinates": [
+        654,
+        139,
+        707,
+        320
+      ],
+      "conf": 0.7586166262626648,
+      "cls": 0,
+      "frame_name": 376
+    },
+    {
+      "coordinates": [
+        727,
+        152,
+        776,
+        290
+      ],
+      "conf": 0.7273434996604919,
+      "cls": 0,
+      "frame_name": 376
+    },
+    {
+      "coordinates": [
+        678,
+        125,
+        720,
+        281
+      ],
+      "conf": 0.5534749031066895,
+      "cls": 0,
+      "frame_name": 376
+    },
+    {
+      "coordinates": [
+        781,
+        145,
+        884,
+        279
+      ],
+      "conf": 0.4406295716762543,
+      "cls": 0,
+      "frame_name": 376
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 376
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 376
+    }
+  ],
+  "frame_0391.png": [
+    {
+      "coordinates": [
+        1055,
+        294,
+        1165,
+        583
+      ],
+      "conf": 0.861075222492218,
+      "cls": 0,
+      "frame_name": 391
+    },
+    {
+      "coordinates": [
+        654,
+        139,
+        708,
+        320
+      ],
+      "conf": 0.7580771446228027,
+      "cls": 0,
+      "frame_name": 391
+    },
+    {
+      "coordinates": [
+        726,
+        155,
+        778,
+        290
+      ],
+      "conf": 0.7259012460708618,
+      "cls": 0,
+      "frame_name": 391
+    },
+    {
+      "coordinates": [
+        679,
+        125,
+        720,
+        280
+      ],
+      "conf": 0.5238038301467896,
+      "cls": 0,
+      "frame_name": 391
+    },
+    {
+      "coordinates": [
+        779,
+        144,
+        884,
+        278
+      ],
+      "conf": 0.4186212420463562,
+      "cls": 0,
+      "frame_name": 391
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 391
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 391
+    }
+  ],
+  "frame_0406.png": [
+    {
+      "coordinates": [
+        1053,
+        295,
+        1164,
+        584
+      ],
+      "conf": 0.8551449775695801,
+      "cls": 0,
+      "frame_name": 406
+    },
+    {
+      "coordinates": [
+        654,
+        139,
+        708,
+        320
+      ],
+      "conf": 0.7598074078559875,
+      "cls": 0,
+      "frame_name": 406
+    },
+    {
+      "coordinates": [
+        728,
+        155,
+        780,
+        290
+      ],
+      "conf": 0.6381291151046753,
+      "cls": 0,
+      "frame_name": 406
+    },
+    {
+      "coordinates": [
+        679,
+        125,
+        719,
+        280
+      ],
+      "conf": 0.5219804048538208,
+      "cls": 0,
+      "frame_name": 406
+    },
+    {
+      "coordinates": [
+        782,
+        145,
+        884,
+        278
+      ],
+      "conf": 0.409141480922699,
+      "cls": 0,
+      "frame_name": 406
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 406
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 406
+    }
+  ],
+  "frame_0421.png": [
+    {
+      "coordinates": [
+        1053,
+        294,
+        1164,
+        583
+      ],
+      "conf": 0.8501006364822388,
+      "cls": 0,
+      "frame_name": 421
+    },
+    {
+      "coordinates": [
+        653,
+        139,
+        706,
+        320
+      ],
+      "conf": 0.7767389416694641,
+      "cls": 0,
+      "frame_name": 421
+    },
+    {
+      "coordinates": [
+        730,
+        155,
+        785,
+        287
+      ],
+      "conf": 0.6877045631408691,
+      "cls": 0,
+      "frame_name": 421
+    },
+    {
+      "coordinates": [
+        679,
+        126,
+        720,
+        281
+      ],
+      "conf": 0.43082839250564575,
+      "cls": 0,
+      "frame_name": 421
+    },
+    {
+      "coordinates": [
+        788,
+        145,
+        883,
+        268
+      ],
+      "conf": 0.39170902967453003,
+      "cls": 0,
+      "frame_name": 421
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 421
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 421
+    }
+  ],
+  "frame_0436.png": [
+    {
+      "coordinates": [
+        1053,
+        293,
+        1164,
+        583
+      ],
+      "conf": 0.8479607701301575,
+      "cls": 0,
+      "frame_name": 436
+    },
+    {
+      "coordinates": [
+        652,
+        139,
+        707,
+        320
+      ],
+      "conf": 0.7716254591941833,
+      "cls": 0,
+      "frame_name": 436
+    },
+    {
+      "coordinates": [
+        728,
+        146,
+        785,
+        286
+      ],
+      "conf": 0.5852678418159485,
+      "cls": 0,
+      "frame_name": 436
+    },
+    {
+      "coordinates": [
+        679,
+        124,
+        720,
+        281
+      ],
+      "conf": 0.45126086473464966,
+      "cls": 0,
+      "frame_name": 436
+    },
+    {
+      "coordinates": [
+        806,
+        146,
+        883,
+        221
+      ],
+      "conf": 0.2944350242614746,
+      "cls": 0,
+      "frame_name": 436
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 436
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 436
+    }
+  ],
+  "frame_0451.png": [
+    {
+      "coordinates": [
+        1053,
+        291,
+        1163,
+        582
+      ],
+      "conf": 0.8475954532623291,
+      "cls": 0,
+      "frame_name": 451
+    },
+    {
+      "coordinates": [
+        653,
+        140,
+        706,
+        320
+      ],
+      "conf": 0.7791557908058167,
+      "cls": 0,
+      "frame_name": 451
+    },
+    {
+      "coordinates": [
+        725,
+        145,
+        778,
+        293
+      ],
+      "conf": 0.6789667010307312,
+      "cls": 0,
+      "frame_name": 451
+    },
+    {
+      "coordinates": [
+        680,
+        122,
+        721,
+        283
+      ],
+      "conf": 0.6282199025154114,
+      "cls": 0,
+      "frame_name": 451
+    },
+    {
+      "coordinates": [
+        774,
+        147,
+        883,
+        287
+      ],
+      "conf": 0.5973537564277649,
+      "cls": 0,
+      "frame_name": 451
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 451
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 451
+    }
+  ],
+  "frame_0466.png": [
+    {
+      "coordinates": [
+        1053,
+        292,
+        1164,
+        582
+      ],
+      "conf": 0.8495896458625793,
+      "cls": 0,
+      "frame_name": 466
+    },
+    {
+      "coordinates": [
+        653,
+        139,
+        707,
+        320
+      ],
+      "conf": 0.7678911685943604,
+      "cls": 0,
+      "frame_name": 466
+    },
+    {
+      "coordinates": [
+        717,
+        145,
+        771,
+        294
+      ],
+      "conf": 0.6813070178031921,
+      "cls": 0,
+      "frame_name": 466
+    },
+    {
+      "coordinates": [
+        679,
+        122,
+        721,
+        280
+      ],
+      "conf": 0.49000778794288635,
+      "cls": 0,
+      "frame_name": 466
+    },
+    {
+      "coordinates": [
+        784,
+        145,
+        883,
+        272
+      ],
+      "conf": 0.30352410674095154,
+      "cls": 0,
+      "frame_name": 466
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 466
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 466
+    }
+  ],
+  "frame_0481.png": [
+    {
+      "coordinates": [
+        1053,
+        292,
+        1164,
+        582
+      ],
+      "conf": 0.8560273051261902,
+      "cls": 0,
+      "frame_name": 481
+    },
+    {
+      "coordinates": [
+        649,
+        142,
+        707,
+        320
+      ],
+      "conf": 0.7362237572669983,
+      "cls": 0,
+      "frame_name": 481
+    },
+    {
+      "coordinates": [
+        706,
+        156,
+        763,
+        316
+      ],
+      "conf": 0.6926404237747192,
+      "cls": 0,
+      "frame_name": 481
+    },
+    {
+      "coordinates": [
+        678,
+        122,
+        719,
+        280
+      ],
+      "conf": 0.48207908868789673,
+      "cls": 0,
+      "frame_name": 481
+    },
+    {
+      "coordinates": [
+        776,
+        143,
+        883,
+        261
+      ],
+      "conf": 0.29686862230300903,
+      "cls": 0,
+      "frame_name": 481
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 481
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 481
+    }
+  ],
+  "frame_0496.png": [
+    {
+      "coordinates": [
+        1053,
+        291,
+        1165,
+        582
+      ],
+      "conf": 0.8570932149887085,
+      "cls": 0,
+      "frame_name": 496
+    },
+    {
+      "coordinates": [
+        630,
+        143,
+        705,
+        320
+      ],
+      "conf": 0.8366726636886597,
+      "cls": 0,
+      "frame_name": 496
+    },
+    {
+      "coordinates": [
+        708,
+        159,
+        761,
+        317
+      ],
+      "conf": 0.7547692656517029,
+      "cls": 0,
+      "frame_name": 496
+    },
+    {
+      "coordinates": [
+        669,
+        122,
+        718,
+        282
+      ],
+      "conf": 0.7279000878334045,
+      "cls": 0,
+      "frame_name": 496
+    },
+    {
+      "coordinates": [
+        774,
+        145,
+        883,
+        260
+      ],
+      "conf": 0.29389068484306335,
+      "cls": 0,
+      "frame_name": 496
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 496
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 496
+    }
+  ],
+  "frame_0511.png": [
+    {
+      "coordinates": [
+        1054,
+        291,
+        1165,
+        581
+      ],
+      "conf": 0.868212878704071,
+      "cls": 0,
+      "frame_name": 511
+    },
+    {
+      "coordinates": [
+        700,
+        158,
+        763,
+        310
+      ],
+      "conf": 0.7824719548225403,
+      "cls": 0,
+      "frame_name": 511
+    },
+    {
+      "coordinates": [
+        622,
+        147,
+        675,
+        323
+      ],
+      "conf": 0.765326976776123,
+      "cls": 0,
+      "frame_name": 511
+    },
+    {
+      "coordinates": [
+        667,
+        124,
+        715,
+        285
+      ],
+      "conf": 0.7382892370223999,
+      "cls": 0,
+      "frame_name": 511
+    },
+    {
+      "coordinates": [
+        776,
+        145,
+        882,
+        274
+      ],
+      "conf": 0.4162614941596985,
+      "cls": 0,
+      "frame_name": 511
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 511
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 511
+    }
+  ],
+  "frame_0526.png": [
+    {
+      "coordinates": [
+        1054,
+        291,
+        1165,
+        581
+      ],
+      "conf": 0.8667814135551453,
+      "cls": 0,
+      "frame_name": 526
+    },
+    {
+      "coordinates": [
+        680,
+        154,
+        747,
+        320
+      ],
+      "conf": 0.802629292011261,
+      "cls": 0,
+      "frame_name": 526
+    },
+    {
+      "coordinates": [
+        616,
+        147,
+        673,
+        325
+      ],
+      "conf": 0.7699746489524841,
+      "cls": 0,
+      "frame_name": 526
+    },
+    {
+      "coordinates": [
+        663,
+        125,
+        702,
+        243
+      ],
+      "conf": 0.5948514342308044,
+      "cls": 0,
+      "frame_name": 526
+    },
+    {
+      "coordinates": [
+        770,
+        145,
+        882,
+        281
+      ],
+      "conf": 0.5459843873977661,
+      "cls": 0,
+      "frame_name": 526
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 526
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 526
+    }
+  ],
+  "frame_0541.png": [
+    {
+      "coordinates": [
+        1055,
+        293,
+        1165,
+        581
+      ],
+      "conf": 0.8627074360847473,
+      "cls": 0,
+      "frame_name": 541
+    },
+    {
+      "coordinates": [
+        664,
+        159,
+        740,
+        325
+      ],
+      "conf": 0.7997302412986755,
+      "cls": 0,
+      "frame_name": 541
+    },
+    {
+      "coordinates": [
+        615,
+        147,
+        669,
+        324
+      ],
+      "conf": 0.7563732266426086,
+      "cls": 0,
+      "frame_name": 541
+    },
+    {
+      "coordinates": [
+        765,
+        145,
+        882,
+        300
+      ],
+      "conf": 0.5640759468078613,
+      "cls": 0,
+      "frame_name": 541
+    },
+    {
+      "coordinates": [
+        658,
+        123,
+        698,
+        196
+      ],
+      "conf": 0.25204336643218994,
+      "cls": 0,
+      "frame_name": 541
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 541
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 541
+    }
+  ],
+  "frame_0556.png": [
+    {
+      "coordinates": [
+        1055,
+        293,
+        1165,
+        581
+      ],
+      "conf": 0.8638700246810913,
+      "cls": 0,
+      "frame_name": 556
+    },
+    {
+      "coordinates": [
+        648,
+        163,
+        720,
+        326
+      ],
+      "conf": 0.814344048500061,
+      "cls": 0,
+      "frame_name": 556
+    },
+    {
+      "coordinates": [
+        614,
+        146,
+        659,
+        324
+      ],
+      "conf": 0.7477192282676697,
+      "cls": 0,
+      "frame_name": 556
+    },
+    {
+      "coordinates": [
+        776,
+        150,
+        879,
+        269
+      ],
+      "conf": 0.6558338403701782,
+      "cls": 0,
+      "frame_name": 556
+    },
+    {
+      "coordinates": [
+        651,
+        115,
+        706,
+        175
+      ],
+      "conf": 0.29922378063201904,
+      "cls": 0,
+      "frame_name": 556
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 556
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 556
+    }
+  ],
+  "frame_0571.png": [
+    {
+      "coordinates": [
+        1055,
+        293,
+        1165,
+        581
+      ],
+      "conf": 0.8616089820861816,
+      "cls": 0,
+      "frame_name": 571
+    },
+    {
+      "coordinates": [
+        648,
+        166,
+        719,
+        325
+      ],
+      "conf": 0.8069361448287964,
+      "cls": 0,
+      "frame_name": 571
+    },
+    {
+      "coordinates": [
+        615,
+        149,
+        661,
+        321
+      ],
+      "conf": 0.718260645866394,
+      "cls": 0,
+      "frame_name": 571
+    },
+    {
+      "coordinates": [
+        802,
+        156,
+        875,
+        222
+      ],
+      "conf": 0.5478609800338745,
+      "cls": 0,
+      "frame_name": 571
+    },
+    {
+      "coordinates": [
+        650,
+        116,
+        707,
+        194
+      ],
+      "conf": 0.25779014825820923,
+      "cls": 0,
+      "frame_name": 571
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 571
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 571
+    }
+  ],
+  "frame_0586.png": [
+    {
+      "coordinates": [
+        1055,
+        294,
+        1165,
+        581
+      ],
+      "conf": 0.8623147010803223,
+      "cls": 0,
+      "frame_name": 586
+    },
+    {
+      "coordinates": [
+        648,
+        164,
+        722,
+        325
+      ],
+      "conf": 0.8153588771820068,
+      "cls": 0,
+      "frame_name": 586
+    },
+    {
+      "coordinates": [
+        614,
+        147,
+        660,
+        321
+      ],
+      "conf": 0.7264218330383301,
+      "cls": 0,
+      "frame_name": 586
+    },
+    {
+      "coordinates": [
+        787,
+        156,
+        877,
+        277
+      ],
+      "conf": 0.2725403308868408,
+      "cls": 0,
+      "frame_name": 586
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 586
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 586
+    },
+    {
+      "coordinates": [
+        646,
+        124,
+        698,
+        194
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 586
+    }
+  ],
+  "frame_0601.png": [
+    {
+      "coordinates": [
+        1056,
+        293,
+        1166,
+        582
+      ],
+      "conf": 0.861449122428894,
+      "cls": 0,
+      "frame_name": 601
+    },
+    {
+      "coordinates": [
+        648,
+        162,
+        721,
+        326
+      ],
+      "conf": 0.830694317817688,
+      "cls": 0,
+      "frame_name": 601
+    },
+    {
+      "coordinates": [
+        614,
+        147,
+        664,
+        322
+      ],
+      "conf": 0.7137056589126587,
+      "cls": 0,
+      "frame_name": 601
+    },
+    {
+      "coordinates": [
+        787,
+        146,
+        877,
+        279
+      ],
+      "conf": 0.6312389969825745,
+      "cls": 0,
+      "frame_name": 601
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 601
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 601
+    },
+    {
+      "coordinates": [
+        650,
+        124,
+        693,
+        194
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 601
+    }
+  ],
+  "frame_0616.png": [
+    {
+      "coordinates": [
+        1056,
+        294,
+        1166,
+        582
+      ],
+      "conf": 0.8568366169929504,
+      "cls": 0,
+      "frame_name": 616
+    },
+    {
+      "coordinates": [
+        648,
+        161,
+        721,
+        326
+      ],
+      "conf": 0.8440033793449402,
+      "cls": 0,
+      "frame_name": 616
+    },
+    {
+      "coordinates": [
+        775,
+        145,
+        879,
+        282
+      ],
+      "conf": 0.8115156292915344,
+      "cls": 0,
+      "frame_name": 616
+    },
+    {
+      "coordinates": [
+        614,
+        148,
+        665,
+        322
+      ],
+      "conf": 0.7201784253120422,
+      "cls": 0,
+      "frame_name": 616
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 616
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 616
+    },
+    {
+      "coordinates": [
+        650,
+        124,
+        693,
+        194
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 616
+    }
+  ],
+  "frame_0631.png": [
+    {
+      "coordinates": [
+        1050,
+        294,
+        1165,
+        582
+      ],
+      "conf": 0.8559319972991943,
+      "cls": 0,
+      "frame_name": 631
+    },
+    {
+      "coordinates": [
+        645,
+        164,
+        714,
+        325
+      ],
+      "conf": 0.8093159794807434,
+      "cls": 0,
+      "frame_name": 631
+    },
+    {
+      "coordinates": [
+        773,
+        141,
+        881,
+        286
+      ],
+      "conf": 0.7056915760040283,
+      "cls": 0,
+      "frame_name": 631
+    },
+    {
+      "coordinates": [
+        614,
+        147,
+        660,
+        321
+      ],
+      "conf": 0.7000634074211121,
+      "cls": 0,
+      "frame_name": 631
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 631
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 631
+    },
+    {
+      "coordinates": [
+        650,
+        124,
+        693,
+        194
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 631
+    }
+  ],
+  "frame_0646.png": [
+    {
+      "coordinates": [
+        1056,
+        295,
+        1165,
+        581
+      ],
+      "conf": 0.8639654517173767,
+      "cls": 0,
+      "frame_name": 646
+    },
+    {
+      "coordinates": [
+        770,
+        141,
+        881,
+        286
+      ],
+      "conf": 0.7067105770111084,
+      "cls": 0,
+      "frame_name": 646
+    },
+    {
+      "coordinates": [
+        635,
+        169,
+        701,
+        324
+      ],
+      "conf": 0.702053964138031,
+      "cls": 0,
+      "frame_name": 646
+    },
+    {
+      "coordinates": [
+        615,
+        148,
+        654,
+        321
+      ],
+      "conf": 0.5665556192398071,
+      "cls": 0,
+      "frame_name": 646
+    },
+    {
+      "coordinates": [
+        649,
+        120,
+        697,
+        216
+      ],
+      "conf": 0.552730917930603,
+      "cls": 0,
+      "frame_name": 646
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 646
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 646
+    }
+  ],
+  "frame_0661.png": [
+    {
+      "coordinates": [
+        1058,
+        294,
+        1165,
+        582
+      ],
+      "conf": 0.8471242189407349,
+      "cls": 0,
+      "frame_name": 661
+    },
+    {
+      "coordinates": [
+        607,
+        166,
+        680,
+        332
+      ],
+      "conf": 0.7890332937240601,
+      "cls": 0,
+      "frame_name": 661
+    },
+    {
+      "coordinates": [
+        656,
+        125,
+        698,
+        283
+      ],
+      "conf": 0.7354871034622192,
+      "cls": 0,
+      "frame_name": 661
+    },
+    {
+      "coordinates": [
+        769,
+        147,
+        879,
+        281
+      ],
+      "conf": 0.7042274475097656,
+      "cls": 0,
+      "frame_name": 661
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 661
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 661
+    },
+    {
+      "coordinates": [
+        630,
+        144,
+        663,
+        201
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 661
+    }
+  ],
+  "frame_0676.png": [
+    {
+      "coordinates": [
+        1052,
+        296,
+        1163,
+        583
+      ],
+      "conf": 0.824438750743866,
+      "cls": 0,
+      "frame_name": 676
+    },
+    {
+      "coordinates": [
+        614,
+        147,
+        672,
+        314
+      ],
+      "conf": 0.755852997303009,
+      "cls": 0,
+      "frame_name": 676
+    },
+    {
+      "coordinates": [
+        659,
+        128,
+        704,
+        284
+      ],
+      "conf": 0.7544410824775696,
+      "cls": 0,
+      "frame_name": 676
+    },
+    {
+      "coordinates": [
+        572,
+        165,
+        653,
+        327
+      ],
+      "conf": 0.733249843120575,
+      "cls": 0,
+      "frame_name": 676
+    },
+    {
+      "coordinates": [
+        767,
+        142,
+        882,
+        283
+      ],
+      "conf": 0.5865834355354309,
+      "cls": 0,
+      "frame_name": 676
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 676
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 676
+    }
+  ],
+  "frame_0691.png": [
+    {
+      "coordinates": [
+        600,
+        148,
+        671,
+        317
+      ],
+      "conf": 0.8296893835067749,
+      "cls": 0,
+      "frame_name": 691
+    },
+    {
+      "coordinates": [
+        1052,
+        295,
+        1163,
+        583
+      ],
+      "conf": 0.823304295539856,
+      "cls": 0,
+      "frame_name": 691
+    },
+    {
+      "coordinates": [
+        659,
+        127,
+        708,
+        288
+      ],
+      "conf": 0.8069527745246887,
+      "cls": 0,
+      "frame_name": 691
+    },
+    {
+      "coordinates": [
+        562,
+        165,
+        633,
+        321
+      ],
+      "conf": 0.761115312576294,
+      "cls": 0,
+      "frame_name": 691
+    },
+    {
+      "coordinates": [
+        771,
+        142,
+        882,
+        278
+      ],
+      "conf": 0.4008602201938629,
+      "cls": 0,
+      "frame_name": 691
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 691
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 691
+    }
+  ],
+  "frame_0706.png": [
+    {
+      "coordinates": [
+        1053,
+        297,
+        1163,
+        582
+      ],
+      "conf": 0.8344702124595642,
+      "cls": 0,
+      "frame_name": 706
+    },
+    {
+      "coordinates": [
+        663,
+        129,
+        713,
+        288
+      ],
+      "conf": 0.8175363540649414,
+      "cls": 0,
+      "frame_name": 706
+    },
+    {
+      "coordinates": [
+        597,
+        147,
+        671,
+        314
+      ],
+      "conf": 0.8157945871353149,
+      "cls": 0,
+      "frame_name": 706
+    },
+    {
+      "coordinates": [
+        571,
+        170,
+        629,
+        319
+      ],
+      "conf": 0.7725958824157715,
+      "cls": 0,
+      "frame_name": 706
+    },
+    {
+      "coordinates": [
+        770,
+        139,
+        883,
+        278
+      ],
+      "conf": 0.48157593607902527,
+      "cls": 0,
+      "frame_name": 706
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 706
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 706
+    }
+  ],
+  "frame_0721.png": [
+    {
+      "coordinates": [
+        1052,
+        298,
+        1163,
+        582
+      ],
+      "conf": 0.838228702545166,
+      "cls": 0,
+      "frame_name": 721
+    },
+    {
+      "coordinates": [
+        593,
+        148,
+        671,
+        315
+      ],
+      "conf": 0.8186858296394348,
+      "cls": 0,
+      "frame_name": 721
+    },
+    {
+      "coordinates": [
+        663,
+        127,
+        714,
+        289
+      ],
+      "conf": 0.8054022789001465,
+      "cls": 0,
+      "frame_name": 721
+    },
+    {
+      "coordinates": [
+        571,
+        173,
+        625,
+        317
+      ],
+      "conf": 0.7778863310813904,
+      "cls": 0,
+      "frame_name": 721
+    },
+    {
+      "coordinates": [
+        769,
+        139,
+        883,
+        279
+      ],
+      "conf": 0.48094862699508667,
+      "cls": 0,
+      "frame_name": 721
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 721
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 721
+    }
+  ],
+  "frame_0736.png": [
+    {
+      "coordinates": [
+        1053,
+        297,
+        1162,
+        582
+      ],
+      "conf": 0.8304536938667297,
+      "cls": 0,
+      "frame_name": 736
+    },
+    {
+      "coordinates": [
+        571,
+        172,
+        626,
+        320
+      ],
+      "conf": 0.7897842526435852,
+      "cls": 0,
+      "frame_name": 736
+    },
+    {
+      "coordinates": [
+        666,
+        127,
+        715,
+        289
+      ],
+      "conf": 0.7774863243103027,
+      "cls": 0,
+      "frame_name": 736
+    },
+    {
+      "coordinates": [
+        591,
+        145,
+        671,
+        314
+      ],
+      "conf": 0.7527948021888733,
+      "cls": 0,
+      "frame_name": 736
+    },
+    {
+      "coordinates": [
+        769,
+        142,
+        884,
+        280
+      ],
+      "conf": 0.3646896183490753,
+      "cls": 0,
+      "frame_name": 736
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 736
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 736
+    }
+  ],
+  "frame_0751.png": [
+    {
+      "coordinates": [
+        1053,
+        296,
+        1163,
+        582
+      ],
+      "conf": 0.8274325728416443,
+      "cls": 0,
+      "frame_name": 751
+    },
+    {
+      "coordinates": [
+        571,
+        171,
+        627,
+        320
+      ],
+      "conf": 0.7851329445838928,
+      "cls": 0,
+      "frame_name": 751
+    },
+    {
+      "coordinates": [
+        665,
+        125,
+        716,
+        289
+      ],
+      "conf": 0.7803512215614319,
+      "cls": 0,
+      "frame_name": 751
+    },
+    {
+      "coordinates": [
+        590,
+        146,
+        671,
+        315
+      ],
+      "conf": 0.7081289887428284,
+      "cls": 0,
+      "frame_name": 751
+    },
+    {
+      "coordinates": [
+        769,
+        143,
+        883,
+        277
+      ],
+      "conf": 0.3139870762825012,
+      "cls": 0,
+      "frame_name": 751
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 751
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1143,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 751
+    }
+  ],
+  "frame_0766.png": [
+    {
+      "coordinates": [
+        1055,
+        297,
+        1164,
+        581
+      ],
+      "conf": 0.8525762557983398,
+      "cls": 0,
+      "frame_name": 766
+    },
+    {
+      "coordinates": [
+        571,
+        171,
+        627,
+        319
+      ],
+      "conf": 0.8031557202339172,
+      "cls": 0,
+      "frame_name": 766
+    },
+    {
+      "coordinates": [
+        590,
+        147,
+        672,
+        314
+      ],
+      "conf": 0.7821049094200134,
+      "cls": 0,
+      "frame_name": 766
+    },
+    {
+      "coordinates": [
+        666,
+        124,
+        716,
+        289
+      ],
+      "conf": 0.7511586546897888,
+      "cls": 0,
+      "frame_name": 766
+    },
+    {
+      "coordinates": [
+        814,
+        143,
+        882,
+        221
+      ],
+      "conf": 0.3576802611351013,
+      "cls": 0,
+      "frame_name": 766
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 766
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1136,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 766
+    }
+  ],
+  "frame_0781.png": [
+    {
+      "coordinates": [
+        1055,
+        296,
+        1165,
+        581
+      ],
+      "conf": 0.8567672967910767,
+      "cls": 0,
+      "frame_name": 781
+    },
+    {
+      "coordinates": [
+        570,
+        171,
+        628,
+        320
+      ],
+      "conf": 0.7957582473754883,
+      "cls": 0,
+      "frame_name": 781
+    },
+    {
+      "coordinates": [
+        590,
+        146,
+        671,
+        314
+      ],
+      "conf": 0.7679333090782166,
+      "cls": 0,
+      "frame_name": 781
+    },
+    {
+      "coordinates": [
+        666,
+        125,
+        716,
+        289
+      ],
+      "conf": 0.7459861040115356,
+      "cls": 0,
+      "frame_name": 781
+    },
+    {
+      "coordinates": [
+        761,
+        142,
+        883,
+        280
+      ],
+      "conf": 0.32501089572906494,
+      "cls": 0,
+      "frame_name": 781
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 781
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1130,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 781
+    }
+  ],
+  "frame_0796.png": [
+    {
+      "coordinates": [
+        1056,
+        296,
+        1166,
+        582
+      ],
+      "conf": 0.8562490940093994,
+      "cls": 0,
+      "frame_name": 796
+    },
+    {
+      "coordinates": [
+        569,
+        170,
+        630,
+        320
+      ],
+      "conf": 0.7797078490257263,
+      "cls": 0,
+      "frame_name": 796
+    },
+    {
+      "coordinates": [
+        667,
+        125,
+        716,
+        289
+      ],
+      "conf": 0.7575327754020691,
+      "cls": 0,
+      "frame_name": 796
+    },
+    {
+      "coordinates": [
+        591,
+        146,
+        672,
+        314
+      ],
+      "conf": 0.7363898754119873,
+      "cls": 0,
+      "frame_name": 796
+    },
+    {
+      "coordinates": [
+        816,
+        145,
+        882,
+        220
+      ],
+      "conf": 0.39686596393585205,
+      "cls": 0,
+      "frame_name": 796
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 796
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1130,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 796
+    }
+  ],
+  "frame_0811.png": [
+    {
+      "coordinates": [
+        1056,
+        297,
+        1166,
+        582
+      ],
+      "conf": 0.8621661067008972,
+      "cls": 0,
+      "frame_name": 811
+    },
+    {
+      "coordinates": [
+        561,
+        171,
+        632,
+        319
+      ],
+      "conf": 0.8142397999763489,
+      "cls": 0,
+      "frame_name": 811
+    },
+    {
+      "coordinates": [
+        667,
+        125,
+        716,
+        289
+      ],
+      "conf": 0.746017575263977,
+      "cls": 0,
+      "frame_name": 811
+    },
+    {
+      "coordinates": [
+        593,
+        148,
+        671,
+        314
+      ],
+      "conf": 0.6975467801094055,
+      "cls": 0,
+      "frame_name": 811
+    },
+    {
+      "coordinates": [
+        814,
+        145,
+        883,
+        221
+      ],
+      "conf": 0.5351212024688721,
+      "cls": 0,
+      "frame_name": 811
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 811
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1130,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 811
+    }
+  ],
+  "frame_0826.png": [
+    {
+      "coordinates": [
+        1056,
+        298,
+        1165,
+        582
+      ],
+      "conf": 0.8597606420516968,
+      "cls": 0,
+      "frame_name": 826
+    },
+    {
+      "coordinates": [
+        578,
+        148,
+        671,
+        317
+      ],
+      "conf": 0.835261344909668,
+      "cls": 0,
+      "frame_name": 826
+    },
+    {
+      "coordinates": [
+        664,
+        126,
+        714,
+        291
+      ],
+      "conf": 0.7725812792778015,
+      "cls": 0,
+      "frame_name": 826
+    },
+    {
+      "coordinates": [
+        536,
+        174,
+        604,
+        306
+      ],
+      "conf": 0.769290566444397,
+      "cls": 0,
+      "frame_name": 826
+    },
+    {
+      "coordinates": [
+        759,
+        145,
+        884,
+        282
+      ],
+      "conf": 0.4001036584377289,
+      "cls": 0,
+      "frame_name": 826
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 826
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1130,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 826
+    }
+  ],
+  "frame_0841.png": [
+    {
+      "coordinates": [
+        1056,
+        298,
+        1165,
+        582
+      ],
+      "conf": 0.8605853915214539,
+      "cls": 0,
+      "frame_name": 841
+    },
+    {
+      "coordinates": [
+        577,
+        147,
+        671,
+        316
+      ],
+      "conf": 0.8566856980323792,
+      "cls": 0,
+      "frame_name": 841
+    },
+    {
+      "coordinates": [
+        521,
+        176,
+        583,
+        296
+      ],
+      "conf": 0.784693717956543,
+      "cls": 0,
+      "frame_name": 841
+    },
+    {
+      "coordinates": [
+        659,
+        129,
+        714,
+        292
+      ],
+      "conf": 0.7598506808280945,
+      "cls": 0,
+      "frame_name": 841
+    },
+    {
+      "coordinates": [
+        814,
+        146,
+        883,
+        221
+      ],
+      "conf": 0.3729707598686218,
+      "cls": 0,
+      "frame_name": 841
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 841
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1130,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 841
+    }
+  ],
+  "frame_0856.png": [
+    {
+      "coordinates": [
+        579,
+        146,
+        651,
+        320
+      ],
+      "conf": 0.860785961151123,
+      "cls": 0,
+      "frame_name": 856
+    },
+    {
+      "coordinates": [
+        1056,
+        298,
+        1165,
+        583
+      ],
+      "conf": 0.8533264994621277,
+      "cls": 0,
+      "frame_name": 856
+    },
+    {
+      "coordinates": [
+        655,
+        130,
+        708,
+        291
+      ],
+      "conf": 0.7688999772071838,
+      "cls": 0,
+      "frame_name": 856
+    },
+    {
+      "coordinates": [
+        512,
+        175,
+        571,
+        293
+      ],
+      "conf": 0.755194902420044,
+      "cls": 0,
+      "frame_name": 856
+    },
+    {
+      "coordinates": [
+        763,
+        145,
+        883,
+        280
+      ],
+      "conf": 0.30983150005340576,
+      "cls": 0,
+      "frame_name": 856
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 856
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1130,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 856
+    }
+  ],
+  "frame_0871.png": [
+    {
+      "coordinates": [
+        1056,
+        298,
+        1165,
+        583
+      ],
+      "conf": 0.8458583950996399,
+      "cls": 0,
+      "frame_name": 871
+    },
+    {
+      "coordinates": [
+        657,
+        131,
+        708,
+        291
+      ],
+      "conf": 0.8044350147247314,
+      "cls": 0,
+      "frame_name": 871
+    },
+    {
+      "coordinates": [
+        493,
+        168,
+        554,
+        285
+      ],
+      "conf": 0.7922114133834839,
+      "cls": 0,
+      "frame_name": 871
+    },
+    {
+      "coordinates": [
+        593,
+        143,
+        652,
+        320
+      ],
+      "conf": 0.7661325335502625,
+      "cls": 0,
+      "frame_name": 871
+    },
+    {
+      "coordinates": [
+        815,
+        147,
+        882,
+        220
+      ],
+      "conf": 0.35754847526550293,
+      "cls": 0,
+      "frame_name": 871
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 871
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1130,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 871
+    }
+  ],
+  "frame_0886.png": [
+    {
+      "coordinates": [
+        1056,
+        298,
+        1166,
+        584
+      ],
+      "conf": 0.8380320072174072,
+      "cls": 0,
+      "frame_name": 886
+    },
+    {
+      "coordinates": [
+        587,
+        147,
+        653,
+        319
+      ],
+      "conf": 0.8136041760444641,
+      "cls": 0,
+      "frame_name": 886
+    },
+    {
+      "coordinates": [
+        660,
+        130,
+        709,
+        290
+      ],
+      "conf": 0.8078802227973938,
+      "cls": 0,
+      "frame_name": 886
+    },
+    {
+      "coordinates": [
+        459,
+        171,
+        521,
+        273
+      ],
+      "conf": 0.6609649062156677,
+      "cls": 0,
+      "frame_name": 886
+    },
+    {
+      "coordinates": [
+        769,
+        142,
+        883,
+        281
+      ],
+      "conf": 0.36200690269470215,
+      "cls": 0,
+      "frame_name": 886
+    },
+    {
+      "coordinates": [
+        920,
+        100,
+        952,
+        164
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 886
+    },
+    {
+      "coordinates": [
+        1082,
+        154,
+        1130,
+        297
+      ],
+      "conf": 1.0,
+      "cls": 0,
+      "frame_name": 886
+    }
+  ]
+}

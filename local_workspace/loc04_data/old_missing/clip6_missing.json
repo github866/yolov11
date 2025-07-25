@@ -1,0 +1,457 @@
+[
+  {
+    "frame": 1,
+    "persons": [
+      {
+        "subject_id": 3,
+        "subject_name": "patient_2",
+        "coordinate": [
+          350,
+          234,
+          400,
+          290
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 16,
+    "persons": [
+      {
+        "subject_id": 10,
+        "subject_name": "person_3",
+        "coordinate": [
+          366,
+          288,
+          464,
+          366
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 31,
+    "persons": [
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          454,
+          249,
+          525,
+          351
+        ]
+      },
+      {
+        "subject_id": 4,
+        "subject_name": "patient_3",
+        "coordinate": [
+          417,
+          207,
+          466,
+          321
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 61,
+    "persons": [
+      {
+        "subject_id": 4,
+        "subject_name": "patient_3",
+        "coordinate": [
+          416,
+          210,
+          490,
+          288
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          465,
+          260,
+          524,
+          345
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 76,
+    "persons": [
+      {
+        "subject_id": 10,
+        "subject_name": "person_3",
+        "coordinate": [
+          470,
+          300,
+          510,
+          345
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 121,
+    "persons": [
+      {
+        "subject_id": 4,
+        "subject_name": "patient_3",
+        "coordinate": [
+          390,
+          225,
+          464,
+          368
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          447,
+          310,
+          498,
+          356
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 286,
+    "persons": [
+      {
+        "subject_id": 0,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          966,
+          166,
+          1018,
+          207
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 301,
+    "persons": [
+      {
+        "subject_id": 7,
+        "subject_name": "researcher",
+        "coordinate": [
+          474,
+          190,
+          537,
+          324
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 346,
+    "persons": [
+      {
+        "subject_id": 0,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          912,
+          196,
+          945,
+          225
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 376,
+    "persons": [
+      {
+        "subject_id": 0,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1008,
+          164,
+          1058,
+          286
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 406,
+    "persons": [
+      {
+        "subject_id": 7,
+        "subject_name": "researcher",
+        "coordinate": [
+          574,
+          180,
+          702,
+          314
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 466,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          404,
+          332,
+          444,
+          370
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 481,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          394,
+          327,
+          440,
+          372
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 496,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          394,
+          332,
+          432,
+          372
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 511,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          394,
+          332,
+          432,
+          372
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 526,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          388,
+          322,
+          435,
+          369
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 541,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          388,
+          318,
+          435,
+          369
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 556,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          388,
+          318,
+          435,
+          369
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 571,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          388,
+          318,
+          435,
+          369
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 586,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          388,
+          321,
+          429,
+          369
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 601,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          388,
+          321,
+          429,
+          369
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 706,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          381,
+          321,
+          428,
+          368
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 751,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          388,
+          312,
+          432,
+          368
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "patient_1",
+        "coordinate": [
+          986,
+          180,
+          1020,
+          208
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 811,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          384,
+          312,
+          423,
+          360
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 826,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "psychiatrist",
+        "coordinate": [
+          382,
+          309,
+          432,
+          369
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "patient_1",
+        "coordinate": [
+          608,
+          268,
+          657,
+          308
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 841,
+    "persons": [
+      {
+        "subject_id": 2,
+        "subject_name": "patient_1",
+        "coordinate": [
+          538,
+          290,
+          586,
+          327
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 886,
+    "persons": [
+      {
+        "subject_id": 0,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1000,
+          180,
+          1054,
+          378
+        ]
+      }
+    ]
+  }
+]
