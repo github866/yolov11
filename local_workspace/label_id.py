@@ -186,6 +186,17 @@ class IDLabeler:
         subject_name = self.subject_vars[idx].get()
         subject_id = IDENTITY_SUBJECT.index(subject_name)
         persons = self.modified.get(self.frame_id, [])
+        
+        # Check for duplicate subjects
+        duplicate_found = False
+        for p in persons:
+            if p['subject_name'] == subject_name and p['coordinate'] != coords:
+                print(f"WARNING: Subject '{subject_name}' already has another bounding box at {p['coordinate']}")
+                print(f"         Trying to assign to {coords} - this will create a duplicate!")
+                duplicate_found = True
+                break
+        
+        # Update or add the person
         found = False
         for p in persons:
             if p['coordinate'] == coords:
@@ -199,7 +210,14 @@ class IDLabeler:
                 'subject_name': subject_name,
                 'coordinate': coords
             })
+        
         self.modified[self.frame_id] = persons
+        
+        # Debug: Print current state
+        print(f"\nFrame {self.frame_id} current assignments:")
+        for p in persons:
+            print(f"  {p['subject_name']}: {p['coordinate']}")
+        
         self.selected_bbox_index = idx
         self.populate_bbox_list()
         self.update_image(highlight_bbox=idx)
@@ -229,7 +247,43 @@ class IDLabeler:
                     self.bbox_row_widgets[idx][1].focus_set()
                 break
 
+    def validate_no_duplicates(self):
+        """Check for duplicate subjects within each frame"""
+        print("\n=== VALIDATING FOR DUPLICATES ===")
+        has_duplicates = False
+        for frame_id in sorted(self.modified.keys()):
+            persons = self.modified[frame_id]
+            subject_counts = {}
+            for person in persons:
+                subject_name = person['subject_name']
+                if subject_name != 'Unlabeled':
+                    if subject_name in subject_counts:
+                        subject_counts[subject_name] += 1
+                    else:
+                        subject_counts[subject_name] = 1
+            
+            # Check for duplicates
+            for subject_name, count in subject_counts.items():
+                if count > 1:
+                    print(f"ERROR: Frame {frame_id} has {count} bounding boxes for '{subject_name}'")
+                    has_duplicates = True
+                    # Show the coordinates
+                    for person in persons:
+                        if person['subject_name'] == subject_name:
+                            print(f"  - {person['coordinate']}")
+        
+        if not has_duplicates:
+            print("✓ No duplicates found!")
+        return not has_duplicates
+
     def save_modified_json(self, event=None):
+        # Validate before saving
+        if not self.validate_no_duplicates():
+            response = messagebox.askyesno("Duplicates Found", 
+                                         "Duplicate subjects found in some frames. Save anyway?")
+            if not response:
+                return
+        
         out = []
         for frame in sorted(self.modified.keys()):
             persons = [p for p in self.modified[frame] if p['subject_name'] != 'Unlabeled']
