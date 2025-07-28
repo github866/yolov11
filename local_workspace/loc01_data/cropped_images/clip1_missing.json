@@ -31,6 +31,36 @@
           884,
           277
         ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          464,
+          195,
+          528,
+          273
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          550,
+          171,
+          607,
+          304
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1028,
+          304,
+          1137,
+          586
+        ]
       }
     ]
   },
@@ -55,6 +85,46 @@
           156,
           1150,
           348
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          549,
+          171,
+          607,
+          305
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          465,
+          195,
+          529,
+          274
+        ]
+      },
+      {
+        "subject_id": 4,
+        "subject_name": "patient_2",
+        "coordinate": [
+          767,
+          148,
+          885,
+          279
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1029,
+          303,
+          1139,
+          583
         ]
       }
     ]
@@ -81,6 +151,46 @@
           1150,
           348
         ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          548,
+          171,
+          607,
+          243
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          465,
+          196,
+          526,
+          271
+        ]
+      },
+      {
+        "subject_id": 4,
+        "subject_name": "patient_2",
+        "coordinate": [
+          772,
+          148,
+          886,
+          276
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1029,
+          304,
+          1139,
+          582
+        ]
       }
     ]
   },
@@ -105,6 +215,46 @@
           156,
           1150,
           348
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1028,
+          303,
+          1138,
+          583
+        ]
+      },
+      {
+        "subject_id": 4,
+        "subject_name": "patient_2",
+        "coordinate": [
+          768,
+          149,
+          884,
+          279
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          465,
+          194,
+          526,
+          272
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          554,
+          171,
+          608,
+          301
         ]
       }
     ]
@@ -131,6 +281,16 @@
           1150,
           348
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1028,
+          303,
+          1138,
+          584
+        ]
       }
     ]
   },
@@ -155,6 +315,16 @@
           156,
           1144,
           348
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1028,
+          304,
+          1138,
+          583
         ]
       }
     ]
@@ -181,6 +351,16 @@
           1144,
           348
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1028,
+          304,
+          1138,
+          582
+        ]
       }
     ]
   },
@@ -206,6 +386,16 @@
           1142,
           348
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1028,
+          304,
+          1139,
+          585
+        ]
       }
     ]
   },
@@ -223,13 +413,23 @@
         ]
       },
       {
-        "subject_id": 8,
-        "subject_name": "person_1",
+        "subject_id": 10,
+        "subject_name": "person_2",
         "coordinate": [
           1092,
           156,
           1142,
           348
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1028,
+          304,
+          1139,
+          586
         ]
       }
     ]
@@ -256,6 +456,16 @@
           1137,
           348
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1037,
+          304,
+          1140,
+          584
+        ]
       }
     ]
   },
@@ -280,6 +490,16 @@
           156,
           1137,
           348
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1029,
+          302,
+          1138,
+          577
         ]
       }
     ]
@@ -306,6 +526,16 @@
           968,
           162
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1049,
+          301,
+          1141,
+          587
+        ]
       }
     ]
   },
@@ -320,6 +550,16 @@
           100,
           968,
           162
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          301,
+          1144,
+          583
         ]
       }
     ]
@@ -336,6 +576,16 @@
           968,
           162
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1045,
+          303,
+          1131,
+          584
+        ]
       }
     ]
   },
@@ -350,6 +600,16 @@
           100,
           968,
           162
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1043,
+          301,
+          1129,
+          576
         ]
       }
     ]
@@ -376,6 +636,16 @@
           1136,
           338
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1056,
+          288,
+          1140,
+          577
+        ]
       }
     ]
   },
@@ -400,6 +670,16 @@
           153,
           1136,
           338
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1041,
+          286,
+          1147,
+          568
         ]
       }
     ]
@@ -426,6 +706,16 @@
           1136,
           338
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1038,
+          286,
+          1149,
+          565
+        ]
       }
     ]
   },
@@ -450,6 +740,16 @@
           153,
           1136,
           338
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1037,
+          284,
+          1136,
+          566
         ]
       }
     ]
@@ -476,6 +776,16 @@
           1136,
           338
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1038,
+          281,
+          1129,
+          564
+        ]
       }
     ]
   },
@@ -500,6 +810,16 @@
           153,
           1136,
           338
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1037,
+          270,
+          1137,
+          558
         ]
       }
     ]
@@ -526,6 +846,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          268,
+          1137,
+          547
+        ]
       }
     ]
   },
@@ -551,6 +881,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          267,
+          1134,
+          547
+        ]
       }
     ]
   },
@@ -565,6 +905,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          267,
+          1132,
+          548
         ]
       }
     ]
@@ -590,6 +940,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          266,
+          1129,
+          547
         ]
       }
     ]
@@ -626,6 +986,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          266,
+          1129,
+          547
+        ]
       }
     ]
   },
@@ -660,6 +1030,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          267,
+          1130,
+          547
         ]
       }
     ]
@@ -696,6 +1076,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          267,
+          1130,
+          548
+        ]
       }
     ]
   },
@@ -730,6 +1120,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          269,
+          1130,
+          547
         ]
       }
     ]
@@ -766,6 +1166,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          267,
+          1129,
+          547
+        ]
       }
     ]
   },
@@ -791,6 +1201,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1046,
+          268,
+          1130,
+          546
+        ]
       }
     ]
   },
@@ -815,6 +1235,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1046,
+          268,
+          1129,
+          546
         ]
       }
     ]
@@ -851,6 +1281,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          268,
+          1129,
+          547
+        ]
       }
     ]
   },
@@ -875,6 +1315,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          267,
+          1129,
+          548
         ]
       }
     ]
@@ -901,6 +1351,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          266,
+          1128,
+          548
+        ]
       }
     ]
   },
@@ -925,6 +1385,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1046,
+          268,
+          1128,
+          547
         ]
       }
     ]
@@ -951,6 +1421,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1046,
+          269,
+          1130,
+          547
+        ]
       }
     ]
   },
@@ -976,6 +1456,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1046,
+          268,
+          1128,
+          547
+        ]
       }
     ]
   },
@@ -1000,6 +1490,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          267,
+          1128,
+          548
         ]
       }
     ]
@@ -1036,6 +1536,16 @@
           603,
           296
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          268,
+          1128,
+          546
+        ]
       }
     ]
   },
@@ -1060,6 +1570,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1046,
+          267,
+          1129,
+          546
         ]
       }
     ]
@@ -1086,6 +1606,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          268,
+          1129,
+          547
+        ]
       }
     ]
   },
@@ -1110,6 +1640,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          268,
+          1130,
+          547
         ]
       }
     ]
@@ -1136,6 +1676,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          268,
+          1130,
+          547
+        ]
       }
     ]
   },
@@ -1161,6 +1711,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          268,
+          1130,
+          547
+        ]
       }
     ]
   },
@@ -1185,6 +1745,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          269,
+          1133,
+          547
         ]
       }
     ]
@@ -1221,6 +1791,16 @@
           882,
           270
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          269,
+          1133,
+          547
+        ]
       }
     ]
   },
@@ -1256,6 +1836,16 @@
           880,
           268
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          268,
+          1134,
+          547
+        ]
       }
     ]
   },
@@ -1280,6 +1870,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          268,
+          1133,
+          547
         ]
       }
     ]
@@ -1306,6 +1906,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1046,
+          269,
+          1133,
+          547
+        ]
       }
     ]
   },
@@ -1330,6 +1940,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          267,
+          1130,
+          547
         ]
       }
     ]
@@ -1356,6 +1976,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          268,
+          1130,
+          547
+        ]
       }
     ]
   },
@@ -1381,6 +2011,16 @@
           1142,
           308
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          269,
+          1129,
+          546
+        ]
       }
     ]
   },
@@ -1405,6 +2045,16 @@
           154,
           1142,
           308
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          269,
+          1129,
+          546
         ]
       }
     ]
@@ -1441,6 +2091,16 @@
           880,
           276
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          269,
+          1129,
+          547
+        ]
       }
     ]
   },
@@ -1465,6 +2125,16 @@
           154,
           1142,
           310
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1047,
+          270,
+          1132,
+          547
         ]
       }
     ]
@@ -1501,6 +2171,16 @@
           880,
           237
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1048,
+          266,
+          1142,
+          547
+        ]
       }
     ]
   },
@@ -1525,6 +2205,16 @@
           154,
           1142,
           310
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1054,
+          261,
+          1155,
+          540
         ]
       }
     ]
@@ -1551,6 +2241,16 @@
           1142,
           310
         ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1064,
+          258,
+          1157,
+          536
+        ]
       }
     ]
   },
@@ -1575,6 +2275,16 @@
           154,
           1142,
           310
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          1063,
+          259,
+          1157,
+          535
         ]
       }
     ]
