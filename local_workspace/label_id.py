@@ -366,10 +366,11 @@ class IDLabeler:
             self.update_image()
 
 if __name__ == "__main__":
-    img_dir = "clip1"
-    json_path = "loc01_data/origin/clip1_with_missing.json"
-    output_json = "loc01_data/cropped_images/clip1_missing.json"
-    prefill_json = "loc01_data/cropped_images/clip1_missing.json"
+    img_dir = "clip2"
+    data_dir = 'loc01_data'
+    json_path = f"{data_dir}/origin/{img_dir}_with_missing.json"
+    output_json = f"{data_dir}/cropped_images/{img_dir}_missing.json"
+    prefill_json = f"{data_dir}/cropped_images/{img_dir}_missing.json"
     frame_id = 1
     labeler = IDLabeler(img_dir, json_path, output_json, prefill_json=prefill_json, frame_id=frame_id)
     labeler.display()
