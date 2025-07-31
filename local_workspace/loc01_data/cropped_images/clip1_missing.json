@@ -2418,16 +2418,6 @@
         ]
       },
       {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          562,
-          172,
-          603,
-          296
-        ]
-      },
-      {
         "subject_id": 11,
         "subject_name": "person_3",
         "coordinate": [
@@ -2435,16 +2425,6 @@
           268,
           1128,
           546
-        ]
-      },
-      {
-        "subject_id": 1,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          534,
-          187,
-          604,
-          306
         ]
       },
       {
@@ -2748,8 +2728,8 @@
         ]
       },
       {
-        "subject_id": 4,
-        "subject_name": "patient_2",
+        "subject_id": 1,
+        "subject_name": "nurse_1",
         "coordinate": [
           790,
           180,
@@ -2780,16 +2760,6 @@
           154,
           1142,
           308
-        ]
-      },
-      {
-        "subject_id": 3,
-        "subject_name": "patient_2",
-        "coordinate": [
-          783,
-          150,
-          882,
-          270
         ]
       },
       {
@@ -2825,16 +2795,6 @@
           154,
           1142,
           308
-        ]
-      },
-      {
-        "subject_id": 3,
-        "subject_name": "patient_2",
-        "coordinate": [
-          784,
-          152,
-          880,
-          268
         ]
       },
       {
@@ -2890,26 +2850,6 @@
           187,
           566,
           288
-        ]
-      },
-      {
-        "subject_id": 1,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          792,
-          182,
-          871,
-          293
-        ]
-      },
-      {
-        "subject_id": 4,
-        "subject_name": "patient_2",
-        "coordinate": [
-          787,
-          147,
-          886,
-          270
         ]
       }
     ]
@@ -3093,7 +3033,7 @@
     "frame": 811,
     "persons": [
       {
-        "subject_id": 1,
+        "subject_id": 2,
         "subject_name": "nurse_2",
         "coordinate": [
           926,
@@ -3110,16 +3050,6 @@
           154,
           1142,
           308
-        ]
-      },
-      {
-        "subject_id": 3,
-        "subject_name": "patient_2",
-        "coordinate": [
-          784,
-          152,
-          880,
-          276
         ]
       },
       {
@@ -3190,16 +3120,6 @@
           154,
           1142,
           310
-        ]
-      },
-      {
-        "subject_id": 3,
-        "subject_name": "patient_2",
-        "coordinate": [
-          784,
-          152,
-          880,
-          237
         ]
       },
       {

@@ -86,6 +86,16 @@
           1132,
           332
         ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          432,
+          166,
+          487,
+          254
+        ]
       }
     ]
   },

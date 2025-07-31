@@ -1153,8 +1153,8 @@
         ]
       },
       {
-        "subject_id": 7,
-        "subject_name": "psychologist",
+        "subject_id": 6,
+        "subject_name": "psychiatrist",
         "coordinate": [
           1106,
           284,
@@ -1188,8 +1188,8 @@
         ]
       },
       {
-        "subject_id": 7,
-        "subject_name": "psychologist",
+        "subject_id": 6,
+        "subject_name": "psychiatrist",
         "coordinate": [
           1094,
           285,
