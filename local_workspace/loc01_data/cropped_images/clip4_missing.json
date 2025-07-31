@@ -191,16 +191,6 @@
           954,
           160
         ]
-      },
-      {
-        "subject_id": 2,
-        "subject_name": "patient_1",
-        "coordinate": [
-          392,
-          174,
-          412,
-          201
-        ]
       }
     ]
   },
@@ -225,16 +215,6 @@
           154,
           1144,
           332
-        ]
-      },
-      {
-        "subject_id": 2,
-        "subject_name": "patient_1",
-        "coordinate": [
-          392,
-          174,
-          408,
-          202
         ]
       },
       {
@@ -270,16 +250,6 @@
           156,
           1150,
           324
-        ]
-      },
-      {
-        "subject_id": 2,
-        "subject_name": "patient_1",
-        "coordinate": [
-          382,
-          168,
-          404,
-          194
         ]
       },
       {
@@ -335,16 +305,6 @@
           156,
           1144,
           324
-        ]
-      },
-      {
-        "subject_id": 2,
-        "subject_name": "patient_1",
-        "coordinate": [
-          376,
-          168,
-          399,
-          195
         ]
       },
       {
@@ -2143,16 +2103,6 @@
         ]
       },
       {
-        "subject_id": 2,
-        "subject_name": "patient_1",
-        "coordinate": [
-          1023,
-          213,
-          1060,
-          447
-        ]
-      },
-      {
         "subject_id": 3,
         "subject_name": "patient_2",
         "coordinate": [
@@ -2163,7 +2113,7 @@
         ]
       },
       {
-        "subject_id": 4,
+        "subject_id": 5,
         "subject_name": "patient_3",
         "coordinate": [
           664,

@@ -253,7 +253,7 @@ def execution(start_frame, end_frame, output_rect_path):
 
 def main():
     parser = argparse.ArgumentParser(description='Visualize person crops from video frames')
-    parser.add_argument('--input_dir', type=str, default='clip6', 
+    parser.add_argument('--input_dir', type=str, default='clip1', 
                        help='Input directory containing frame images')
     parser.add_argument('--output_dir', type=str, default='output_images',
                        help='Output directory for crops')

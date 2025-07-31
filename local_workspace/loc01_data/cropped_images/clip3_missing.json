@@ -34,16 +34,6 @@
       },
       {
         "subject_id": 3,
-        "subject_name": "patient_2",
-        "coordinate": [
-          783,
-          150,
-          868,
-          273
-        ]
-      },
-      {
-        "subject_id": 3,
         "subject_name": "patient_1",
         "coordinate": [
           827,
@@ -105,16 +95,6 @@
           154,
           1143,
           340
-        ]
-      },
-      {
-        "subject_id": 3,
-        "subject_name": "patient_2",
-        "coordinate": [
-          783,
-          150,
-          880,
-          273
         ]
       }
     ]

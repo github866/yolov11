@@ -366,7 +366,7 @@ class IDLabeler:
             self.update_image()
 
 if __name__ == "__main__":
-    img_dir = "clip4"
+    img_dir = "clip6"
     data_dir = 'loc01_data'
     json_path = f"{data_dir}/origin/{img_dir}_with_missing.json"
     output_json = f"{data_dir}/cropped_images/{img_dir}_missing.json"
