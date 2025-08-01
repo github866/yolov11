@@ -14,6 +14,11 @@ A graphical tool for interactively cropping regions from a sequence of images, d
 
 ## Usage
 
+### Create frames into 30 seconds segments you need to change the code just for a little
+'''
+python3 side_process/create_frames.py
+'''
+
 ### Basic Usage
 
 ```bash

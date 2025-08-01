@@ -74,5 +74,5 @@ def split_video_into_frames(video_path, frames_per_clip=900, output_base_dir="./
     print(f"\nVideo splitting completed! Created {num_clips} clips with PNG frames.")
 
 if __name__ == "__main__":
-    video_path = "Camera-Loc01.mp4"
+    video_path = "Camera-Loc03.mp4"
     split_video_into_frames(video_path, frames_per_clip=900) 

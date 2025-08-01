@@ -253,6 +253,8 @@ def execution(start_frame, end_frame, output_rect_path):
 
 def main():
     parser = argparse.ArgumentParser(description='Visualize person crops from video frames')
+    parser.add_argument('--loc_number', type=str, default='loc01',
+                       help='Location number')
     parser.add_argument('--input_dir', type=str, default='clip1', 
                        help='Input directory containing frame images')
     parser.add_argument('--output_dir', type=str, default='output_images',
@@ -261,15 +263,14 @@ def main():
                        help='Resize factor for crops (1.0 = no resize)')
     parser.add_argument('--no_border', action='store_true',
                        help='Disable border around crops')
-    parser.add_argument('--json_path', type=str, default=None,
-                       help='Custom JSON path (default: loc01_data/cropped_images/{input_dir}_missing.json)')
+    
     
     args = parser.parse_args()
     
     # Set up paths
     input_dir = args.input_dir
     output_dir = args.output_dir+'/'+input_dir
-    json_path = args.json_path or f'loc01_data/cropped_images/{input_dir}_missing.json'
+    json_path = f'{args.loc_number}_data/cropped_images/{input_dir}_missing.json'
     
     # Load data
     print(f"Loading data from: {json_path}")

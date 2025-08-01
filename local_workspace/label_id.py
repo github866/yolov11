@@ -3,6 +3,7 @@ import os
 import tkinter as tk
 from PIL import Image, ImageTk, ImageDraw
 from tkinter import ttk, messagebox
+import argparse
 
 IDENTITY_SUBJECT = [
     'Unlabeled',
@@ -366,11 +367,21 @@ class IDLabeler:
             self.update_image()
 
 if __name__ == "__main__":
-    img_dir = "clip6"
-    data_dir = 'loc01_data'
-    json_path = f"{data_dir}/origin/{img_dir}_with_missing.json"
-    output_json = f"{data_dir}/cropped_images/{img_dir}_missing.json"
-    prefill_json = f"{data_dir}/cropped_images/{img_dir}_missing.json"
+
+    parser = argparse.ArgumentParser(description='Label ID')
+    parser.add_argument('--data_dir', type=str, default='loc01_data',
+                       help='Location number')
+    parser.add_argument('--image_dir', type=str, default='clip1', 
+                       help='Input directory containing frame images')
+
+
+    args = parser.parse_args()
+    data_dir = args.data_dir
+    image_dir = args.image_dir
+
+    json_path = f"{data_dir}/origin/{image_dir}_with_missing.json"
+    output_json = f"{data_dir}/cropped_images/{image_dir}_missing.json"
+    prefill_json = f"{data_dir}/cropped_images/{image_dir}_missing.json"
     frame_id = 1
-    labeler = IDLabeler(img_dir, json_path, output_json, prefill_json=prefill_json, frame_id=frame_id)
+    labeler = IDLabeler(image_dir, json_path, output_json, prefill_json=prefill_json, frame_id=frame_id)
     labeler.display()
