@@ -177,9 +177,11 @@ preprocess/cropped_images
 *frames/
 results/*
 
+
 # local_workspace
 local_workspace/clip*/
 local_workspace/yolo_results/*
 local_workspace/Camera-Loc0*.mp4
 local_workspace/output_bounding_boxes_clip*/
 local_workspace/yolo_results_train/*
+local_workspace/output_images/*
