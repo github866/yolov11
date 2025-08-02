@@ -3,16 +3,6 @@
     "frame": 1,
     "persons": [
       {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1428,
-          279,
-          1454,
-          435
-        ]
-      },
-      {
         "subject_id": 3,
         "subject_name": "patient_2",
         "coordinate": [
@@ -20,6 +10,56 @@
           387,
           1324,
           496
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1506,
+          195,
+          1582,
+          392
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          88,
+          602,
+          274,
+          783
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          797,
+          132,
+          873,
+          323
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1045,
+          411,
+          1167,
+          743
+        ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1083,
+          145,
+          1156,
+          236
         ]
       }
     ]
@@ -96,6 +136,76 @@
           1324,
           496
         ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1048,
+          412,
+          1171,
+          743
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          797,
+          133,
+          874,
+          322
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1399,
+          188,
+          1466,
+          416
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1477,
+          309,
+          1557,
+          572
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1620,
+          201,
+          1671,
+          272
+        ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1084,
+          146,
+          1156,
+          237
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          83,
+          599,
+          266,
+          819
+        ]
       }
     ]
   },
@@ -166,6 +276,76 @@
           1324,
           496
         ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1081,
+          145,
+          1156,
+          237
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1602,
+          201,
+          1711,
+          280
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1417,
+          159,
+          1459,
+          364
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1481,
+          415,
+          1589,
+          754
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1050,
+          414,
+          1180,
+          745
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          797,
+          133,
+          874,
+          322
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          78,
+          590,
+          272,
+          833
+        ]
       }
     ]
   },
@@ -210,6 +390,76 @@
           387,
           1324,
           496
+        ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1080,
+          145,
+          1157,
+          236
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1628,
+          187,
+          1678,
+          271
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1402,
+          168,
+          1453,
+          385
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          79,
+          587,
+          270,
+          781
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1048,
+          416,
+          1178,
+          752
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          798,
+          133,
+          873,
+          322
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1313,
+          513,
+          1461,
+          871
         ]
       }
     ]
@@ -270,6 +520,76 @@
           387,
           1324,
           496
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          798,
+          133,
+          874,
+          323
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1404,
+          163,
+          1455,
+          371
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          80,
+          592,
+          279,
+          760
+        ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1092,
+          145,
+          1156,
+          235
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1633,
+          190,
+          1683,
+          274
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1048,
+          415,
+          1187,
+          751
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1210,
+          483,
+          1343,
+          844
         ]
       }
     ]
@@ -335,6 +655,66 @@
           144,
           1158,
           240
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1583,
+          175,
+          1624,
+          260
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1419,
+          165,
+          1488,
+          372
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1043,
+          414,
+          1178,
+          751
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          800,
+          133,
+          874,
+          322
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          81,
+          591,
+          275,
+          758
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1169,
+          471,
+          1311,
+          831
         ]
       }
     ]
@@ -461,6 +841,66 @@
           1158,
           240
         ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1590,
+          173,
+          1634,
+          261
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1399,
+          183,
+          1456,
+          401
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          801,
+          134,
+          874,
+          323
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          79,
+          592,
+          279,
+          757
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1034,
+          415,
+          1190,
+          770
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1234,
+          601,
+          1389,
+          994
+        ]
       }
     ]
   },
@@ -540,6 +980,76 @@
           393,
           1330,
           496
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1580,
+          170,
+          1625,
+          259
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1489,
+          207,
+          1549,
+          440
+        ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1078,
+          145,
+          1154,
+          237
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          802,
+          133,
+          874,
+          322
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          79,
+          592,
+          281,
+          757
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1322,
+          622,
+          1533,
+          992
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1197,
+          519,
+          1388,
+          880
         ]
       }
     ]
@@ -650,6 +1160,66 @@
           144,
           1158,
           237
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1486,
+          215,
+          1563,
+          448
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1488,
+          150,
+          1535,
+          240
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1502,
+          436,
+          1617,
+          577
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          799,
+          133,
+          874,
+          323
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          79,
+          591,
+          281,
+          759
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1456,
+          502,
+          1610,
+          862
         ]
       }
     ]
@@ -818,16 +1388,6 @@
         ]
       },
       {
-        "subject_id": 0,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          1502,
-          224,
-          1563,
-          388
-        ]
-      },
-      {
         "subject_id": 4,
         "subject_name": "patient_3",
         "coordinate": [
@@ -870,6 +1430,56 @@
           144,
           1158,
           237
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1472,
+          343,
+          1538,
+          624
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1474,
+          144,
+          1520,
+          233
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1377,
+          274,
+          1449,
+          516
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          802,
+          133,
+          877,
+          322
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          80,
+          592,
+          280,
+          757
         ]
       }
     ]
@@ -991,6 +1601,56 @@
           1443,
           522
         ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1086,
+          145,
+          1156,
+          237
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1454,
+          157,
+          1506,
+          231
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1267,
+          244,
+          1385,
+          477
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          803,
+          133,
+          876,
+          321
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          80,
+          592,
+          281,
+          756
+        ]
       }
     ]
   },
@@ -1063,16 +1723,6 @@
         ]
       },
       {
-        "subject_id": 1,
-        "subject_name": "nurse_2",
-        "coordinate": [
-          1240,
-          220,
-          1282,
-          291
-        ]
-      },
-      {
         "subject_id": 7,
         "subject_name": "researcher",
         "coordinate": [
@@ -1080,6 +1730,56 @@
           294,
           1448,
           498
+        ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1089,
+          146,
+          1156,
+          237
+        ]
+      },
+      {
+        "subject_id": 4,
+        "subject_name": "patient_2",
+        "coordinate": [
+          1199,
+          241,
+          1308,
+          425
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1255,
+          150,
+          1307,
+          288
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          802,
+          134,
+          876,
+          320
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          80,
+          592,
+          278,
+          758
         ]
       }
     ]
@@ -1115,6 +1815,21 @@
     ]
   },
   {
+    "frame": 706,
+    "persons": [
+      {
+        "subject_id": 7,
+        "subject_name": "researcher",
+        "coordinate": [
+          1407,
+          294,
+          1448,
+          498
+        ]
+      }
+    ]
+  },
+  {
     "frame": 721,
     "persons": [
       {
@@ -1135,21 +1850,6 @@
           144,
           1150,
           220
-        ]
-      }
-    ]
-  },
-  {
-    "frame": 706,
-    "persons": [
-      {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1407,
-          294,
-          1448,
-          498
         ]
       }
     ]
@@ -1176,45 +1876,65 @@
           1196,
           222
         ]
-      }
-    ]
-  },
-  {
-    "frame": 766,
-    "persons": [
+      },
       {
-        "subject_id": 4,
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1403,
+          201,
+          1462,
+          354
+        ]
+      },
+      {
+        "subject_id": 5,
         "subject_name": "patient_3",
         "coordinate": [
-          1088,
-          159,
-          1108,
-          220
+          1087,
+          147,
+          1153,
+          242
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          987,
+          130,
+          1054,
+          243
+        ]
+      },
+      {
+        "subject_id": 4,
+        "subject_name": "patient_2",
+        "coordinate": [
+          1158,
+          172,
+          1261,
+          435
         ]
       },
       {
         "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          801,
+          133,
+          876,
+          321
+        ]
+      },
+      {
+        "subject_id": 12,
         "subject_name": "person_4",
         "coordinate": [
-          768,
-          231,
-          818,
-          352
-        ]
-      }
-    ]
-  },
-  {
-    "frame": 781,
-    "persons": [
-      {
-        "subject_id": 4,
-        "subject_name": "patient_3",
-        "coordinate": [
-          1086,
-          135,
-          1146,
-          194
+          79,
+          592,
+          280,
+          761
         ]
       }
     ]
@@ -1230,6 +1950,276 @@
           231,
           818,
           352
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 766,
+    "persons": [
+      {
+        "subject_id": 11,
+        "subject_name": "person_4",
+        "coordinate": [
+          768,
+          231,
+          818,
+          352
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 796,
+    "persons": [
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1114,
+          123,
+          1165,
+          203
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          1084,
+          135,
+          1168,
+          271
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1390,
+          265,
+          1450,
+          463
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          844,
+          151,
+          917,
+          353
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1330,
+          177,
+          1392,
+          415
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          800,
+          133,
+          876,
+          321
+        ]
+      },
+      {
+        "subject_id": 4,
+        "subject_name": "patient_2",
+        "coordinate": [
+          1188,
+          148,
+          1261,
+          381
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          80,
+          592,
+          280,
+          758
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 856,
+    "persons": [
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1401,
+          265,
+          1452,
+          460
+        ]
+      },
+      {
+        "subject_id": 4,
+        "subject_name": "patient_2",
+        "coordinate": [
+          1151,
+          136,
+          1205,
+          286
+        ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1101,
+          135,
+          1163,
+          238
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          803,
+          133,
+          852,
+          235
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          993,
+          141,
+          1060,
+          242
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          820,
+          175,
+          896,
+          368
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1251,
+          220,
+          1326,
+          480
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          80,
+          592,
+          279,
+          758
+        ]
+      }
+    ]
+  },
+  {
+    "frame": 886,
+    "persons": [
+      {
+        "subject_id": 4,
+        "subject_name": "patient_2",
+        "coordinate": [
+          1148,
+          135,
+          1204,
+          287
+        ]
+      },
+      {
+        "subject_id": 5,
+        "subject_name": "patient_3",
+        "coordinate": [
+          1065,
+          145,
+          1133,
+          256
+        ]
+      },
+      {
+        "subject_id": 8,
+        "subject_name": "researcher",
+        "coordinate": [
+          1387,
+          266,
+          1451,
+          466
+        ]
+      },
+      {
+        "subject_id": 1,
+        "subject_name": "nurse_1",
+        "coordinate": [
+          1159,
+          245,
+          1263,
+          474
+        ]
+      },
+      {
+        "subject_id": 2,
+        "subject_name": "nurse_2",
+        "coordinate": [
+          964,
+          141,
+          1035,
+          245
+        ]
+      },
+      {
+        "subject_id": 11,
+        "subject_name": "person_3",
+        "coordinate": [
+          807,
+          133,
+          872,
+          312
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          860,
+          179,
+          919,
+          360
+        ]
+      },
+      {
+        "subject_id": 12,
+        "subject_name": "person_4",
+        "coordinate": [
+          80,
+          592,
+          280,
+          757
         ]
       }
     ]
