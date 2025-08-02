@@ -1226,16 +1226,6 @@
           1037,
           661
         ]
-      },
-      {
-        "subject_id": 1,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          1417,
-          164,
-          1502,
-          358
-        ]
       }
     ]
   },
@@ -1478,8 +1468,8 @@
         ]
       },
       {
-        "subject_id": 6,
-        "subject_name": "psychiatrist",
+        "subject_id": 5,
+        "subject_name": "patient_3",
         "coordinate": [
           1100,
           144,

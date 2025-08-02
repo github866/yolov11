@@ -308,16 +308,6 @@
         ]
       },
       {
-        "subject_id": 4,
-        "subject_name": "patient_2",
-        "coordinate": [
-          1075,
-          146,
-          1201,
-          288
-        ]
-      },
-      {
         "subject_id": 2,
         "subject_name": "nurse_2",
         "coordinate": [
@@ -563,8 +553,8 @@
         ]
       },
       {
-        "subject_id": 9,
-        "subject_name": "person_1",
+        "subject_id": 8,
+        "subject_name": "researcher",
         "coordinate": [
           1273,
           183,
@@ -860,21 +850,6 @@
     ]
   },
   {
-    "frame": 526,
-    "persons": [
-      {
-        "subject_id": 4,
-        "subject_name": "patient_3",
-        "coordinate": [
-          1022,
-          142,
-          1068,
-          210
-        ]
-      }
-    ]
-  },
-  {
     "frame": 541,
     "persons": [
       {
@@ -1050,33 +1025,8 @@
     ]
   },
   {
-    "frame": 631,
-    "persons": [
-      {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1152,
-          174,
-          1252,
-          290
-        ]
-      }
-    ]
-  },
-  {
     "frame": 646,
     "persons": [
-      {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1172,
-          170,
-          1234,
-          290
-        ]
-      },
       {
         "subject_id": 3,
         "subject_name": "patient_1",
@@ -1145,21 +1095,6 @@
           594,
           298,
           776
-        ]
-      }
-    ]
-  },
-  {
-    "frame": 661,
-    "persons": [
-      {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1137,
-          170,
-          1234,
-          290
         ]
       }
     ]
@@ -1486,16 +1421,6 @@
           999,
           246
         ]
-      },
-      {
-        "subject_id": 4,
-        "subject_name": "patient_3",
-        "coordinate": [
-          920,
-          129,
-          954,
-          195
-        ]
       }
     ]
   },
@@ -1653,8 +1578,8 @@
         ]
       },
       {
-        "subject_id": 9,
-        "subject_name": "person_1",
+        "subject_id": 8,
+        "subject_name": "researcher",
         "coordinate": [
           1077,
           142,

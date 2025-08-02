@@ -413,16 +413,6 @@
     "frame": 241,
     "persons": [
       {
-        "subject_id": 8,
-        "subject_name": "researcher",
-        "coordinate": [
-          1472,
-          309,
-          1510,
-          584
-        ]
-      },
-      {
         "subject_id": 3,
         "subject_name": "patient_2",
         "coordinate": [
@@ -983,8 +973,8 @@
         ]
       },
       {
-        "subject_id": 6,
-        "subject_name": "psychiatrist",
+        "subject_id": 5,
+        "subject_name": "patient_3",
         "coordinate": [
           1094,
           145,
@@ -1348,16 +1338,6 @@
     "frame": 811,
     "persons": [
       {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1400,
-          276,
-          1450,
-          468
-        ]
-      },
-      {
         "subject_id": 3,
         "subject_name": "patient_2",
         "coordinate": [
@@ -1432,16 +1412,6 @@
   {
     "frame": 841,
     "persons": [
-      {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1400,
-          276,
-          1450,
-          468
-        ]
-      },
       {
         "subject_id": 3,
         "subject_name": "patient_2",

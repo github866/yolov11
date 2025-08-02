@@ -85,21 +85,6 @@
     ]
   },
   {
-    "frame": 46,
-    "persons": [
-      {
-        "subject_id": 2,
-        "subject_name": "patient_1",
-        "coordinate": [
-          1436,
-          218,
-          1452,
-          243
-        ]
-      }
-    ]
-  },
-  {
     "frame": 76,
     "persons": [
       {
@@ -462,16 +447,6 @@
   {
     "frame": 316,
     "persons": [
-      {
-        "subject_id": 3,
-        "subject_name": "patient_2",
-        "coordinate": [
-          759,
-          176,
-          802,
-          356
-        ]
-      },
       {
         "subject_id": 5,
         "subject_name": "patient_3",

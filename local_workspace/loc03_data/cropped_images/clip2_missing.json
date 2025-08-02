@@ -3,8 +3,8 @@
     "frame": 1,
     "persons": [
       {
-        "subject_id": 6,
-        "subject_name": "psychiatrist",
+        "subject_id": 5,
+        "subject_name": "patient_3",
         "coordinate": [
           1096,
           146,
@@ -87,16 +87,6 @@
   {
     "frame": 31,
     "persons": [
-      {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1470,
-          200,
-          1497,
-          225
-        ]
-      },
       {
         "subject_id": 3,
         "subject_name": "patient_2",
@@ -345,21 +335,6 @@
     ]
   },
   {
-    "frame": 151,
-    "persons": [
-      {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1491,
-          310,
-          1518,
-          452
-        ]
-      }
-    ]
-  },
-  {
     "frame": 181,
     "persons": [
       {
@@ -385,16 +360,6 @@
           405,
           1324,
           498
-        ]
-      },
-      {
-        "subject_id": 7,
-        "subject_name": "researcher",
-        "coordinate": [
-          1478,
-          310,
-          1516,
-          506
         ]
       },
       {
@@ -588,8 +553,8 @@
         ]
       },
       {
-        "subject_id": 3,
-        "subject_name": "patient_1",
+        "subject_id": 1,
+        "subject_name": "nurse_1",
         "coordinate": [
           1097,
           200,
@@ -635,6 +600,16 @@
           406,
           1169,
           736
+        ]
+      },
+      {
+        "subject_id": 3,
+        "subject_name": "patient_1",
+        "coordinate": [
+          1111,
+          121,
+          1178,
+          237
         ]
       }
     ]
