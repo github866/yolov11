@@ -84,3 +84,10 @@ The tool saves crop data in a JSON file with the following structure:
 sh file iterations for each loc:
 loc01, loc02, loc04: 15, 15, 15, 15, 15, 15
 loc03: 15, 30, 30, 15, 15, 15
+
+
+### For feature banks, you can try
+
+'''
+python3 side_process/merge_and_split_id.py --loc_number loc04
+'''
