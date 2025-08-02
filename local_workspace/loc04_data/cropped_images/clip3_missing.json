@@ -238,16 +238,6 @@
     "frame": 136,
     "persons": [
       {
-        "subject_id": 8,
-        "subject_name": "researcher",
-        "coordinate": [
-          1480,
-          230,
-          1503,
-          298
-        ]
-      },
-      {
         "subject_id": 3,
         "subject_name": "patient_2",
         "coordinate": [
@@ -370,16 +360,6 @@
           298,
           1344,
           366
-        ]
-      },
-      {
-        "subject_id": 1,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          1102,
-          133,
-          1175,
-          342
         ]
       },
       {

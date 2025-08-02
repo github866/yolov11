@@ -440,21 +440,6 @@
     ]
   },
   {
-    "frame": 346,
-    "persons": [
-      {
-        "subject_id": 0,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          912,
-          196,
-          945,
-          225
-        ]
-      }
-    ]
-  },
-  {
     "frame": 376,
     "persons": [
       {
@@ -1153,8 +1138,8 @@
         ]
       },
       {
-        "subject_id": 4,
-        "subject_name": "patient_2",
+        "subject_id": 3,
+        "subject_name": "patient_1",
         "coordinate": [
           490,
           285,

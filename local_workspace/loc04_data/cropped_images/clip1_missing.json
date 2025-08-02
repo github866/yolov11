@@ -293,8 +293,8 @@
         ]
       },
       {
-        "subject_id": 5,
-        "subject_name": "patient_3",
+        "subject_id": 3,
+        "subject_name": "patient_1",
         "coordinate": [
           798,
           111,
@@ -487,16 +487,6 @@
   {
     "frame": 226,
     "persons": [
-      {
-        "subject_id": 11,
-        "subject_name": "person_4",
-        "coordinate": [
-          1450,
-          790,
-          1548,
-          940
-        ]
-      },
       {
         "subject_id": 3,
         "subject_name": "patient_2",
@@ -1828,16 +1818,6 @@
     "frame": 766,
     "persons": [
       {
-        "subject_id": 0,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          848,
-          195,
-          884,
-          234
-        ]
-      },
-      {
         "subject_id": 2,
         "subject_name": "patient_1",
         "coordinate": [
@@ -1862,16 +1842,6 @@
   {
     "frame": 781,
     "persons": [
-      {
-        "subject_id": 0,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          846,
-          192,
-          892,
-          234
-        ]
-      },
       {
         "subject_id": 2,
         "subject_name": "patient_1",
@@ -1938,16 +1908,6 @@
     "frame": 796,
     "persons": [
       {
-        "subject_id": 0,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          848,
-          194,
-          892,
-          234
-        ]
-      },
-      {
         "subject_id": 3,
         "subject_name": "patient_2",
         "coordinate": [
@@ -1962,16 +1922,6 @@
   {
     "frame": 811,
     "persons": [
-      {
-        "subject_id": 0,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          861,
-          192,
-          900,
-          234
-        ]
-      },
       {
         "subject_id": 3,
         "subject_name": "patient_2",
@@ -2068,16 +2018,6 @@
     "frame": 856,
     "persons": [
       {
-        "subject_id": 0,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          978,
-          174,
-          1012,
-          207
-        ]
-      },
-      {
         "subject_id": 3,
         "subject_name": "patient_2",
         "coordinate": [
@@ -2100,16 +2040,6 @@
           94,
           1023,
           162
-        ]
-      },
-      {
-        "subject_id": 0,
-        "subject_name": "nurse_1",
-        "coordinate": [
-          966,
-          164,
-          1016,
-          210
         ]
       },
       {

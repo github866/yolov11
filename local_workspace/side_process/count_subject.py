@@ -8,7 +8,7 @@ def count_subject(json_data):
     return len(json_data)
 
 def main():
-    input_dir = "loc01_data/feature_bank"
+    input_dir = "loc04_data/feature_bank"
     for file in os.listdir(input_dir):
         if file.endswith('.json'):
             json_data = load_json(os.path.join(input_dir, file))
