@@ -81,7 +81,7 @@ def main():
     Format is also changed to fit the feature_bank format in github.
     The output is in the feature_bank directory in loc data.
 
-    python3 merge_and_split_id.py --loc_number loc01
+    python3 side_process/merge_and_split_id.py --loc_number loc03
     """
     parser = argparse.ArgumentParser(description='Merge and split ID')
     parser.add_argument('--loc_number', type=str, default='loc01', help='Location number')

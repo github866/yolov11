@@ -1,0 +1,1091 @@
+[
+  {
+    "frame": 1,
+    "frame_path": "frames/frame_0001.png",
+    "coordinates": {
+      "x1": 102,
+      "y1": 579,
+      "x2": 310,
+      "y2": 795
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 61,
+    "frame_path": "frames/frame_0061.png",
+    "coordinates": {
+      "x1": 94,
+      "y1": 533,
+      "x2": 282,
+      "y2": 795
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 136,
+    "frame_path": "frames/frame_0136.png",
+    "coordinates": {
+      "x1": 77,
+      "y1": 544,
+      "x2": 280,
+      "y2": 801
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 196,
+    "frame_path": "frames/frame_0196.png",
+    "coordinates": {
+      "x1": 213,
+      "y1": 473,
+      "x2": 380,
+      "y2": 761
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 286,
+    "frame_path": "frames/frame_0286.png",
+    "coordinates": {
+      "x1": 666,
+      "y1": 357,
+      "x2": 726,
+      "y2": 422
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 316,
+    "frame_path": "frames/frame_0316.png",
+    "coordinates": {
+      "x1": 798,
+      "y1": 362,
+      "x2": 864,
+      "y2": 477
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 346,
+    "frame_path": "frames/frame_0346.png",
+    "coordinates": {
+      "x1": 909,
+      "y1": 335,
+      "x2": 1037,
+      "y2": 661
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 376,
+    "frame_path": "frames/frame_0376.png",
+    "coordinates": {
+      "x1": 942,
+      "y1": 328,
+      "x2": 1058,
+      "y2": 677
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 391,
+    "frame_path": "frames/frame_0391.png",
+    "coordinates": {
+      "x1": 943,
+      "y1": 328,
+      "x2": 1057,
+      "y2": 676
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 436,
+    "frame_path": "frames/frame_0436.png",
+    "coordinates": {
+      "x1": 943,
+      "y1": 333,
+      "x2": 1052,
+      "y2": 677
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 496,
+    "frame_path": "frames/frame_0496.png",
+    "coordinates": {
+      "x1": 865,
+      "y1": 317,
+      "x2": 1011,
+      "y2": 582
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 541,
+    "frame_path": "frames/frame_0541.png",
+    "coordinates": {
+      "x1": 661,
+      "y1": 344,
+      "x2": 769,
+      "y2": 445
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 661,
+    "frame_path": "frames/frame_0661.png",
+    "coordinates": {
+      "x1": 145,
+      "y1": 483,
+      "x2": 299,
+      "y2": 749
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 736,
+    "frame_path": "frames/frame_0736.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 591,
+      "x2": 289,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 811,
+    "frame_path": "frames/frame_0811.png",
+    "coordinates": {
+      "x1": 82,
+      "y1": 594,
+      "x2": 282,
+      "y2": 776
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 886,
+    "frame_path": "frames/frame_0886.png",
+    "coordinates": {
+      "x1": 84,
+      "y1": 598,
+      "x2": 278,
+      "y2": 781
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 901,
+    "frame_path": "frames/frame_0901.png",
+    "coordinates": {
+      "x1": 86,
+      "y1": 600,
+      "x2": 279,
+      "y2": 781
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 961,
+    "frame_path": "frames/frame_0961.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 600,
+      "x2": 278,
+      "y2": 781
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 991,
+    "frame_path": "frames/frame_0991.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 600,
+      "x2": 280,
+      "y2": 781
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1021,
+    "frame_path": "frames/frame_1021.png",
+    "coordinates": {
+      "x1": 87,
+      "y1": 601,
+      "x2": 279,
+      "y2": 780
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1111,
+    "frame_path": "frames/frame_1111.png",
+    "coordinates": {
+      "x1": 87,
+      "y1": 601,
+      "x2": 279,
+      "y2": 780
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1171,
+    "frame_path": "frames/frame_1171.png",
+    "coordinates": {
+      "x1": 87,
+      "y1": 601,
+      "x2": 278,
+      "y2": 779
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1231,
+    "frame_path": "frames/frame_1231.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 602,
+      "x2": 278,
+      "y2": 780
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1291,
+    "frame_path": "frames/frame_1291.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 601,
+      "x2": 281,
+      "y2": 779
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1351,
+    "frame_path": "frames/frame_1351.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 602,
+      "x2": 278,
+      "y2": 779
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1411,
+    "frame_path": "frames/frame_1411.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 601,
+      "x2": 285,
+      "y2": 779
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1471,
+    "frame_path": "frames/frame_1471.png",
+    "coordinates": {
+      "x1": 86,
+      "y1": 602,
+      "x2": 279,
+      "y2": 780
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1531,
+    "frame_path": "frames/frame_1531.png",
+    "coordinates": {
+      "x1": 86,
+      "y1": 602,
+      "x2": 278,
+      "y2": 807
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1591,
+    "frame_path": "frames/frame_1591.png",
+    "coordinates": {
+      "x1": 86,
+      "y1": 602,
+      "x2": 274,
+      "y2": 784
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1651,
+    "frame_path": "frames/frame_1651.png",
+    "coordinates": {
+      "x1": 86,
+      "y1": 601,
+      "x2": 275,
+      "y2": 783
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1711,
+    "frame_path": "frames/frame_1711.png",
+    "coordinates": {
+      "x1": 87,
+      "y1": 601,
+      "x2": 275,
+      "y2": 780
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1771,
+    "frame_path": "frames/frame_1771.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 601,
+      "x2": 275,
+      "y2": 780
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1801,
+    "frame_path": "frames/frame_1801.png",
+    "coordinates": {
+      "x1": 87,
+      "y1": 602,
+      "x2": 274,
+      "y2": 776
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1861,
+    "frame_path": "frames/frame_1861.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 602,
+      "x2": 279,
+      "y2": 776
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1921,
+    "frame_path": "frames/frame_1921.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 602,
+      "x2": 282,
+      "y2": 780
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 1981,
+    "frame_path": "frames/frame_1981.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 602,
+      "x2": 282,
+      "y2": 770
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2041,
+    "frame_path": "frames/frame_2041.png",
+    "coordinates": {
+      "x1": 86,
+      "y1": 602,
+      "x2": 281,
+      "y2": 781
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2101,
+    "frame_path": "frames/frame_2101.png",
+    "coordinates": {
+      "x1": 90,
+      "y1": 602,
+      "x2": 276,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2161,
+    "frame_path": "frames/frame_2161.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 602,
+      "x2": 277,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2221,
+    "frame_path": "frames/frame_2221.png",
+    "coordinates": {
+      "x1": 86,
+      "y1": 602,
+      "x2": 276,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2281,
+    "frame_path": "frames/frame_2281.png",
+    "coordinates": {
+      "x1": 90,
+      "y1": 603,
+      "x2": 275,
+      "y2": 782
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2341,
+    "frame_path": "frames/frame_2341.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 602,
+      "x2": 277,
+      "y2": 786
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2401,
+    "frame_path": "frames/frame_2401.png",
+    "coordinates": {
+      "x1": 90,
+      "y1": 603,
+      "x2": 275,
+      "y2": 772
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2461,
+    "frame_path": "frames/frame_2461.png",
+    "coordinates": {
+      "x1": 89,
+      "y1": 603,
+      "x2": 275,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2521,
+    "frame_path": "frames/frame_2521.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 603,
+      "x2": 273,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2581,
+    "frame_path": "frames/frame_2581.png",
+    "coordinates": {
+      "x1": 89,
+      "y1": 603,
+      "x2": 276,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2611,
+    "frame_path": "frames/frame_2611.png",
+    "coordinates": {
+      "x1": 90,
+      "y1": 603,
+      "x2": 275,
+      "y2": 781
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2641,
+    "frame_path": "frames/frame_2641.png",
+    "coordinates": {
+      "x1": 89,
+      "y1": 603,
+      "x2": 275,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2701,
+    "frame_path": "frames/frame_2701.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 602,
+      "x2": 274,
+      "y2": 783
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2746,
+    "frame_path": "frames/frame_2746.png",
+    "coordinates": {
+      "x1": 83,
+      "y1": 599,
+      "x2": 266,
+      "y2": 819
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2806,
+    "frame_path": "frames/frame_2806.png",
+    "coordinates": {
+      "x1": 78,
+      "y1": 590,
+      "x2": 272,
+      "y2": 833
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2851,
+    "frame_path": "frames/frame_2851.png",
+    "coordinates": {
+      "x1": 79,
+      "y1": 587,
+      "x2": 270,
+      "y2": 781
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2911,
+    "frame_path": "frames/frame_2911.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 592,
+      "x2": 279,
+      "y2": 760
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 2956,
+    "frame_path": "frames/frame_2956.png",
+    "coordinates": {
+      "x1": 81,
+      "y1": 591,
+      "x2": 275,
+      "y2": 758
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3031,
+    "frame_path": "frames/frame_3031.png",
+    "coordinates": {
+      "x1": 79,
+      "y1": 592,
+      "x2": 279,
+      "y2": 757
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3091,
+    "frame_path": "frames/frame_3091.png",
+    "coordinates": {
+      "x1": 79,
+      "y1": 592,
+      "x2": 281,
+      "y2": 757
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3151,
+    "frame_path": "frames/frame_3151.png",
+    "coordinates": {
+      "x1": 79,
+      "y1": 591,
+      "x2": 281,
+      "y2": 759
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3241,
+    "frame_path": "frames/frame_3241.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 592,
+      "x2": 280,
+      "y2": 757
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3301,
+    "frame_path": "frames/frame_3301.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 592,
+      "x2": 281,
+      "y2": 756
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3361,
+    "frame_path": "frames/frame_3361.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 592,
+      "x2": 278,
+      "y2": 758
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3436,
+    "frame_path": "frames/frame_3436.png",
+    "coordinates": {
+      "x1": 79,
+      "y1": 592,
+      "x2": 280,
+      "y2": 761
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3451,
+    "frame_path": "frames/frame_3451.png",
+    "coordinates": {
+      "x1": 768,
+      "y1": 231,
+      "x2": 818,
+      "y2": 352
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3466,
+    "frame_path": "frames/frame_3466.png",
+    "coordinates": {
+      "x1": 768,
+      "y1": 231,
+      "x2": 818,
+      "y2": 352
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3496,
+    "frame_path": "frames/frame_3496.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 592,
+      "x2": 280,
+      "y2": 758
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3556,
+    "frame_path": "frames/frame_3556.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 592,
+      "x2": 279,
+      "y2": 758
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3586,
+    "frame_path": "frames/frame_3586.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 592,
+      "x2": 280,
+      "y2": 757
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3601,
+    "frame_path": "frames/frame_3601.png",
+    "coordinates": {
+      "x1": 79,
+      "y1": 592,
+      "x2": 280,
+      "y2": 757
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3676,
+    "frame_path": "frames/frame_3676.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 592,
+      "x2": 283,
+      "y2": 758
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3736,
+    "frame_path": "frames/frame_3736.png",
+    "coordinates": {
+      "x1": 79,
+      "y1": 592,
+      "x2": 280,
+      "y2": 757
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3796,
+    "frame_path": "frames/frame_3796.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 591,
+      "x2": 282,
+      "y2": 758
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3856,
+    "frame_path": "frames/frame_3856.png",
+    "coordinates": {
+      "x1": 79,
+      "y1": 592,
+      "x2": 268,
+      "y2": 785
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3916,
+    "frame_path": "frames/frame_3916.png",
+    "coordinates": {
+      "x1": 84,
+      "y1": 594,
+      "x2": 292,
+      "y2": 781
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 3991,
+    "frame_path": "frames/frame_3991.png",
+    "coordinates": {
+      "x1": 84,
+      "y1": 595,
+      "x2": 291,
+      "y2": 777
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4051,
+    "frame_path": "frames/frame_4051.png",
+    "coordinates": {
+      "x1": 83,
+      "y1": 594,
+      "x2": 290,
+      "y2": 784
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4156,
+    "frame_path": "frames/frame_4156.png",
+    "coordinates": {
+      "x1": 83,
+      "y1": 593,
+      "x2": 290,
+      "y2": 779
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4171,
+    "frame_path": "frames/frame_4171.png",
+    "coordinates": {
+      "x1": 84,
+      "y1": 594,
+      "x2": 290,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4246,
+    "frame_path": "frames/frame_4246.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 594,
+      "x2": 298,
+      "y2": 776
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4321,
+    "frame_path": "frames/frame_4321.png",
+    "coordinates": {
+      "x1": 84,
+      "y1": 596,
+      "x2": 302,
+      "y2": 772
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4381,
+    "frame_path": "frames/frame_4381.png",
+    "coordinates": {
+      "x1": 83,
+      "y1": 595,
+      "x2": 303,
+      "y2": 777
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4426,
+    "frame_path": "frames/frame_4426.png",
+    "coordinates": {
+      "x1": 84,
+      "y1": 595,
+      "x2": 305,
+      "y2": 772
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4486,
+    "frame_path": "frames/frame_4486.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 596,
+      "x2": 303,
+      "y2": 772
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4501,
+    "frame_path": "frames/frame_4501.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 596,
+      "x2": 303,
+      "y2": 771
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4576,
+    "frame_path": "frames/frame_4576.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 596,
+      "x2": 302,
+      "y2": 772
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4636,
+    "frame_path": "frames/frame_4636.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 597,
+      "x2": 301,
+      "y2": 776
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4696,
+    "frame_path": "frames/frame_4696.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 596,
+      "x2": 303,
+      "y2": 769
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4756,
+    "frame_path": "frames/frame_4756.png",
+    "coordinates": {
+      "x1": 85,
+      "y1": 596,
+      "x2": 302,
+      "y2": 776
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4816,
+    "frame_path": "frames/frame_4816.png",
+    "coordinates": {
+      "x1": 81,
+      "y1": 578,
+      "x2": 264,
+      "y2": 774
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4891,
+    "frame_path": "frames/frame_4891.png",
+    "coordinates": {
+      "x1": 80,
+      "y1": 580,
+      "x2": 269,
+      "y2": 784
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4936,
+    "frame_path": "frames/frame_4936.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 605,
+      "x2": 274,
+      "y2": 833
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 4996,
+    "frame_path": "frames/frame_4996.png",
+    "coordinates": {
+      "x1": 88,
+      "y1": 610,
+      "x2": 284,
+      "y2": 779
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5026,
+    "frame_path": "frames/frame_5026.png",
+    "coordinates": {
+      "x1": 95,
+      "y1": 611,
+      "x2": 283,
+      "y2": 774
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5071,
+    "frame_path": "frames/frame_5071.png",
+    "coordinates": {
+      "x1": 92,
+      "y1": 608,
+      "x2": 278,
+      "y2": 772
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5086,
+    "frame_path": "frames/frame_5086.png",
+    "coordinates": {
+      "x1": 92,
+      "y1": 606,
+      "x2": 277,
+      "y2": 783
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5116,
+    "frame_path": "frames/frame_5116.png",
+    "coordinates": {
+      "x1": 92,
+      "y1": 605,
+      "x2": 278,
+      "y2": 782
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5146,
+    "frame_path": "frames/frame_5146.png",
+    "coordinates": {
+      "x1": 91,
+      "y1": 605,
+      "x2": 277,
+      "y2": 777
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5206,
+    "frame_path": "frames/frame_5206.png",
+    "coordinates": {
+      "x1": 92,
+      "y1": 604,
+      "x2": 277,
+      "y2": 772
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5266,
+    "frame_path": "frames/frame_5266.png",
+    "coordinates": {
+      "x1": 89,
+      "y1": 599,
+      "x2": 279,
+      "y2": 776
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5326,
+    "frame_path": "frames/frame_5326.png",
+    "coordinates": {
+      "x1": 90,
+      "y1": 603,
+      "x2": 279,
+      "y2": 778
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5386,
+    "frame_path": "frames/frame_5386.png",
+    "coordinates": {
+      "x1": 89,
+      "y1": 602,
+      "x2": 278,
+      "y2": 776
+    },
+    "timestamp": 0
+  }
+]

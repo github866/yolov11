@@ -1,0 +1,255 @@
+[
+  {
+    "frame": 4996,
+    "frame_path": "frames/frame_4996.png",
+    "coordinates": {
+      "x1": 756,
+      "y1": 160,
+      "x2": 807,
+      "y2": 291
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5011,
+    "frame_path": "frames/frame_5011.png",
+    "coordinates": {
+      "x1": 756,
+      "y1": 160,
+      "x2": 828,
+      "y2": 338
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5026,
+    "frame_path": "frames/frame_5026.png",
+    "coordinates": {
+      "x1": 762,
+      "y1": 157,
+      "x2": 825,
+      "y2": 331
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5041,
+    "frame_path": "frames/frame_5041.png",
+    "coordinates": {
+      "x1": 764,
+      "y1": 157,
+      "x2": 823,
+      "y2": 347
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5056,
+    "frame_path": "frames/frame_5056.png",
+    "coordinates": {
+      "x1": 764,
+      "y1": 157,
+      "x2": 822,
+      "y2": 350
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5071,
+    "frame_path": "frames/frame_5071.png",
+    "coordinates": {
+      "x1": 764,
+      "y1": 157,
+      "x2": 821,
+      "y2": 348
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5086,
+    "frame_path": "frames/frame_5086.png",
+    "coordinates": {
+      "x1": 764,
+      "y1": 159,
+      "x2": 824,
+      "y2": 340
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5101,
+    "frame_path": "frames/frame_5101.png",
+    "coordinates": {
+      "x1": 764,
+      "y1": 158,
+      "x2": 824,
+      "y2": 333
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5116,
+    "frame_path": "frames/frame_5116.png",
+    "coordinates": {
+      "x1": 764,
+      "y1": 157,
+      "x2": 826,
+      "y2": 337
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5131,
+    "frame_path": "frames/frame_5131.png",
+    "coordinates": {
+      "x1": 769,
+      "y1": 155,
+      "x2": 825,
+      "y2": 318
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5146,
+    "frame_path": "frames/frame_5146.png",
+    "coordinates": {
+      "x1": 769,
+      "y1": 154,
+      "x2": 824,
+      "y2": 317
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5161,
+    "frame_path": "frames/frame_5161.png",
+    "coordinates": {
+      "x1": 771,
+      "y1": 155,
+      "x2": 828,
+      "y2": 312
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5176,
+    "frame_path": "frames/frame_5176.png",
+    "coordinates": {
+      "x1": 770,
+      "y1": 155,
+      "x2": 836,
+      "y2": 329
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5191,
+    "frame_path": "frames/frame_5191.png",
+    "coordinates": {
+      "x1": 764,
+      "y1": 154,
+      "x2": 834,
+      "y2": 351
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5206,
+    "frame_path": "frames/frame_5206.png",
+    "coordinates": {
+      "x1": 761,
+      "y1": 157,
+      "x2": 834,
+      "y2": 345
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5221,
+    "frame_path": "frames/frame_5221.png",
+    "coordinates": {
+      "x1": 766,
+      "y1": 155,
+      "x2": 835,
+      "y2": 327
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5266,
+    "frame_path": "frames/frame_5266.png",
+    "coordinates": {
+      "x1": 766,
+      "y1": 156,
+      "x2": 831,
+      "y2": 326
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5281,
+    "frame_path": "frames/frame_5281.png",
+    "coordinates": {
+      "x1": 768,
+      "y1": 156,
+      "x2": 831,
+      "y2": 326
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5296,
+    "frame_path": "frames/frame_5296.png",
+    "coordinates": {
+      "x1": 770,
+      "y1": 156,
+      "x2": 831,
+      "y2": 326
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5311,
+    "frame_path": "frames/frame_5311.png",
+    "coordinates": {
+      "x1": 768,
+      "y1": 156,
+      "x2": 831,
+      "y2": 326
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5326,
+    "frame_path": "frames/frame_5326.png",
+    "coordinates": {
+      "x1": 778,
+      "y1": 150,
+      "x2": 851,
+      "y2": 325
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5356,
+    "frame_path": "frames/frame_5356.png",
+    "coordinates": {
+      "x1": 780,
+      "y1": 152,
+      "x2": 832,
+      "y2": 326
+    },
+    "timestamp": 0
+  },
+  {
+    "frame": 5386,
+    "frame_path": "frames/frame_5386.png",
+    "coordinates": {
+      "x1": 777,
+      "y1": 152,
+      "x2": 818,
+      "y2": 214
+    },
+    "timestamp": 0
+  }
+]
