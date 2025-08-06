@@ -151,11 +151,144 @@ class Evaluator(ImageViewer):
         self.identity_var = None
         self.identity_menu = None
 
+    def evaluate(self):
+        """
+        Evaluation functionality that uses the selected identity.
+        """
+        selected_identity = self.get_selected_identity_name()
+        selected_identity_index = self.get_selected_identity_index()
+        print(f"Evaluating image at second {self.current_second} for identity: {selected_identity} (index: {selected_identity_index})")
+        # Add your evaluation logic here
+        # You can now use selected_identity and selected_identity_index in your evaluation
+
+    def load_evaluation_buttons(self):
+        """
+        Load buttons for evaluation metrics tracking.
+        """
+        # Create a frame for evaluation buttons
+        eval_frame = tk.Frame(self.root)
+        eval_frame.pack(side=tk.LEFT, pady=10, padx=10)
+        
+        # Add labels for the evaluation section
+        eval_label = tk.Label(eval_frame, text="Evaluation Metrics", font=("Arial", 12, "bold"))
+        eval_label.pack(pady=5)
+        
+        # Create buttons for each metric
+        self.correct_btn = tk.Button(eval_frame, text="Correct", command=self.mark_correct, bg="green", fg="white")
+        self.correct_btn.pack(pady=2)
+        
+        self.incorrect_btn = tk.Button(eval_frame, text="Incorrect", command=self.mark_incorrect, bg="red", fg="white")
+        self.incorrect_btn.pack(pady=2)
+        
+        self.missing_btn = tk.Button(eval_frame, text="Missing", command=self.mark_missing, bg="orange", fg="white")
+        self.missing_btn.pack(pady=2)
+        
+        # Add a button to show results
+        self.show_results_btn = tk.Button(eval_frame, text="Show Results", command=self.show_results, bg="blue", fg="white")
+        self.show_results_btn.pack(pady=5)
+        
+        # Initialize evaluation data
+        self.evaluation_data = {}
+        for identity in self.IDENTITY_SUBJECT:
+            self.evaluation_data[identity] = {
+                'correct': 0,
+                'incorrect': 0,
+                'missing': 0,
+                'total_seconds': 180  # Default total seconds
+            }
+
+    def mark_correct(self):
+        """
+        Mark the current evaluation as correct for the selected identity.
+        """
+        identity = self.get_selected_identity_name()
+        self.evaluation_data[identity]['correct'] += 1
+        print(f"Marked as CORRECT for {identity} at second {self.current_second}")
+
+    def mark_incorrect(self):
+        """
+        Mark the current evaluation as incorrect for the selected identity.
+        """
+        identity = self.get_selected_identity_name()
+        self.evaluation_data[identity]['incorrect'] += 1
+        print(f"Marked as INCORRECT for {identity} at second {self.current_second}")
+
+    def mark_missing(self):
+        """
+        Mark the current evaluation as missing for the selected identity.
+        """
+        identity = self.get_selected_identity_name()
+        self.evaluation_data[identity]['missing'] += 1
+        print(f"Marked as MISSING for {identity} at second {self.current_second}")
+
+    def calculate_accuracy(self, correct, incorrect, missing):
+        """
+        Calculate accuracy based on correct, incorrect, and missing values.
+        """
+        total = correct + incorrect + missing
+        if total == 0:
+            return 0.0
+        return round(correct / total, 3)
+
+    def show_results(self):
+        """
+        Display evaluation results in a table format.
+        """
+        # Create a new window for results
+        results_window = tk.Toplevel(self.root)
+        results_window.title("Evaluation Results")
+        results_window.geometry("800x600")
+        
+        # Create a frame for the table
+        table_frame = tk.Frame(results_window)
+        table_frame.pack(pady=20, padx=20, fill=tk.BOTH, expand=True)
+        
+        # Create headers
+        headers = ["Name", "Accuracy", "Correct", "Incorrect", "Missing", "Total Seconds"]
+        for i, header in enumerate(headers):
+            label = tk.Label(table_frame, text=header, font=("Arial", 10, "bold"), 
+                           relief=tk.RAISED, borderwidth=2, width=12)
+            label.grid(row=0, column=i, sticky="ew", padx=1, pady=1)
+        
+        # Populate data rows
+        row = 1
+        for identity in self.IDENTITY_SUBJECT:
+            data = self.evaluation_data[identity]
+            correct = data['correct']
+            incorrect = data['incorrect']
+            missing = data['missing']
+            total_seconds = data['total_seconds']
+            accuracy = self.calculate_accuracy(correct, incorrect, missing)
+            
+            # Determine if accuracy should be bold (high performance)
+            accuracy_text = f"{accuracy:.3f}"
+            if accuracy >= 0.8:  # Bold high accuracy values
+                accuracy_text = f"**{accuracy:.3f}**"
+            
+            # Create row data
+            row_data = [identity, accuracy_text, str(correct), str(incorrect), str(missing), str(total_seconds)]
+            
+            for i, value in enumerate(row_data):
+                # Use bold font for high accuracy values
+                font_weight = "bold" if i == 1 and accuracy >= 0.8 else "normal"
+                label = tk.Label(table_frame, text=value, font=("Arial", 9, font_weight),
+                               relief=tk.SUNKEN, borderwidth=1, width=12)
+                label.grid(row=row, column=i, sticky="ew", padx=1, pady=1)
+            
+            row += 1
+        
+        # Configure grid weights
+        for i in range(len(headers)):
+            table_frame.columnconfigure(i, weight=1)
+
     def load_buttons(self):
         super().load_buttons()
         # Add evaluate button
         self.evaluate_btn = tk.Button(self.root, text="Evaluate", command=self.evaluate)
         self.evaluate_btn.pack(side=tk.LEFT, padx=10)
+        
+        # Load evaluation buttons
+        self.load_evaluation_buttons()
 
     def identity_selection(self):
         """
@@ -213,15 +346,6 @@ class Evaluator(ImageViewer):
 
         self.root.mainloop()
 
-    def evaluate(self):
-        """
-        Evaluation functionality that uses the selected identity.
-        """
-        selected_identity = self.get_selected_identity_name()
-        selected_identity_index = self.get_selected_identity_index()
-        print(f"Evaluating image at second {self.current_second} for identity: {selected_identity} (index: {selected_identity_index})")
-        # Add your evaluation logic here
-        # You can now use selected_identity and selected_identity_index in your evaluation
 
 def main():
     parser = argparse.ArgumentParser()
