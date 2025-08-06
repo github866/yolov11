@@ -4,6 +4,7 @@ import os
 import tkinter as tk
 from PIL import Image, ImageTk
 import argparse
+from tkinter import ttk
 
 class ImageViewer:
     def __init__(self, image_dir='Loc01/'):
@@ -134,13 +135,103 @@ class ImageViewer:
             self.second_number_label.config(text=f"Second: {self.current_second}")
 
 
+class Evaluator(ImageViewer):
+    def __init__(self, image_dir='Loc01/', current_subject_index=0):
+        super().__init__(image_dir)
+        # Identity subjects list
+        self.IDENTITY_SUBJECT = (['nurse_1','nurse_2',
+            'patient_1','patient_2','patient_3',
+            'psychiatrist','psychologist','researcher',
+            'person_1','person_2','person_3','person_4'])
+        
+        # Identity selection parameters
+        self.current_subject_index = current_subject_index
+        self.min_subject_index = 0
+        self.max_subject_index = len(self.IDENTITY_SUBJECT) - 1
+        self.identity_var = None
+        self.identity_menu = None
+
+    def load_buttons(self):
+        super().load_buttons()
+        # Add evaluate button
+        self.evaluate_btn = tk.Button(self.root, text="Evaluate", command=self.evaluate)
+        self.evaluate_btn.pack(side=tk.LEFT, padx=10)
+
+    def identity_selection(self):
+        """
+        This function initializes the identity selection menu for the GUI interface.
+        It sets the default identity to the first subject in the list and creates a combobox
+        with all the subjects as options. The combobox is then packed to the right side of the window.
+        """
+        self.identity_var = tk.StringVar()
+        self.identity_var.set(self.IDENTITY_SUBJECT[self.current_subject_index])
+        self.identity_menu = ttk.Combobox(self.root, textvariable=self.identity_var, values=self.IDENTITY_SUBJECT, state="readonly")
+        self.identity_menu.pack(side=tk.RIGHT, pady=10)
+
+    def get_selected_identity_index(self):
+        """
+        Returns the index of the currently selected identity in the IDENTITY_SUBJECT list.
+        """
+        return self.IDENTITY_SUBJECT.index(self.identity_var.get())
+
+    def get_selected_identity_name(self):
+        """
+        Returns the name of the currently selected identity.
+        """
+        return self.identity_var.get()
+
+    def run(self):
+        """
+        Main UI setup and execution with identity selection
+        """
+        self.root = tk.Tk()
+        self.root.title(f"Evaluator - {self.image_dir}")
+        self.root.geometry("1280x920")
+
+        # Bind left and right arrow keys to navigation functions
+        self.root.bind('<Left>', lambda event: self.previous_image())
+        self.root.bind('<Right>', lambda event: self.next_image())
+
+        self.canvas = tk.Canvas(self.root, width=1920*self.RESIZE, height=1080*self.RESIZE)
+        self.canvas.pack()
+
+        # Load all necessary buttons
+        self.load_buttons()
+
+        # Adding identity selection on the side
+        self.identity_selection()
+
+        # Load and display the first image as default
+        if self.image_paths:
+            self.image = Image.open(os.path.join(self.image_dir, self.image_paths[self.current_second]))
+            # Resize the image for display
+            display_width = int(self.image.width * self.RESIZE)
+            display_height = int(self.image.height * self.RESIZE)
+            self.display_image = self.image.resize((display_width, display_height), Image.LANCZOS)
+            self.photo = ImageTk.PhotoImage(self.display_image)
+            self.image_on_canvas = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.photo)
+
+        self.root.mainloop()
+
+    def evaluate(self):
+        """
+        Evaluation functionality that uses the selected identity.
+        """
+        selected_identity = self.get_selected_identity_name()
+        selected_identity_index = self.get_selected_identity_index()
+        print(f"Evaluating image at second {self.current_second} for identity: {selected_identity} (index: {selected_identity_index})")
+        # Add your evaluation logic here
+        # You can now use selected_identity and selected_identity_index in your evaluation
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--image_dir", type=str, default="Loc01/")
+    parser.add_argument("--current_subject_index", type=int, default=0)
     args = parser.parse_args()
 
     image_dir = args.image_dir
-    viewer = ImageViewer(image_dir)
+    current_subject_index = args.current_subject_index
+    viewer = Evaluator(image_dir, current_subject_index)
     viewer.run()
 
 if __name__ == "__main__":
