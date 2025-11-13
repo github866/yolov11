@@ -8,7 +8,11 @@ class DINOFeatureExtractor:
     # 'dino_vits8': (8, 16) https://huggingface.co/facebook/dino-vitb8
     # 'dinov2_vitb14': (14) https://huggingface.co/collections/facebook/dinov2-6526c98554b3d2576e071ce3
     # 'facebookresearch/dino:main'
-    def __init__(self, model_name='dino_vits8', device='cuda' if torch.cuda.is_available() else 'cpu'):
+    def __init__(
+        self, 
+        model_name='dino_vits8', 
+        device='cuda' if torch.cuda.is_available() else 'cpu'
+    ):
         self.device = device
         if 'dinov2' in model_name:
             self.model = torch.hub.load('facebookresearch/dinov2', model_name).to(device)

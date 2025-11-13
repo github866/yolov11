@@ -6,6 +6,7 @@ from typing import Literal
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from .feature_extractor import DINOFeatureExtractor, CLIPFeatureExtractor
+from scipy.optimize import linear_sum_assignment
 
 class PersonTracker:
     def __init__(
@@ -13,19 +14,21 @@ class PersonTracker:
             distance_threshold=100, 
             feature_similarity_threshold=0.5, 
             iou_threshold=0.7,
+            feature_extractor=DINOFeatureExtractor(model_name='dino_vits8')
+            # feature_extractor=CLIPFeatureExtractor(weights_path="/home/agenuinedream/repo/HSfM_RELEASE/checkpoints/MSMT17_clipreid_12x12sie_ViT-B-16_60.pth")
         ):
         
         self.all_people_bboxs = {} # person_id -> [x1, y1, x2, y2]
         self.all_people_feature = {} # person_id -> feature vector
         self.feature_bank = {} # person_id -> feature vector 
+        self.feature_bank_list = {}
 
         # thresholds for different metrics
         self.feature_similarity_threshold = feature_similarity_threshold
         self.iou_threshold = iou_threshold
         self.distance_threshold = distance_threshold
         # Initialize the feature extractor
-        self.feature_extractor = DINOFeatureExtractor(model_name='dino_vits8')
-        # self.feature_extractor = CLIPFeatureExtractor(weights_path="/home/agenuinedream/repo/HSfM_RELEASE/checkpoints/MSMT17_clipreid_12x12sie_ViT-B-16_60.pth")
+        self.feature_extractor = feature_extractor
 
         # feature bank
         self.use_feature_bank = True 
@@ -122,27 +125,36 @@ class PersonTracker:
                 # Average the features to create a representative feature vector for the person
                 self.feature_bank[key] = feature_list
 
-    def init_feature_bank_by_average(self, feature_bank_dir):
+    def init_feature_bank_by_average(self, feature_bank_dir_list):
         # get the directory of the feature bank
-        for dir in os.listdir(feature_bank_dir):
-            img_dir = os.path.join(feature_bank_dir, dir)
-            if not os.path.isdir(img_dir):
-                continue
-            key = get_key_from_dir(dir)
-
-            feature_list = []
-            for img in os.listdir(img_dir):
-                img_path = os.path.join(img_dir, img)
-                if not img.endswith('.jpg') and not img.endswith('.png'):
+        for feature_bank_dir in feature_bank_dir_list:
+            for dir in os.listdir(feature_bank_dir):
+                img_dir = os.path.join(feature_bank_dir, dir)
+                if not os.path.isdir(img_dir):
                     continue
-                image_crop = cv2.imread(img_path)
-                feature_vector = self.feature_extractor.extract_features(image_crop)
-                feature_list.append(feature_vector)
-            
-            if len(feature_list) > 0:
-                # Average the features to create a representative feature vector for the person
-                self.feature_bank[key] = np.mean(feature_list, axis=0)
-                print(f"Initialized feature bank for {key} with {len(feature_list)} images.")
+                key = get_key_from_dir(dir)
+
+                feature_list = []
+                # recursively get all images in the directory
+                for dir_path, dir_names, img_names in os.walk(img_dir):
+                    for img in img_names:
+                        img_path = os.path.join(dir_path, img)
+
+                        if not img.endswith('.jpg') and not img.endswith('.png'):
+                            continue
+                        image_crop = cv2.imread(img_path)
+                        feature_vector = self.feature_extractor.extract_features(image_crop)
+                        feature_list.append(feature_vector)
+                
+                if len(feature_list) > 0:
+                    # Average the features to create a representative feature vector for the person
+                    if key not in self.feature_bank_list:
+                        self.feature_bank_list[key] = []
+                    self.feature_bank_list[key].append(np.mean(feature_list, axis=0))
+
+        for key, feature_list in self.feature_bank_list.items():
+            self.feature_bank[key] = np.mean(feature_list, axis=0)
+            print(f"Initialized feature bank for {key} with {len(feature_list)} features.")
 
     def init_feature_bank_clustering(self, feature_bank_dir, max_clusters=5, min_clusters=1):
         """
@@ -309,46 +321,133 @@ class PersonTracker:
     
     def associate(self, frame, bboxs, frame_cnt, missing_log, similarity_log):
         similarity_log[frame_cnt] = {}
-        bbox_to_keys = {}
+        bbox_features = [
+            self.feature_extractor.extract_features(frame[y1:y2, x1:x2])
+            for (x1, y1, x2, y2) in map(lambda b: map(int, b), bboxs)
+        ]
+
+        person_prefs = {}  # key: person, value: sorted [(bbox_id, similarity)]
+        assigned_bboxes = set()
+        assignments = {}
+        pointer = {}
+
+        # Precompute all similarity lists
         for k, v in self.feature_bank.items():
             if v is None:
                 print(f"Feature for person {k} is None, skipping association.")
                 continue
-            
-            bbox_id = -1
-            similarity = 0
-            similarity_log[frame_cnt][k] = {}
-            similarity_list = []
-            for j, bbox in enumerate(bboxs):
-                x1_new, y1_new, x2_new, y2_new = map(int, bbox)
-                feature_vector_new = self.feature_extractor.extract_features(frame[y1_new:y2_new, x1_new:x2_new])
-                
-                # Compute similarity using clustering-based method
-                new_similarity = self.compute_feature_similarity(v, feature_vector_new) 
-                # Convert numpy scalar to Python float for JSON serialization
-                new_similarity = float(new_similarity)
-                similarity_list.append((j, round(new_similarity, 4)))
-                if new_similarity > similarity and new_similarity > self.feature_similarity_threshold:
-                    # self.all_people_bboxs[i] = [x1_new, y1_new, x2_new, y2_new]
-                    similarity = new_similarity
-                    bbox_id = j
-            similarity_list.sort(key=lambda x: x[1], reverse=True)
-            similarity_log[frame_cnt][k]['bbox_id'] = [pair[0] for pair in similarity_list[:5]]
-            similarity_log[frame_cnt][k]['similarity_list'] = [pair[1] for pair in similarity_list[:5]]
-            
-            if bbox_id >= 0:
-                if bbox_id not in bbox_to_keys:
-                    bbox_to_keys[bbox_id] = []
-                bbox_to_keys[bbox_id].append([k, similarity])
-        similarity_log[frame_cnt] = sorted(similarity_log[frame_cnt].items(), key=lambda x: x[0])
-        # Check if the same bbx will be assigned to multiple keys
-        key_updated = set()
-        for bbox_id, keys in bbox_to_keys.items():
-            best_key = max(keys, key=lambda x: x[1])[0]
-            key_updated.add(best_key)
-            new_x1, new_y1, new_x2, new_y2 = map(int, bboxs[bbox_id])
-            self.all_people_bboxs[best_key] = [new_x1, new_y1, new_x2, new_y2]
 
+            similarity_list = []
+            for j, feature_vector_new in enumerate(bbox_features):
+                sim = float(self.compute_feature_similarity(v, feature_vector_new))
+                similarity_list.append((j, sim))
+            similarity_list.sort(key=lambda x: x[1], reverse=True)
+            person_prefs[k] = similarity_list
+            pointer[k] = 0
+
+        # Greedy matching with fallback
+        unassigned = set(person_prefs.keys())
+        while unassigned:
+            proposals = {}  # bbox_id -> list of (person, similarity)
+            to_remove = set()
+            for person in unassigned:
+                # Move pointer to next unassigned bbox
+                while pointer[person] < len(person_prefs[person]) and \
+                    person_prefs[person][pointer[person]][0] in assigned_bboxes:
+                    pointer[person] += 1
+                if pointer[person] >= len(person_prefs[person]):
+                    # No bboxes left to assign
+                    to_remove.add(person)
+                    continue
+                bbox_id, sim = person_prefs[person][pointer[person]]
+                if sim < self.feature_similarity_threshold:
+                    to_remove.add(person)
+                    continue
+                proposals.setdefault(bbox_id, []).append((person, sim))
+            
+            if not proposals:
+                break
+
+            # Resolve conflicts
+            for bbox_id, candidates in proposals.items():
+                # Assign bbox to person with highest similarity
+                best_person, best_sim = max(candidates, key=lambda x: x[1])
+                assignments[best_person] = bbox_id
+                assigned_bboxes.add(bbox_id)
+                to_remove.add(best_person)
+
+            # Remove assigned people
+            unassigned -= to_remove
+
+        # Update self.all_people_bboxs, similarity_log, and missing_log as needed
+        key_updated = set()
+        for person, bbox_id in assignments.items():
+            new_x1, new_y1, new_x2, new_y2 = map(int, bboxs[bbox_id])
+            self.all_people_bboxs[person] = [new_x1, new_y1, new_x2, new_y2]
+            key_updated.add(person)
+            # Optionally update similarity_log here for tracking assignments
+
+        # Update missing logs for people who did not get assigned
+        for key in self.all_people_bboxs.keys():
+            if key not in key_updated:
+                if key not in missing_log:
+                    missing_log[key] = []
+                missing_log[key].append(frame_cnt)
+        
+    def hungarian_associate(self, frame, bboxs, frame_cnt, missing_log, similarity_log):
+        # Get all person IDs and all bbox IDs
+        person_keys = list(self.feature_bank.keys())
+        n_persons = len(person_keys)
+        n_bboxes = len(bboxs)
+        
+        # Precompute feature vectors for all detections
+        bbox_features = []
+        for bbox in bboxs:
+            x1, y1, x2, y2 = map(int, bbox)
+            feat = self.feature_extractor.extract_features(frame[y1:y2, x1:x2])
+            bbox_features.append(feat)
+        
+        # Build similarity matrix [n_persons x n_bboxes]
+        similarity_matrix = np.zeros((n_persons, n_bboxes))
+        for i, person_id in enumerate(person_keys):
+            person_feat = self.feature_bank[person_id]
+            if person_feat is None:
+                similarity_matrix[i, :] = -np.inf  # Very bad match
+                continue
+            for j, det_feat in enumerate(bbox_features):
+                similarity = self.compute_feature_similarity(person_feat, det_feat)
+                similarity_matrix[i, j] = similarity
+
+        # If you want to threshold low similarities, set them to a large negative number (optional)
+        similarity_matrix[similarity_matrix < self.feature_similarity_threshold] = -np.inf
+
+        # Convert to cost matrix for Hungarian (maximize similarity -> minimize negative similarity)
+        cost_matrix = -similarity_matrix
+
+        # Run Hungarian algorithm
+        row_ind, col_ind = linear_sum_assignment(cost_matrix)
+        
+        # Log similarities for top 5 bboxes per person (for compatibility)
+        similarity_log[frame_cnt] = {}
+        for i, person_id in enumerate(person_keys):
+            person_sim_list = [(j, float(np.round(similarity_matrix[i, j], 4))) for j in range(n_bboxes)]
+            person_sim_list.sort(key=lambda x: x[1], reverse=True)
+            similarity_log[frame_cnt][person_id] = {
+                'bbox_id': [pair[0] for pair in person_sim_list[:5]],
+                'similarity_list': [pair[1] for pair in person_sim_list[:5]]
+            }
+
+        # Update assignments
+        key_updated = set()
+        print("min similarity", min(similarity_matrix.flatten()))
+        for i, j in zip(row_ind, col_ind):
+            # Only assign if similarity is above threshold
+            if similarity_matrix[i, j] > -np.inf:
+                person_id = person_keys[i]
+                key_updated.add(person_id)
+                x1, y1, x2, y2 = map(int, bboxs[j])
+                self.all_people_bboxs[person_id] = [x1, y1, x2, y2]
+        
         # Update missing logs
         for key in self.all_people_bboxs.keys():
             if key not in key_updated:

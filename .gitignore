@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-*png
+# *png
 .Python
 build/
 develop-eggs/
@@ -178,3 +178,5 @@ calibration_*.npy
 
 # results
 results/
+
+data/gen_feature_bank/

@@ -16,7 +16,8 @@ def transform_frame_to_sec(frame_wise_csv_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Transform frame-wise CSV to second-wise CSV')
     parser.add_argument("--root_dir", type=str, default='/home/agenuinedream/repo/yolov11/results/tracking/yolov11x_ours_tuned/dino_vitb8')
+    parser.add_argument("--location_id", type=str, default='02')
     args = parser.parse_args()
 
-    frame_wise_csv_path = f'{args.root_dir}/loc_02_combined.csv'
+    frame_wise_csv_path = f'{args.root_dir}/loc_{args.location_id}_combined.csv'
     transform_frame_to_sec(frame_wise_csv_path)

@@ -1,6 +1,9 @@
 import numpy as np
 
-from feature_extractor import DINOFeatureExtractor
+try:
+    from .feature_extractor import DINOFeatureExtractor
+except ImportError:
+    from feature_extractor import DINOFeatureExtractor
 
 class PersonTracker:
     def __init__(self, max_frames_missing=30, distance_threshold=100, max_people=10):

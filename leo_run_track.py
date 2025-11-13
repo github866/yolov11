@@ -9,17 +9,16 @@ from src.detector.yolo import Detector
 from src.tracker.leo_tracker import PersonTracker
 
 class MOTWorker:
-    def __init__(self, video_path: str, output_path: str, ckpt='./leo/ckpt/yolov11x_ours_best.pt'): # .mp4
+    def __init__(self, video_path: str, output_path: str, ckpt, feature_bank_dirs): # .mp4
         self.video_path = video_path
         self.output_path = output_path
         self.detection_output_path = output_path.replace('.mp4', '_detection.mp4')
         self.detector = Detector(ckpt=ckpt) 
-        # './leo/ckpt/yolov11x_ours_best.pt'
-        # './leo/ckpt/yolov8m_coco_ours_tuned.pt'
         self.tracker = PersonTracker()
         self.missing_log = {}
         self.similarity_log = {}
         self.write_video = True
+        self.feature_bank_dirs = feature_bank_dirs
     
     def process_video(self, first_frame_bbxs, room_mask_path):
         room_mask = cv2.imread(room_mask_path, cv2.IMREAD_COLOR)
@@ -32,10 +31,7 @@ class MOTWorker:
 
         # You can use the same VideoWriter instance (out) for writing frames to a single output video file.
         # If you want to write to a different output video (e.g., detection_output_path), you need to create a separate VideoWriter:
-
-        # You can use the same VideoWriter instance (out) for writing frames to a single output video file.
-        # If you want to write to a different output video (e.g., detection_output_path), you need to create a separate VideoWriter:
-        detection_out = cv2.VideoWriter(self.detection_output_path, fourcc, fps, (w, h))
+        # detection_out = cv2.VideoWriter(self.detection_output_path, fourcc, fps, (w, h))
 
         data_log = {}
         for i in range(1, 13):
@@ -53,7 +49,7 @@ class MOTWorker:
             if frame_count == 0:
                 # Initialize tracker with the first frame bounding boxes
                 if self.tracker.use_feature_bank:
-                    self.tracker.init_feature_bank_by_average('/home/agenuinedream/repo/yolov11/data/feature_bank')
+                    self.tracker.init_feature_bank_by_average(self.feature_bank_dirs)
                 else:
                     self.tracker.initialize_first_frame(first_frame_bbxs, frame)
                 print(f"Initialized tracker with {len(first_frame_bbxs)} bounding boxes.")
@@ -142,8 +138,12 @@ if __name__ == "__main__":
         else:
             first_frame_bbxs.append([0, 0, 0, 0])  # Placeholder for invalid bbox
     
-    # ckpt = './leo/ckpt/yolov11x_ours_best.pt'
-    ckpt = './leo/ckpt/yolov8m_coco_ours_tuned.pt'
-    mot_worker = MOTWorker(video_path, output_path, ckpt)
+    ckpt = './leo/ckpt/yolov11x_ours_best.pt'
+    # ckpt = './leo/ckpt/yolov8m_coco_ours_tuned.pt'
+    feature_bank_dirs = [
+        '/home/agenuinedream/repo/yolov11/data/feature_bank', 
+        # '/home/agenuinedream/repo/yolov11/data/gen_feature_bank'
+    ]
+    mot_worker = MOTWorker(video_path, output_path, ckpt, feature_bank_dirs)
     mot_worker.process_video(first_frame_bbxs, room_mask_path)
     

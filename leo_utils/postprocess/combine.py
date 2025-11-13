@@ -7,7 +7,7 @@ sys.path.append("/home/agenuinedream/repo/yolov11/utils_loc")
 from utility import id_to_name
 from argparse import ArgumentParser
 
-def combine_csv(root_dir, output_path, loc_num=2):
+def combine_csv(root_dir, output_path, loc_num):
     combined_data = {}
 
     for i in range(1, 7): # 6 clips
@@ -34,7 +34,6 @@ def combine_csv(root_dir, output_path, loc_num=2):
                 clip_data = clip_data + ['missing'] * (894 - len(clip_data))
             
             for missing_frame_num in missing_log.get(k, []):
-                print(len(clip_data), missing_frame_num)
                 clip_data[missing_frame_num] = 'missing'
 
             combined_data[person_name].extend(clip_data)
@@ -114,11 +113,12 @@ def combine_videos(root_dir, output_path):
 def main():
     parser = ArgumentParser()
     parser.add_argument('--root_dir', type=str, default='/home/agenuinedream/repo/yolov11/results/tracking/yolov11x_ours_tuned/dino_vitb8')
+    parser.add_argument('--location_id', type=str, default='02')
     args = parser.parse_args()
     root_dir = args.root_dir
-    combine_csv(root_dir, f'{root_dir}/loc_02_combined.csv')
+    combine_csv(root_dir, f'{root_dir}/loc_{args.location_id}_combined.csv', int(args.location_id))
     # combine_gt('/data/leohsu/human_dataset/humans/GT')
-    combine_videos(root_dir, f'{root_dir}/loc_02_combined.mp4')
+    combine_videos(root_dir, f'{root_dir}/loc_{args.location_id}_combined.mp4')
 
 if __name__ == "__main__":
     main()

@@ -163,8 +163,16 @@ def eval_csv( # second-wise
     for col in gt.columns:
         # first row is the name
         print(f"Evaluating {col}")
+        # add a case insensitive match for the key (col)
+        if col.lower() in pred.columns:
+            key = col.lower()
+        else:
+            key = col
+        if key not in pred.columns:
+            print(f"Key {key} not found in pred.columns")
+            continue
         gt_col = gt[col].tolist()
-        pred_col = pred[col].tolist()
+        pred_col = pred[key].tolist()
         total = len(gt_col)
         correct = sum(1 for g, p in zip(gt_col, pred_col) if g == p)
         incorrect = sum(1 for g, p in zip(gt_col, pred_col) if g != p and p != 'missing')
@@ -205,5 +213,5 @@ if __name__ == "__main__":
     print(f"Evaluating location {args.loc_num}")
     eval_csv(
         gt_csv_path='/data/leohsu/human_dataset/humans/GT/combined_gt.csv',
-        pred_csv_path=f'{pred_dir}/loc_02_combined_sec.csv'
+        pred_csv_path=f'{pred_dir}/loc_{args.loc_num}_combined_sec.csv'
     )

@@ -1,6 +1,7 @@
 from ultralytics import YOLO
 import torch
 import numpy as np
+import cv2
 
 class Detector:
     def __init__(self, ckpt: str, device: str = 'cuda' if torch.cuda.is_available() else 'cpu'):
