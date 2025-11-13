@@ -7,7 +7,13 @@ import pickle
 import sys
 import numpy as np
 
-def main(server_host='10.55.164.170', server_port=9988, video_src=0, resize_wh=(640, 360)):
+def main(
+    server_host='10.55.164.170', 
+    server_port=9988, 
+    video_src=0, 
+    resize_wh=(640, 360), 
+    mask_path=None
+):
     # Connect to server
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((server_host, server_port))
@@ -18,13 +24,20 @@ def main(server_host='10.55.164.170', server_port=9988, video_src=0, resize_wh=(
         print(f'Failed to open video source: {video_src}')
         sys.exit(1)
 
-    # Create a fake room segmentation map for testing
-    map_height, map_width = resize_wh[1], resize_wh[0]
-    fake_room_map = np.zeros((map_height, map_width, 3), dtype=np.uint8)
-    # Left part green (BGR)
-    fake_room_map[:, :map_width // 2] = (0, 255, 0)
-    # Right part blue (BGR)
-    fake_room_map[:, map_width // 2:] = (255, 0, 0)
+    if mask_path is not None:
+        fake_room_map = cv2.imread(mask_path)
+        fake_room_map = cv2.resize(fake_room_map, resize_wh)
+        fake_room_map = fake_room_map[:, :, 0]
+        fake_room_map = fake_room_map.astype(np.uint8)
+        fake_room_map = fake_room_map[..., None]
+    else:
+        # Create a fake room segmentation map for testing
+        map_height, map_width = resize_wh[1], resize_wh[0]
+        fake_room_map = np.zeros((map_height, map_width, 3), dtype=np.uint8)
+        # Left part green (BGR)
+        fake_room_map[:, :map_width // 2] = (0, 255, 0)
+        # Right part blue (BGR)
+        fake_room_map[:, map_width // 2:] = (255, 0, 0)
 
     try:
         frame_id = 0
@@ -95,6 +108,7 @@ if __name__ == '__main__':
     parser.add_argument('--port', type=int, default=9988, help='Server Port')
     parser.add_argument('--video', type=str, default='0', help='Video source (0 for webcam or path)')
     parser.add_argument('--resize_wh', type=tuple, default=(640, 360), help='Resize width and height')
+    parser.add_argument('--mask_path', type=str, default="/Users/leohsuinthehouse/random_code/first_frame_123_mask_only.png", help='Path to room segmentation mask')
     args = parser.parse_args()
 
     # Check if the video source is an integer or path
@@ -103,4 +117,10 @@ if __name__ == '__main__':
     except ValueError:
         video_src = args.video
 
-    main(server_host=args.host, server_port=args.port, video_src=video_src, resize_wh=args.resize_wh)
+    main(
+        server_host=args.host, 
+        server_port=args.port, 
+        video_src=video_src, 
+        resize_wh=args.resize_wh,
+        mask_path=args.mask_path
+    )
