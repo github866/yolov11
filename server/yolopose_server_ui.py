@@ -19,24 +19,33 @@ from collections import defaultdict
 
 # Import utility for room color mapping
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-try:
-    from utils_loc.utility import color_to_room
-except ImportError:
-    # Fallback if import fails
-    def color_to_room(rgb):
-        """Default color to room mapping."""
-        if rgb == (255, 0, 0):  # Blue
-            return "CSU Miliue"
-        elif rgb == (0, 255, 0):  # Green
-            return 'Nursing Station'
-        elif rgb == (0, 0, 255):  # Red
-            return 'Quiet Room'
-        elif rgb == (255, 255, 0):  # Cyan
-            return 'Sally Port / Entrance'
-        elif rgb == (0, 255, 255):  # Yellow
-            return 'Unknown Room'
-        else:
-            return 'Unknown Room'
+
+def color_to_room(bgr):
+    """Map BGR color to room name (OpenCV uses BGR, not RGB)."""
+    
+    if bgr == (255, 0, 0):  # Blue
+        return "Patient Area"
+    elif bgr == (0, 255, 0):  # Green
+        return 'Nursing Station (Open)'
+    elif bgr == (0, 0, 255):  # Red
+        return 'Nursing Station (Closed)'
+    elif bgr == (255, 255, 0):  # Yellow
+        return 'Console Room'
+    else:
+        return 'Unknown Room'
+
+def room_name_to_color(room_name):
+    """Map room name to BGR color."""
+    if room_name == "Patient Area":
+        return (255, 0, 0)
+    elif room_name == "Nursing Station (Open)":
+        return (0, 255, 0)
+    elif room_name == "Nursing Station (Closed)":
+        return (0, 0, 255)
+    elif room_name == "Console Room":
+        return (255, 255, 0)
+    elif room_name == "Unknown Room":
+        return (0, 0, 0)
 
 def check_gpu_availability():
     """Check if GPU is available for PyTorch"""
@@ -59,15 +68,12 @@ class RoomSegmentationMap:
     """Efficient room segmentation map handler for O(1) room lookup."""
     
     def __init__(self, mask_image):
-        """
-        Initialize room segmentation map from image.
-        
-        Args:
-            mask_image: NumPy array (BGR image) representing room segmentation
-        """
+        """Initialize room segmentation map from image."""
         self.mask = mask_image
-        if self.mask is None:
-            raise ValueError("Room mask image is None")
+        print(f"Mask shape received: {mask_image.shape}")
+        
+        # CRITICAL FIX: Handle potential extra dimension
+        assert len(self.mask.shape) == 3, "Mask must be 3-dimensional"
         
         self.height, self.width = self.mask.shape[:2]
         print(f"📋 Loaded room segmentation map: {self.width}x{self.height}")
@@ -83,17 +89,22 @@ class RoomSegmentationMap:
         
         # Get BGR color at this point (OpenCV uses BGR)
         bgr_color = self.mask[y, x]
-        rgb_color = (int(bgr_color[2]), int(bgr_color[1]), int(bgr_color[0]))
+        
+        # CRITICAL FIX: Pass BGR tuple directly to color_to_room
+        bgr_tuple = (int(bgr_color[0]), int(bgr_color[1]), int(bgr_color[2]))
         
         # Map color to room name
-        room_name = color_to_room(rgb_color)
+        room_name = color_to_room(bgr_tuple)
         return room_name
     
     def get_room_for_bbox(self, x1, y1, x2, y2):
-        """Get room name for a bounding box by checking center point."""
+        """Get room name for a bounding box by checking foot position."""
+        # CRITICAL FIX: Use bottom-center point (feet) instead of bbox center
+        # This is more accurate for human localization since feet touch the ground
         center_x = int((x1 + x2) / 2)
-        center_y = int((y1 + y2) / 2 + (y2 - y1) * 0.3)  # Slightly below center
-        return self.get_room_at_point(center_x, center_y)
+        bottom_y = int(y2 - (y2 - y1) * 0.05)  # 
+        
+        return self.get_room_at_point(center_x, bottom_y)
     
     def _compute_room_centers(self):
         """Compute the center point of each room by finding the centroid."""
@@ -105,11 +116,10 @@ class RoomSegmentationMap:
         for y in range(0, self.height, sample_step):
             for x in range(0, self.width, sample_step):
                 bgr_color = self.mask[y, x]
-                rgb_color = (int(bgr_color[2]), int(bgr_color[1]), int(bgr_color[0]))
-                room_name = color_to_room(rgb_color)
+                bgr_tuple = (int(bgr_color[0]), int(bgr_color[1]), int(bgr_color[2]))
+                room_name = color_to_room(bgr_tuple)
                 
-                if room_name != "Unknown Room":
-                    room_pixels[room_name].append((x, y))
+                room_pixels[room_name].append((x, y))
         
         # Calculate centroid for each room
         for room_name, pixels in room_pixels.items():
@@ -118,68 +128,71 @@ class RoomSegmentationMap:
                 center_y = int(np.mean([p[1] for p in pixels]))
                 room_centers[room_name] = (center_x, center_y)
         
+        # Manually set a position for "Unknown Room" for consistent display
+        if "Unknown Room" in room_pixels:
+            room_centers["Unknown Room"] = (30, 30) # Top-left corner
+        
         return room_centers
-    
-    def get_room_center(self, room_name):
-        """Get the center coordinates of a room."""
-        return self.room_centers.get(room_name, None)
-    
-    def get_visualization_mask(self, room_counts=None):
+        
+    def get_visualization_mask(self, room_counts):
         """
-        Create a visualization of the room mask with people counts.
+        Create a visualization mask with room counts displayed at the center.
         
         Args:
-            room_counts: Dict mapping room_name -> count of people
-        
+            room_counts: A dictionary mapping room names to person counts.
+            
         Returns:
-            Visualization image with room counts displayed
+            A transparent overlay image with counts displayed.
         """
-        vis_mask = self.mask.copy()
-        
-        if room_counts:
-            # Draw people counts at room centers
-            for room_name, count in room_counts.items():
-                center = self.get_room_center(room_name)
-                if center is not None:
-                    center_x, center_y = center
-                    
-                    # Draw background circle for count
-                    cv2.circle(vis_mask, (center_x, center_y), 40, (0, 0, 0), -1)
-                    cv2.circle(vis_mask, (center_x, center_y), 40, (255, 255, 255), 2)
-                    
-                    # Draw count text
-                    count_text = str(count)
-                    font = cv2.FONT_HERSHEY_SIMPLEX
-                    font_scale = 1.2
-                    thickness = 3
-                    (text_width, text_height), baseline = cv2.getTextSize(
-                        count_text, font, font_scale, thickness
-                    )
-                    
-                    # Center the text
-                    text_x = center_x - text_width // 2
-                    text_y = center_y + text_height // 2
-                    
-                    cv2.putText(
-                        vis_mask,
-                        count_text,
-                        (text_x, text_y),
-                        font,
-                        font_scale,
-                        (255, 255, 255),  # White text
-                        thickness,
-                        cv2.LINE_AA
-                    )
-        
-        return vis_mask
+        # Create a transparent overlay
+        overlay = self.mask.copy()
 
-
+        for room_name, count in room_counts.items():
+            if room_name in self.room_centers and count > 0:
+                center_x, center_y = self.room_centers[room_name]
+                
+                # Create text to display
+                text = str(count)
+                
+                # Choose font and scale
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                font_scale = 1.5
+                font_thickness = 3
+                
+                # Get text size to position it correctly
+                (text_width, text_height), baseline = cv2.getTextSize(
+                    text, font, font_scale, font_thickness
+                )
+                
+                # Position text at the center of the room
+                text_x = center_x - text_width // 2
+                text_y = center_y + text_height // 2
+                
+                # Draw white text with a black border for visibility
+                cv2.putText(
+                    overlay, text, (text_x, text_y), font, font_scale, 
+                    (0, 0, 0), font_thickness + 2, cv2.LINE_AA
+                )
+                cv2.putText(
+                    overlay, text, (text_x, text_y), font, font_scale, 
+                    (255, 255, 255), font_thickness, cv2.LINE_AA
+                )
+        
+        return overlay
+        
 class RealtimeYoloPoseServer:
-    def __init__(self, model_path='yolov-pose.pt', device=None,
-                 server_port=9999):
+    def __init__(
+        self, 
+        model_path, 
+        server_port,
+        device=None,
+        cuda_device=0,
+    ):
         """Initialize real-time YOLO-Pose server with UI control support."""
-        self.server_port = server_port
         self.model_path = model_path
+        self.server_port = server_port
+        self.device = device
+        self.cuda_device = cuda_device
         
         # Network
         self.server_socket = None
@@ -221,7 +234,7 @@ class RealtimeYoloPoseServer:
             # Set device - use CUDA if available, otherwise fall back to CPU
             if self.device is None:
                 if torch.cuda.is_available():
-                    self.device = 'cuda:0'
+                    self.device = f'cuda:{self.cuda_device}'
                 else:
                     self.device = 'cpu'
             
@@ -364,12 +377,16 @@ class RealtimeYoloPoseServer:
         
         return frame
     
-    def process_frame_yolo(self, frame, frame_number, show_pose=True, show_bbox=True, show_hand=False, show_face=False):
+    def process_frame_yolo(self, frame, frame_number, fps=15):
         """Process frame using persistent YOLO model with tracking and display options."""
         try:
             # Process frame with YOLO
             start_time = time.time()
-            results = self.model(frame, verbose=False, device=self.device)
+            results = self.model(
+                frame, 
+                verbose=False, 
+                device=self.device
+            )
             process_time = time.time() - start_time
             
             # Start with original frame (we'll draw on it selectively)
@@ -385,9 +402,12 @@ class RealtimeYoloPoseServer:
             if not results or len(results) == 0:
                 print("⚠️  No results from YOLO model.")
                 # Create empty metadata
-                metadata = { 'frame_number': frame_number, 'process_time_ms': round(process_time * 1000, 1), 'fps': 0,
-                             'poses_detected': 0, 'show_pose': show_pose, 'show_bbox': show_bbox,
-                             'show_hand': show_hand, 'show_face': show_face }
+                metadata = { 
+                    'frame_number': frame_number, 
+                    'process_time_ms': round(process_time * 1000, 1), 
+                    'fps': 0,
+                    'poses_detected': 0, 
+                }
                 return processed_frame, metadata
 
             result = results[0]  # Get the first result object
@@ -409,32 +429,34 @@ class RealtimeYoloPoseServer:
                     bbox_rooms.append(room_name)
             
             # Draw pose keypoints if enabled
-            if show_pose and keypoints is not None:
+            if keypoints is not None:
                 pose_start = time.time()
                 processed_frame = self.draw_pose_keypoints_yolo(processed_frame, keypoints)
                 overlay_timings['pose_overlay_ms'] = round((time.time() - pose_start) * 1000, 2)
 
             # Draw detection bounding boxes with room labels if enabled
-            if show_bbox:
-                bbox_start = time.time()
-                for idx, bbox in enumerate(current_bboxes):
-                    min_x, min_y, max_x, max_y = bbox
-                    # Draw bounding box
-                    cv2.rectangle(processed_frame, (min_x, min_y), (max_x, max_y), (0, 255, 0), 2)
+            bbox_start = time.time()
+            for idx, bbox in enumerate(current_bboxes):
+                min_x, min_y, max_x, max_y = bbox
+                # Draw bounding box                
+                # Draw room name on bounding box
+                if idx < len(bbox_rooms):
+                    room_name = bbox_rooms[idx]
+                    room_color = room_name_to_color(room_name)
                     
-                    # Draw room name on bounding box
-                    if idx < len(bbox_rooms):
-                        room_name = bbox_rooms[idx]
-                        # Draw background for room name
-                        font = cv2.FONT_HERSHEY_SIMPLEX
-                        font_scale = 0.6
-                        thickness = 2
-                        (text_width, text_height), baseline = cv2.getTextSize(
-                            room_name, font, font_scale, thickness
-                        )
-                        
-                        # Draw semi-transparent background
-                        overlay = processed_frame.copy()
+                    cv2.rectangle(processed_frame, (min_x, min_y), (max_x, max_y), room_color, 2)
+
+                    # Draw background for room name
+                    font = cv2.FONT_HERSHEY_SIMPLEX
+                    font_scale = 0.6
+                    thickness = 2
+                    (text_width, text_height), baseline = cv2.getTextSize(
+                        room_name, font, font_scale, thickness
+                    )
+                    
+                    # Draw semi-transparent background
+                    overlay = processed_frame.copy()
+                    if room_name != "Unknown Room":
                         cv2.rectangle(
                             overlay,
                             (min_x, min_y - text_height - 10),
@@ -445,17 +467,19 @@ class RealtimeYoloPoseServer:
                         cv2.addWeighted(overlay, 0.7, processed_frame, 0.3, 0, processed_frame)
                         
                         # Draw room name text
+                        text_x = min_x + 2
+                        text_y = min_y - 5 if min_y - 5 - text_height > 0 else min_y + text_height + 10
                         cv2.putText(
                             processed_frame,
                             room_name,
-                            (min_x + 2, min_y - 5),
+                            (text_x, text_y),
                             font,
                             font_scale,
                             (0, 255, 0),  # Green text
                             thickness,
                             cv2.LINE_AA
                         )
-                overlay_timings['bbox_overlay_ms'] = round((time.time() - bbox_start) * 1000, 2)
+            overlay_timings['bbox_overlay_ms'] = round((time.time() - bbox_start) * 1000, 2)
             
             # Count people per room
             room_counts = defaultdict(int)
@@ -466,15 +490,20 @@ class RealtimeYoloPoseServer:
             if self.room_map:
                 # Get room mask visualization with counts
                 mask_vis = self.room_map.get_visualization_mask(dict(room_counts))
-                
-                # Resize mask to match frame width (maintain aspect ratio)
-                frame_width = processed_frame.shape[1]
-                mask_height = int(mask_vis.shape[0] * (frame_width / mask_vis.shape[1]))
-                mask_width = frame_width
-                mask_vis_resized = cv2.resize(mask_vis, (mask_width, mask_height))
-                
-                # Combine frame and mask vertically
-                combined_frame = np.vstack([processed_frame, mask_vis_resized])
+                # Combine frame and mask horizontally
+                mask_vis = cv2.resize(mask_vis, (processed_frame.shape[1]//4*3, processed_frame.shape[0]))
+                top_panel = np.hstack([processed_frame, mask_vis])
+
+                # Create info panel and stack it vertically
+                info_panel_height = 40
+                info_panel = self._create_info_panel(
+                    top_panel.shape[1], 
+                    info_panel_height, 
+                    dict(room_counts), 
+                    frame_number,
+                    fps
+                )
+                combined_frame = np.vstack([top_panel, info_panel])
             else:
                 combined_frame = processed_frame
             
@@ -494,10 +523,6 @@ class RealtimeYoloPoseServer:
                 'process_time_ms': round(process_time * 1000, 1),
                 'fps': round(fps, 1),
                 'poses_detected': poses_detected,
-                'show_pose': show_pose,
-                'show_bbox': show_bbox,
-                'show_hand': show_hand,
-                'show_face': show_face,
                 'room_counts': dict(room_counts)
             }
 
@@ -508,19 +533,19 @@ class RealtimeYoloPoseServer:
             if avg_overlay_ms:
                 metadata['avg_overlay_ms'] = {key: round(value, 2) for key, value in avg_overlay_ms.items()}
             
-            print(f"✅ Frame {frame_number} processed in {process_time*1000:.1f}ms (FPS: {fps:.1f}) - "
-                  f"Poses: {poses_detected} "
-                  f"[pose={show_pose}, bbox={show_bbox}, hand={show_hand}, face={show_face}]")
-            if room_counts:
+            # print(f"✅ Frame {frame_number} processed in {process_time*1000:.1f}ms (FPS: {fps:.1f}) - "
+            #       f"Poses: {poses_detected} "
+            #       f"Room counts: {room_counts}")
+            if room_counts and frame_number % 5 == 0:
                 room_text = ", ".join(f"{room}: {count}" for room, count in room_counts.items())
-                print(f"   🏠 Room occupancy: {room_text}")
-            if overlay_timings:
-                timings_text = ", ".join(f"{key}={value}ms" for key, value in overlay_timings.items())
-                print(f"   ⏱️ Overlay timings: {timings_text}")
-            if avg_overlay_ms:
-                avg_timings_text = ", ".join(f"{key}_avg={value:.2f}ms" for key, value in avg_overlay_ms.items())
-                print(f"   📊 Average overlay timings: {avg_timings_text}")
-            print(f"   📈 Average inference time: {avg_process_time_ms:.1f}ms")
+                print(f"   🏠 Room occupancy: {room_text} at second {int(frame_number/15)} ")
+            # if overlay_timings:
+            #     timings_text = ", ".join(f"{key}={value}ms" for key, value in overlay_timings.items())
+            #     print(f"   ⏱️ Overlay timings: {timings_text}")
+            # if avg_overlay_ms:
+            #     avg_timings_text = ", ".join(f"{key}_avg={value:.2f}ms" for key, value in avg_overlay_ms.items())
+            #     print(f"   📊 Average overlay timings: {avg_timings_text}")
+            # print(f"   📈 Average inference time: {avg_process_time_ms:.1f}ms")
             
             return combined_frame, metadata
                 
@@ -534,10 +559,6 @@ class RealtimeYoloPoseServer:
                 'process_time_ms': 0,
                 'fps': 0,
                 'poses_detected': 0,
-                'show_pose': show_pose,
-                'show_bbox': show_bbox,
-                'show_hand': show_hand,
-                'show_face': show_face,
                 'error': str(e)
             }
             return error_frame, error_metadata
@@ -551,6 +572,27 @@ class RealtimeYoloPoseServer:
                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         return overlay_frame
     
+    def _create_info_panel(self, width, height, room_counts, frame_number, fps):
+        """Create a small panel to display room occupancy information."""
+        panel = np.zeros((height, width, 3), dtype="uint8")
+        
+        if not room_counts:
+            info_text = "No people detected."
+        else:
+            room_text = ", ".join(f"{room}: {count}" for room, count in room_counts.items())
+            info_text = f"Room Occupancy: {room_text} (Frame: {frame_number})"
+
+        # Set font properties
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        font_scale = 0.7
+        font_thickness = 1
+        text_color = (255, 255, 255)  # White
+
+        # Add text to the panel
+        cv2.putText(panel, info_text, (10, int(height * 0.6)), font, font_scale, text_color, font_thickness, cv2.LINE_AA)
+        
+        return panel
+
     def run(self):
         """Main server loop with persistent YOLO model and UI control support."""
         print("🚀 Starting Real-time YOLO-Pose Server with UI Control Support...")
@@ -592,28 +634,25 @@ class RealtimeYoloPoseServer:
                 
                 # Extract frame and display options
                 frame = data_packet.get('frame')
-                show_pose = data_packet.get('show_pose', True)
-                show_bbox = data_packet.get('show_bbox', True)
-                show_hand = data_packet.get('show_hand', False)  # Will be ignored
-                show_face = data_packet.get('show_face', False)  # Will be ignored
                 
                 if frame is None:
                     print("⚠️  Received empty frame, skipping...")
                     continue
                 
                 self.frame_count += 1
-                print(f"📥 Received frame {self.frame_count} (pose={show_pose}, bbox={show_bbox}, hand={show_hand}, face={show_face})")
                 
                 # Process frame with display options
-                processed_frame, metadata = self.process_frame_yolo(frame, self.frame_count, 
-                                                                    show_pose, show_bbox, show_hand, show_face)
+                processed_frame, metadata = self.process_frame_yolo(
+                    frame=frame,
+                    frame_number=self.frame_count,
+                )
                 
                 # Send processed frame with metadata back
                 if not self.send_frame_with_metadata(processed_frame, metadata):
                     print("❌ Failed to send processed frame, stopping...")
                     break
                 
-                print(f"📤 Sent processed frame {self.frame_count}")
+                # print(f"📤 Sent processed frame {self.frame_count}")
                 
         except KeyboardInterrupt:
             print("\n🛑 Interrupted by user")
@@ -679,7 +718,7 @@ def main():
     )
     
     parser.add_argument('--port', type=int, default=9988, 
-                        help='Server port (default: 9999)')
+                        help='Server port')
     parser.add_argument('--model', type=str, default='/home/agenuinedream/repo/yolov11/yolo11m-pose.pt',
                         help='Path to YOLO-Pose model (e.g., /home/agenuinedream/repo/yolov11/yolo11m-pose.pt)')
     parser.add_argument('--device', type=str, default=None,
@@ -690,7 +729,6 @@ def main():
     # Check if model file exists before initializing the server
     if not os.path.exists(args.model):
         print(f"❌ Error: Model file not found at '{args.model}'")
-        print("Please download a YOLOv8 pose model (e.g., yolov8n-pose.pt) or specify the correct path using the --model argument.")
         sys.exit(1)
 
     # Create and run server
